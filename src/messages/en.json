@@ -1,0 +1,116 @@
+{
+    "common": {
+        "home": "Home",
+        "login": "Login",
+        "logout": "Logout",
+        "save": "Save",
+        "cancel": "Cancel",
+        "edit": "Edit",
+        "delete": "Delete",
+        "add": "Add",
+        "search": "Search",
+        "loading": "Loading...",
+        "noData": "No data available",
+        "confirm": "Confirm",
+        "back": "Back",
+        "viewAll": "View All",
+        "actions": "Actions",
+        "status": "Status",
+        "language": "Language"
+    },
+    "nav": {
+        "dashboard": "Dashboard",
+        "profile": "Profile",
+        "research": "Research",
+        "activities": "Activities",
+        "publications": "Publications",
+        "courses": "Courses",
+        "settings": "Settings",
+        "teachers": "Manage Teachers",
+        "themes": "Manage Themes",
+        "systemSettings": "System Settings",
+        "logs": "Activity Logs"
+    },
+    "auth": {
+        "email": "Email",
+        "password": "Password",
+        "loginTitle": "Sign In",
+        "loginSubtitle": "Teacher Profile Management System",
+        "loginButton": "Sign In",
+        "loginError": "Invalid email or password",
+        "welcomeBack": "Welcome back"
+    },
+    "profile": {
+        "title": "Profile Information",
+        "personalInfo": "Personal Information",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "titlePrefix": "Title",
+        "position": "Academic Position",
+        "department": "Department",
+        "email": "Email",
+        "phone": "Phone",
+        "bio": "Biography",
+        "avatar": "Profile Photo",
+        "socialLinks": "Social Links"
+    },
+    "research": {
+        "title": "Research",
+        "researchTitle": "Research Title",
+        "abstract": "Abstract",
+        "year": "Year",
+        "type": "Type",
+        "file": "Document",
+        "link": "Link",
+        "addNew": "Add New Research",
+        "types": {
+            "journal": "Journal",
+            "conference": "Conference",
+            "thesis": "Thesis",
+            "other": "Other"
+        }
+    },
+    "activities": {
+        "title": "Activities",
+        "activityTitle": "Activity Title",
+        "description": "Description",
+        "date": "Date",
+        "image": "Image",
+        "addNew": "Add New Activity"
+    },
+    "publications": {
+        "title": "Publications",
+        "pubTitle": "Publication Title",
+        "journal": "Journal",
+        "year": "Year",
+        "doi": "DOI",
+        "link": "Link",
+        "addNew": "Add New Publication"
+    },
+    "courses": {
+        "title": "Courses",
+        "courseCode": "Course Code",
+        "courseName": "Course Name",
+        "description": "Description",
+        "semester": "Semester",
+        "addNew": "Add New Course"
+    },
+    "theme": {
+        "title": "Choose Theme Color",
+        "subtitle": "Select a color theme for your profile page",
+        "current": "Current Theme",
+        "preview": "Preview",
+        "apply": "Apply Theme"
+    },
+    "public": {
+        "about": "About",
+        "research": "Research",
+        "activities": "Activities",
+        "publications": "Publications",
+        "courses": "Courses",
+        "education": "Education",
+        "contact": "Contact",
+        "viewProfile": "View Profile",
+        "allTeachers": "All Teachers"
+    }
+}

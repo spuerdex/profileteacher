@@ -1,0 +1,116 @@
+{
+    "common": {
+        "home": "หน้าหลัก",
+        "login": "เข้าสู่ระบบ",
+        "logout": "ออกจากระบบ",
+        "save": "บันทึก",
+        "cancel": "ยกเลิก",
+        "edit": "แก้ไข",
+        "delete": "ลบ",
+        "add": "เพิ่ม",
+        "search": "ค้นหา",
+        "loading": "กำลังโหลด...",
+        "noData": "ไม่มีข้อมูล",
+        "confirm": "ยืนยัน",
+        "back": "กลับ",
+        "viewAll": "ดูทั้งหมด",
+        "actions": "จัดการ",
+        "status": "สถานะ",
+        "language": "ภาษา"
+    },
+    "nav": {
+        "dashboard": "แดชบอร์ด",
+        "profile": "โปรไฟล์",
+        "research": "งานวิจัย",
+        "activities": "กิจกรรม",
+        "publications": "ผลงานตีพิมพ์",
+        "courses": "วิชาที่สอน",
+        "settings": "ตั้งค่า",
+        "teachers": "จัดการอาจารย์",
+        "themes": "จัดการธีม",
+        "systemSettings": "ตั้งค่าระบบ",
+        "logs": "บันทึกกิจกรรม"
+    },
+    "auth": {
+        "email": "อีเมล",
+        "password": "รหัสผ่าน",
+        "loginTitle": "เข้าสู่ระบบ",
+        "loginSubtitle": "ระบบจัดการโปรไฟล์อาจารย์",
+        "loginButton": "เข้าสู่ระบบ",
+        "loginError": "อีเมลหรือรหัสผ่านไม่ถูกต้อง",
+        "welcomeBack": "ยินดีต้อนรับกลับ"
+    },
+    "profile": {
+        "title": "ข้อมูลโปรไฟล์",
+        "personalInfo": "ข้อมูลส่วนตัว",
+        "firstName": "ชื่อ",
+        "lastName": "นามสกุล",
+        "titlePrefix": "คำนำหน้า",
+        "position": "ตำแหน่งวิชาการ",
+        "department": "สาขา/ภาควิชา",
+        "email": "อีเมล",
+        "phone": "โทรศัพท์",
+        "bio": "ประวัติย่อ",
+        "avatar": "รูปโปรไฟล์",
+        "socialLinks": "ลิงก์โซเชียล"
+    },
+    "research": {
+        "title": "งานวิจัย",
+        "researchTitle": "ชื่อวิจัย",
+        "abstract": "บทคัดย่อ",
+        "year": "ปี",
+        "type": "ประเภท",
+        "file": "ไฟล์เอกสาร",
+        "link": "ลิงก์",
+        "addNew": "เพิ่มงานวิจัยใหม่",
+        "types": {
+            "journal": "วารสาร",
+            "conference": "การประชุมวิชาการ",
+            "thesis": "วิทยานิพนธ์",
+            "other": "อื่นๆ"
+        }
+    },
+    "activities": {
+        "title": "กิจกรรม",
+        "activityTitle": "ชื่อกิจกรรม",
+        "description": "รายละเอียด",
+        "date": "วันที่",
+        "image": "รูปภาพ",
+        "addNew": "เพิ่มกิจกรรมใหม่"
+    },
+    "publications": {
+        "title": "ผลงานตีพิมพ์",
+        "pubTitle": "ชื่อผลงาน",
+        "journal": "วารสาร",
+        "year": "ปี",
+        "doi": "DOI",
+        "link": "ลิงก์",
+        "addNew": "เพิ่มผลงานใหม่"
+    },
+    "courses": {
+        "title": "วิชาที่สอน",
+        "courseCode": "รหัสวิชา",
+        "courseName": "ชื่อวิชา",
+        "description": "รายละเอียด",
+        "semester": "ภาคเรียน",
+        "addNew": "เพิ่มวิชาใหม่"
+    },
+    "theme": {
+        "title": "เลือกธีมสี",
+        "subtitle": "เลือกชุดสีที่ต้องการสำหรับหน้าโปรไฟล์",
+        "current": "ธีมปัจจุบัน",
+        "preview": "ตัวอย่าง",
+        "apply": "ใช้ธีมนี้"
+    },
+    "public": {
+        "about": "เกี่ยวกับ",
+        "research": "งานวิจัย",
+        "activities": "กิจกรรม",
+        "publications": "ผลงานตีพิมพ์",
+        "courses": "วิชาที่สอน",
+        "education": "การศึกษา",
+        "contact": "ติดต่อ",
+        "viewProfile": "ดูโปรไฟล์",
+        "allTeachers": "อาจารย์ทั้งหมด"
+    }
+}

@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  role      String   @default("teacher") // admin | teacher
+  teacherId Int?     @unique
+  teacher   Teacher? @relation(fields: [teacherId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Teacher {
+  id            Int           @id @default(autoincrement())
+  slug          String        @unique
+  titleTh       String?
+  firstNameTh   String
+  lastNameTh    String
+  titleEn       String?
+  firstNameEn   String?
+  lastNameEn    String?
+  position      String?
+  department    String?
+  email         String?
+  phone         String?
+  avatar        String?
+  bioTh         String?       @db.Text
+  bioEn         String?       @db.Text
+  themePresetId Int?
+  themePreset   ThemePreset?  @relation(fields: [themePresetId], references: [id])
+  socialLinks   Json?
+  user          User?
+  research      Research[]
+  activities    Activity[]
+  publications  Publication[]
+  courses       Course[]
+  education     Education[]
+  pageViews     Int           @default(0)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model ThemePreset {
+  id           Int       @id @default(autoincrement())
+  name         String
+  slug         String    @unique
+  primary      String
+  primaryLight String
+  primaryDark  String
+  accent       String
+  gradient     String?
+  isDefault    Boolean   @default(false)
+  teachers     Teacher[]
+  createdAt    DateTime  @default(now())
+}
+
+model Research {
+  id         Int      @id @default(autoincrement())
+  teacherId  Int
+  teacher    Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  titleTh    String
+  titleEn    String?
+  abstractTh String?  @db.Text
+  abstractEn String?  @db.Text
+  year       Int?
+  type       String?
+  fileUrl    String?
+  link       String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Activity {
+  id            Int       @id @default(autoincrement())
+  teacherId     Int
+  teacher       Teacher   @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  titleTh       String
+  titleEn       String?
+  descriptionTh String?   @db.Text
+  descriptionEn String?   @db.Text
+  date          DateTime?
+  imageUrl      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Publication {
+  id        Int      @id @default(autoincrement())
+  teacherId Int
+  teacher   Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  titleTh   String
+  titleEn   String?
+  journal   String?
+  year      Int?
+  doi       String?
+  link      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Course {
+  id            Int      @id @default(autoincrement())
+  teacherId     Int
+  teacher       Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  codeNumber    String?
+  nameTh        String
+  nameEn        String?
+  descriptionTh String?  @db.Text
+  semester      String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Education {
+  id          Int      @id @default(autoincrement())
+  teacherId   Int
+  teacher     Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  degree      String
+  field       String?
+  institution String?
+  year        Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SystemSettings {
+  id    Int    @id @default(autoincrement())
+  key   String @unique
+  value String @db.Text
+}
