@@ -31,12 +31,18 @@
     overflow: hidden;
     border: 4px solid var(--t-primary, var(--primary));
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.3), 0 0 60px var(--t-primary, var(--primary)) inset;
+    position: relative;
+    /* Required for next/image fill */
+    background: var(--bg-surface);
 }
 
-.avatar {
-    width: 100%;
-    height: 100%;
+.avatarImage {
     object-fit: cover;
+}
+
+.heroBgImage {
+    object-fit: cover;
+    opacity: 0.25;
 }
 
 .avatarPlaceholder {

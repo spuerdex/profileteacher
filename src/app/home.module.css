@@ -116,11 +116,11 @@
     align-items: center;
     justify-content: center;
     background: var(--bg-surface);
+    position: relative;
+    /* Required for next/image fill */
 }
 
-.teacherAvatar img {
-    width: 100%;
-    height: 100%;
+.avatarImage {
     object-fit: cover;
 }
 

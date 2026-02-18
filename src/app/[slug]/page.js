@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
@@ -30,19 +31,26 @@ export default async function ProfileHomePage({ params }) {
         <>
             {/* Hero Section */}
             <header className={styles.hero}>
-                <div
-                    className={styles.heroBg}
-                    style={teacher.heroImage ? {
-                        backgroundImage: `url(${teacher.heroImage})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        opacity: 0.25,
-                    } : undefined}
-                ></div>
+                <div className={styles.heroBg}></div>
+                {teacher.heroImage && (
+                    <Image
+                        src={teacher.heroImage}
+                        alt="Background"
+                        fill
+                        className={styles.heroBgImage}
+                        priority
+                    />
+                )}
                 <div className={styles.heroContent}>
                     <div className={styles.avatarWrapper}>
                         {teacher.avatar ? (
-                            <img src={teacher.avatar} alt={teacher.firstNameTh} className={styles.avatar} />
+                            <Image
+                                src={teacher.avatar}
+                                alt={teacher.firstNameTh}
+                                fill
+                                className={styles.avatarImage}
+                                sizes="130px"
+                            />
                         ) : (
                             <div className={styles.avatarPlaceholder}>
                                 {teacher.firstNameTh[0]}

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import prisma from '@/lib/prisma';
 import styles from './home.module.css';
@@ -55,7 +56,13 @@ export default async function HomePage() {
                 >
                   <div className={styles.teacherAvatar}>
                     {teacher.avatar ? (
-                      <img src={teacher.avatar} alt={teacher.firstNameTh} />
+                      <Image
+                        src={teacher.avatar}
+                        alt={teacher.firstNameTh}
+                        fill
+                        className={styles.avatarImage}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
                     ) : (
                       <span className={styles.avatarPlaceholder}>
                         {teacher.firstNameTh[0]}
