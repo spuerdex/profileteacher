@@ -25,6 +25,8 @@
         "activities": "กิจกรรม",
         "publications": "ผลงานตีพิมพ์",
         "courses": "วิชาที่สอน",
+        "articles": "บทความ",
+        "education": "การศึกษา",
         "settings": "ตั้งค่า",
         "teachers": "จัดการอาจารย์",
         "themes": "จัดการธีม",
@@ -57,6 +59,9 @@
     },
     "research": {
         "title": "งานวิจัย",
+        "subtitle": "จัดการข้อมูลงานวิจัยของคุณ",
+        "add": "เพิ่มงานวิจัย",
+        "titleLabel": "ชื่องานวิจัย",
         "researchTitle": "ชื่อวิจัย",
         "abstract": "บทคัดย่อ",
         "year": "ปี",
@@ -73,6 +78,8 @@
     },
     "activities": {
         "title": "กิจกรรม",
+        "subtitle": "จัดการข้อมูลกิจกรรมของคุณ",
+        "add": "เพิ่มกิจกรรม",
         "activityTitle": "ชื่อกิจกรรม",
         "description": "รายละเอียด",
         "date": "วันที่",
@@ -82,6 +89,7 @@
     "publications": {
         "title": "ผลงานตีพิมพ์",
         "subtitle": "จัดการข้อมูลผลงานตีพิมพ์ทางวิชาการ",
+        "add": "เพิ่มผลงาน",
         "pubTitle": "ชื่อผลงาน",
         "journal": "วารสาร",
         "year": "ปี",
@@ -91,11 +99,30 @@
     },
     "courses": {
         "title": "วิชาที่สอน",
+        "subtitle": "จัดการข้อมูลวิชาที่สอน",
+        "add": "เพิ่มวิชา",
         "courseCode": "รหัสวิชา",
         "courseName": "ชื่อวิชา",
         "description": "รายละเอียด",
         "semester": "ภาคเรียน",
         "addNew": "เพิ่มวิชาใหม่"
+    },
+    "education": {
+        "title": "ประวัติการศึกษา",
+        "degree": "วุฒิการศึกษา",
+        "field": "สาขาวิชา",
+        "institution": "สถาบัน",
+        "year": "ปีที่จบ",
+        "addNew": "เพิ่มประวัติการศึกษา"
+    },
+    "articles": {
+        "title": "บทความ",
+        "postTitle": "หัวข้อบทความ",
+        "content": "เนื้อหา",
+        "coverImage": "รูปปก",
+        "published": "เผยแพร่",
+        "addNew": "เขียนบทความใหม่",
+        "readMore": "อ่านเพิ่มเติม"
     },
     "theme": {
         "title": "เลือกธีมสี",

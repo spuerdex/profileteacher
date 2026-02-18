@@ -12,6 +12,9 @@ export default function TeacherDashboard() {
         activities: 0,
         publications: 0,
         courses: 0,
+        education: 0,
+        articles: 0,
+        files: 0,
         pageViews: 0,
     });
 
@@ -24,6 +27,16 @@ export default function TeacherDashboard() {
         }
     }, [session]);
 
+    const statCards = [
+        { icon: '🔬', value: stats.research, label: t('nav.research') },
+        { icon: '📋', value: stats.activities, label: t('nav.activities') },
+        { icon: '📄', value: stats.publications, label: t('nav.publications') },
+        { icon: '📚', value: stats.courses, label: t('nav.courses') },
+        { icon: '🎓', value: stats.education, label: t('nav.education') },
+        { icon: '📝', value: stats.articles, label: t('nav.articles') },
+        { icon: '📁', value: stats.files, label: t('nav.files') },
+    ];
+
     return (
         <div>
             <div className="page-header">
@@ -34,37 +47,15 @@ export default function TeacherDashboard() {
             </div>
 
             <div className="grid grid-4">
-                <div className="stat-card">
-                    <div className="stat-icon">🔬</div>
-                    <div>
-                        <div className="stat-value">{stats.research}</div>
-                        <div className="stat-label">{t('nav.research')}</div>
+                {statCards.map((card, i) => (
+                    <div className="stat-card" key={i}>
+                        <div className="stat-icon">{card.icon}</div>
+                        <div>
+                            <div className="stat-value">{card.value}</div>
+                            <div className="stat-label">{card.label}</div>
+                        </div>
                     </div>
-                </div>
-
-                <div className="stat-card">
-                    <div className="stat-icon">📋</div>
-                    <div>
-                        <div className="stat-value">{stats.activities}</div>
-                        <div className="stat-label">{t('nav.activities')}</div>
-                    </div>
-                </div>
-
-                <div className="stat-card">
-                    <div className="stat-icon">📄</div>
-                    <div>
-                        <div className="stat-value">{stats.publications}</div>
-                        <div className="stat-label">{t('nav.publications')}</div>
-                    </div>
-                </div>
-
-                <div className="stat-card">
-                    <div className="stat-icon">📚</div>
-                    <div>
-                        <div className="stat-value">{stats.courses}</div>
-                        <div className="stat-label">{t('nav.courses')}</div>
-                    </div>
-                </div>
+                ))}
             </div>
 
             <div className="mt-lg">
@@ -79,3 +70,4 @@ export default function TeacherDashboard() {
         </div>
     );
 }
+

@@ -44,10 +44,23 @@ model Teacher {
   publications  Publication[]
   courses       Course[]
   education     Education[]
+  articles      Article[]
   files         TeacherFile[]
   pageViews     Int           @default(0)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+}
+
+model Article {
+  id        Int      @id @default(autoincrement())
+  teacherId Int
+  teacher   Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  title     String
+  content   String   @db.Text
+  coverImage String?
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model TeacherFile {

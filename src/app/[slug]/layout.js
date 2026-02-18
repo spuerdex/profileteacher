@@ -43,6 +43,7 @@ const navItems = [
     { key: 'activities', label: '📋 กิจกรรม', labelEn: 'Activities', href: '/activities' },
     { key: 'publications', label: '📄 ผลงาน', labelEn: 'Publications', href: '/publications' },
     { key: 'courses', label: '📚 วิชาที่สอน', labelEn: 'Courses', href: '/courses' },
+    { key: 'articles', label: '📰 บทความ', labelEn: 'Articles', href: '/articles' },
     { key: 'downloads', label: '📁 ดาวน์โหลด', labelEn: 'Downloads', href: '/downloads' },
     { key: 'contact', label: '📞 ติดต่อ', labelEn: 'Contact', href: '/contact' },
 ];
@@ -120,7 +121,8 @@ export default async function ProfileLayout({ children, params }) {
             </main>
 
             <footer className={styles.footer}>
-                <p>© {new Date().getFullYear()} {fullNameTh} — Teacher Profile System</p>
+                <p>© {new Date().getFullYear()} {fullNameTh} — Digital of Technology, Chiang Rai Rajabhat University</p>
+                <p>Powered by: Chinnarat K. | Computer Technical Officer</p>
             </footer>
         </div>
     );

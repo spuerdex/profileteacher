@@ -5,9 +5,15 @@ export default function AdminDashboardLayout({ children }) {
     return (
         <div className={styles.dashboardLayout}>
             <Sidebar role="admin" />
-            <main className={styles.mainContent}>
-                {children}
-            </main>
+            <div className={styles.mainWrapper}>
+                <main className={styles.mainContent}>
+                    {children}
+                </main>
+                <footer className={styles.dashboardFooter}>
+                    <p>© {new Date().getFullYear()} Digital of Technology, Chiang Rai Rajabhat University</p>
+                    <p>Powered by: Chinnarat K. | Computer Technical Officer</p>
+                </footer>
+            </div>
         </div>
     );
 }
