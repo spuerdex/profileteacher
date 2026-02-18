@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { useI18n } from '@/lib/i18n';
 import styles from '../research/crud.module.css';
+import BibtexModal from './BibtexModal';
 
 export default function TeacherPublicationsPage() {
     const { data: session } = useSession();
@@ -11,6 +12,7 @@ export default function TeacherPublicationsPage() {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [showBibtexModal, setShowBibtexModal] = useState(false);
     const [editing, setEditing] = useState(null);
     const [toast, setToast] = useState(null);
     const [formData, setFormData] = useState({ titleTh: '', titleEn: '', journal: '', year: '', link: '' });
@@ -47,6 +49,26 @@ export default function TeacherPublicationsPage() {
         try { const res = await fetch(`/api/publications/${id}`, { method: 'DELETE' }); if (res.ok) { showToast('success', 'ลบสำเร็จ!'); fetchItems(); } } catch { }
     };
 
+    const handleImport = async (importedItems) => {
+        try {
+            // Sequential or parallel requests? standard is parallel but let's do it safely
+            const promises = importedItems.map(item =>
+                fetch('/api/publications', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ...item, teacherId: session.user.teacherId })
+                })
+            );
+
+            await Promise.all(promises);
+            showToast('success', `นำเข้า ${importedItems.length} รายการสำเร็จ!`); // Import success
+            fetchItems();
+        } catch (err) {
+            console.error(err);
+            showToast('error', 'เกิดข้อผิดพลาดในการนำเข้า');
+        }
+    };
+
     if (loading) return <div className="loading-center"><div className="spinner spinner-lg"></div></div>;
 
     return (
@@ -57,7 +79,10 @@ export default function TeacherPublicationsPage() {
                         <h1 className="page-title">📄 {t('publications.title')}</h1>
                         <p className="page-subtitle">{t('publications.subtitle')}</p>
                     </div>
-                    <button className="btn btn-primary" onClick={handleOpenAdd}>➕ {t('publications.add')}</button>
+                    <div className="flex gap-2">
+                        <button className="btn btn-secondary" onClick={() => setShowBibtexModal(true)}>📥 Import BibTeX</button>
+                        <button className="btn btn-primary" onClick={handleOpenAdd}>➕ {t('publications.add')}</button>
+                    </div>
                 </div>
             </div>
 
@@ -66,7 +91,7 @@ export default function TeacherPublicationsPage() {
                     <div key={item.id} className={styles.itemCard}>
                         <div className={styles.itemHeader}>
                             <h3 className={styles.itemTitle}>{item.titleTh}</h3>
-                            <div className="flex gap-sm">
+                            <div className="flex gap-2">
                                 <button className="btn btn-ghost btn-sm" onClick={() => handleOpenEdit(item)}>✏️</button>
                                 <button className="btn btn-ghost btn-sm" onClick={() => handleDelete(item.id)}>🗑️</button>
                             </div>
@@ -79,7 +104,16 @@ export default function TeacherPublicationsPage() {
                         {item.link && <a href={item.link} target="_blank" rel="noopener noreferrer" className={styles.itemLink}>🔗 ลิงก์</a>}
                     </div>
                 ))}
-                {items.length === 0 && <div className={styles.empty}><p>📄</p><p>ยังไม่มีผลงานตีพิมพ์</p><button className="btn btn-primary btn-sm" onClick={handleOpenAdd}>เพิ่มผลงาน</button></div>}
+                {items.length === 0 && (
+                    <div className={styles.empty}>
+                        <p>📄</p>
+                        <p>ยังไม่มีผลงานตีพิมพ์</p>
+                        <div className="flex gap-2 justify-center mt-4">
+                            <button className="btn btn-secondary btn-sm" onClick={() => setShowBibtexModal(true)}>Import BibTeX</button>
+                            <button className="btn btn-primary btn-sm" onClick={handleOpenAdd}>เพิ่มผลงาน</button>
+                        </div>
+                    </div>
+                )}
             </div>
 
             {showModal && (
@@ -90,13 +124,28 @@ export default function TeacherPublicationsPage() {
                             <button className="modal-close" onClick={() => setShowModal(false)}>✕</button>
                         </div>
                         <form onSubmit={handleSubmit}>
-                            <div className="form-group"><label className="form-label">ชื่อผลงาน (TH) *</label><input className="form-input" name="titleTh" value={formData.titleTh} onChange={handleChange} required /></div>
-                            <div className="form-group"><label className="form-label">Title (EN)</label><input className="form-input" name="titleEn" value={formData.titleEn} onChange={handleChange} /></div>
-                            <div className="grid grid-2">
-                                <div className="form-group"><label className="form-label">วารสาร/สิ่งพิมพ์</label><input className="form-input" name="journal" value={formData.journal} onChange={handleChange} /></div>
-                                <div className="form-group"><label className="form-label">ปี</label><input className="form-input" type="number" name="year" value={formData.year} onChange={handleChange} /></div>
+                            <div className="form-group">
+                                <label className="form-label">ชื่อผลงาน (TH) *</label>
+                                <input className="form-input" name="titleTh" value={formData.titleTh} onChange={handleChange} required />
                             </div>
-                            <div className="form-group"><label className="form-label">🔗 ลิงก์</label><input className="form-input" name="link" value={formData.link} onChange={handleChange} placeholder="https://..." /></div>
+                            <div className="form-group">
+                                <label className="form-label">Title (EN)</label>
+                                <input className="form-input" name="titleEn" value={formData.titleEn} onChange={handleChange} />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="form-group">
+                                    <label className="form-label">วารสาร/สิ่งพิมพ์</label>
+                                    <input className="form-input" name="journal" value={formData.journal} onChange={handleChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label className="form-label">ปี</label>
+                                    <input className="form-input" type="number" name="year" value={formData.year} onChange={handleChange} />
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">🔗 ลิงก์</label>
+                                <input className="form-input" name="link" value={formData.link} onChange={handleChange} placeholder="https://..." />
+                            </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>{t('common.cancel')}</button>
                                 <button type="submit" className="btn btn-primary">{t('common.save')}</button>
@@ -105,6 +154,13 @@ export default function TeacherPublicationsPage() {
                     </div>
                 </div>
             )}
+
+            <BibtexModal
+                isOpen={showBibtexModal}
+                onClose={() => setShowBibtexModal(false)}
+                onImport={handleImport}
+            />
+
             {toast && <div className={`toast toast-${toast.type}`}>{toast.type === 'success' ? '✅' : '❌'} {toast.message}</div>}
         </div>
     );
