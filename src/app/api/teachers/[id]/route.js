@@ -47,24 +47,25 @@ export async function PUT(request, { params }) {
 
         const data = await request.json();
 
+        // Only update fields that are present in the request
+        const allowedFields = [
+            'titleTh', 'firstNameTh', 'lastNameTh',
+            'titleEn', 'firstNameEn', 'lastNameEn',
+            'position', 'department', 'email', 'phone',
+            'bioTh', 'bioEn', 'avatar', 'heroImage',
+            'themePresetId', 'socialLinks',
+        ];
+
+        const updateData = {};
+        for (const field of allowedFields) {
+            if (data[field] !== undefined) {
+                updateData[field] = data[field];
+            }
+        }
+
         const teacher = await prisma.teacher.update({
             where: { id: teacherId },
-            data: {
-                titleTh: data.titleTh,
-                firstNameTh: data.firstNameTh,
-                lastNameTh: data.lastNameTh,
-                titleEn: data.titleEn,
-                firstNameEn: data.firstNameEn,
-                lastNameEn: data.lastNameEn,
-                position: data.position,
-                department: data.department,
-                email: data.email,
-                phone: data.phone,
-                bioTh: data.bioTh,
-                bioEn: data.bioEn,
-                themePresetId: data.themePresetId || undefined,
-                socialLinks: data.socialLinks || undefined,
-            },
+            data: updateData,
         });
 
         return NextResponse.json(teacher);

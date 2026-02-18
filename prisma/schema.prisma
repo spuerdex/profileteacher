@@ -32,6 +32,7 @@ model Teacher {
   email         String?
   phone         String?
   avatar        String?
+  heroImage     String?
   bioTh         String?       @db.Text
   bioEn         String?       @db.Text
   themePresetId Int?
@@ -43,9 +44,24 @@ model Teacher {
   publications  Publication[]
   courses       Course[]
   education     Education[]
+  files         TeacherFile[]
   pageViews     Int           @default(0)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+}
+
+model TeacherFile {
+  id          Int      @id @default(autoincrement())
+  teacherId   Int
+  teacher     Teacher  @relation(fields: [teacherId], references: [id])
+  fileName    String
+  fileUrl     String
+  fileSize    Int      @default(0)
+  fileType    String?
+  description String?  @db.Text
+  downloads   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model ThemePreset {

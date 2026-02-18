@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 import { useI18n } from '@/lib/i18n';
+import ThemeToggle from '@/components/ThemeToggle';
 import styles from './Sidebar.module.css';
 
 const teacherMenuItems = [
@@ -13,6 +14,7 @@ const teacherMenuItems = [
     { path: '/dashboard/teacher/activities', icon: '📋', labelKey: 'nav.activities' },
     { path: '/dashboard/teacher/publications', icon: '📄', labelKey: 'nav.publications' },
     { path: '/dashboard/teacher/courses', icon: '📚', labelKey: 'nav.courses' },
+    { path: '/dashboard/teacher/files', icon: '📁', labelKey: 'nav.files' },
     { path: '/dashboard/teacher/settings', icon: '🎨', labelKey: 'nav.settings' },
 ];
 
@@ -20,6 +22,7 @@ const adminMenuItems = [
     { path: '/dashboard/admin', icon: '📊', labelKey: 'nav.dashboard', exact: true },
     { path: '/dashboard/admin/teachers', icon: '👨‍🏫', labelKey: 'nav.teachers' },
     { path: '/dashboard/admin/themes', icon: '🎨', labelKey: 'nav.themes' },
+    { path: '/dashboard/admin/logs', icon: '📋', labelKey: 'nav.logs' },
     { path: '/dashboard/admin/settings', icon: '⚙️', labelKey: 'nav.systemSettings' },
 ];
 
@@ -77,6 +80,7 @@ export default function Sidebar({ role }) {
                         EN
                     </button>
                 </div>
+                <ThemeToggle />
 
                 <div className={styles.user}>
                     <div className={styles.userName}>

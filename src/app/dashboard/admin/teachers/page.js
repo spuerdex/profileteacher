@@ -9,7 +9,10 @@ export default function AdminTeachersPage() {
     const [teachers, setTeachers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [showPasswordModal, setShowPasswordModal] = useState(false);
     const [editingTeacher, setEditingTeacher] = useState(null);
+    const [resetPasswordTeacher, setResetPasswordTeacher] = useState(null);
+    const [newPassword, setNewPassword] = useState('');
     const [toast, setToast] = useState(null);
     const [formData, setFormData] = useState({
         titleTh: '',
@@ -22,6 +25,8 @@ export default function AdminTeachersPage() {
         department: '',
         email: '',
         phone: '',
+        username: '',
+        password: '',
     });
 
     const fetchTeachers = async () => {
@@ -50,6 +55,7 @@ export default function AdminTeachersPage() {
             titleTh: '', firstNameTh: '', lastNameTh: '',
             titleEn: '', firstNameEn: '', lastNameEn: '',
             position: '', department: '', email: '', phone: '',
+            username: '', password: '',
         });
         setEditingTeacher(null);
     };
@@ -113,6 +119,36 @@ export default function AdminTeachersPage() {
             }
         } catch {
             showToast('error', 'ไม่สามารถลบได้');
+        }
+    };
+
+    const handleOpenResetPassword = (teacher) => {
+        setResetPasswordTeacher(teacher);
+        setNewPassword('');
+        setShowPasswordModal(true);
+    };
+
+    const handleResetPassword = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await fetch('/api/users/change-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    teacherId: resetPasswordTeacher.id,
+                    newPassword: newPassword,
+                }),
+            });
+            const result = await res.json();
+            if (res.ok) {
+                showToast('success', 'รีเซ็ตรหัสผ่านสำเร็จ!');
+                setShowPasswordModal(false);
+                setResetPasswordTeacher(null);
+            } else {
+                showToast('error', result.error || 'เกิดข้อผิดพลาด');
+            }
+        } catch {
+            showToast('error', 'เกิดข้อผิดพลาด');
         }
     };
 
@@ -195,8 +231,16 @@ export default function AdminTeachersPage() {
                                         <button
                                             className="btn btn-ghost btn-sm"
                                             onClick={() => handleDelete(teacher.id)}
+                                            title="ลบอาจารย์"
                                         >
                                             🗑️
+                                        </button>
+                                        <button
+                                            className="btn btn-ghost btn-sm"
+                                            onClick={() => handleOpenResetPassword(teacher)}
+                                            title="รีเซ็ตรหัสผ่าน"
+                                        >
+                                            🔑
                                         </button>
                                         <a
                                             href={`/${teacher.slug}`}
@@ -276,6 +320,18 @@ export default function AdminTeachersPage() {
                                     <label className="form-label">โทรศัพท์</label>
                                     <input className="form-input" name="phone" value={formData.phone} onChange={handleChange} />
                                 </div>
+                                {!editingTeacher && (
+                                    <>
+                                        <div className="form-group">
+                                            <label className="form-label">ชื่อผู้ใช้ (Login) *</label>
+                                            <input className="form-input" name="username" value={formData.username} onChange={handleChange} placeholder="username" required />
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="form-label">รหัสผ่าน *</label>
+                                            <input className="form-input" type="password" name="password" value={formData.password} onChange={handleChange} placeholder="••••••••" required />
+                                        </div>
+                                    </>
+                                )}
                             </div>
 
                             <div className="modal-footer">
@@ -287,6 +343,41 @@ export default function AdminTeachersPage() {
                                 </button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Reset Password Modal */}
+            {showPasswordModal && (
+                <div className="modal-overlay" onClick={() => setShowPasswordModal(false)}>
+                    <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '400px' }}>
+                        <div className="modal-header">
+                            <h3 className="modal-title">🔑 รีเซ็ตรหัสผ่าน</h3>
+                            <button className="modal-close" onClick={() => setShowPasswordModal(false)}>✕</button>
+                        </div>
+                        <div style={{ padding: '0 24px 24px' }}>
+                            <p className="mb-md">
+                                กำลังเปลี่ยนรหัสผ่านสำหรับ: <strong>{resetPasswordTeacher?.firstNameTh} {resetPasswordTeacher?.lastNameTh}</strong>
+                            </p>
+                            <form onSubmit={handleResetPassword}>
+                                <div className="form-group">
+                                    <label className="form-label">รหัสผ่านใหม่ *</label>
+                                    <input
+                                        className="form-input"
+                                        type="password"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        placeholder="ตั้งรหัสผ่านใหม่"
+                                        required
+                                        minLength={4}
+                                    />
+                                </div>
+                                <div className="flex justify-end gap-sm mt-lg">
+                                    <button type="button" className="btn btn-secondary" onClick={() => setShowPasswordModal(false)}>ยกเลิก</button>
+                                    <button type="submit" className="btn btn-primary">บันทึก</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             )}

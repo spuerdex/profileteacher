@@ -32,6 +32,14 @@ export async function POST(request) {
             .replace(/\s+/g, '-')
             .replace(/[^a-z0-9-]/g, '');
 
+        // Check if username (email for login) already exists
+        if (data.username) {
+            const existingUser = await prisma.user.findUnique({ where: { email: data.username } });
+            if (existingUser) {
+                return NextResponse.json({ error: 'ชื่อผู้ใช้นี้มีอยู่แล้ว' }, { status: 400 });
+            }
+        }
+
         const teacher = await prisma.teacher.create({
             data: {
                 slug,
@@ -51,8 +59,23 @@ export async function POST(request) {
             },
         });
 
+        // Create User account if username & password provided
+        if (data.username && data.password) {
+            const bcrypt = await import('bcryptjs');
+            const hashedPassword = await bcrypt.hash(data.password, 10);
+            await prisma.user.create({
+                data: {
+                    email: data.username,
+                    password: hashedPassword,
+                    role: 'teacher',
+                    teacherId: teacher.id,
+                },
+            });
+        }
+
         return NextResponse.json(teacher, { status: 201 });
     } catch (error) {
+        console.error('Create teacher error:', error);
         return NextResponse.json({ error: 'Failed to create teacher' }, { status: 500 });
     }
 }

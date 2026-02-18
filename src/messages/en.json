@@ -29,7 +29,8 @@
         "teachers": "Manage Teachers",
         "themes": "Manage Themes",
         "systemSettings": "System Settings",
-        "logs": "Activity Logs"
+        "logs": "Activity Logs",
+        "files": "Downloads"
     },
     "auth": {
         "email": "Email",

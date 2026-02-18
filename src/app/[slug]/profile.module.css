@@ -77,9 +77,46 @@
 
 /* Main */
 .main {
-    max-width: 880px;
+    max-width: 1280px;
     margin: 0 auto;
     padding: 0 var(--space-xl) var(--space-3xl);
+}
+
+.content {
+    padding-top: var(--space-xl);
+}
+
+.pageTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 2px solid var(--t-primary, var(--primary));
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 2px solid var(--t-primary, var(--primary));
+}
+
+.sectionHeader .sectionTitle {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.viewAll {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--t-primary-light, var(--primary-light)) !important;
+    white-space: nowrap;
 }
 
 .section {
@@ -266,6 +303,177 @@
 .courseCard h4 {
     font-size: 0.95rem;
     margin-bottom: var(--space-xs);
+}
+
+/* Contact Page */
+.contactGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-lg);
+}
+
+.contactCard {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+}
+
+.contactCard h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.contactRow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-sm) 0;
+    font-size: 0.9rem;
+}
+
+.contactRow+.contactRow {
+    border-top: 1px solid var(--border-light);
+}
+
+.contactLabel {
+    font-weight: 500;
+    color: var(--text-secondary);
+    min-width: 120px;
+    flex-shrink: 0;
+}
+
+.contactRow a {
+    color: var(--t-primary-light, var(--primary-light)) !important;
+    word-break: break-all;
+}
+
+/* QR Code */
+.qrSubtext {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: var(--space-md);
+}
+
+.qrWrap {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+    flex-wrap: wrap;
+}
+
+.qrImage {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    background: #fff;
+}
+
+.qrInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.qrInfo strong {
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.qrLink {
+    font-size: 0.78rem;
+    padding: 6px 10px;
+    background: var(--bg-surface);
+    border-radius: var(--radius-sm);
+    word-break: break-all;
+    margin-top: var(--space-xs);
+    color: var(--t-primary, var(--primary));
+}
+
+/* Downloads */
+.downloadList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.downloadItem {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: 16px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.downloadItem:hover {
+    border-color: var(--t-primary, var(--primary));
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.downloadIcon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+}
+
+.downloadInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.downloadInfo strong {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.downloadDesc {
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+}
+
+.downloadMeta {
+    display: flex;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.downloadBtn {
+    padding: 8px 16px;
+    background: var(--t-primary, var(--primary));
+    color: white;
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Empty Section */
+.emptySection {
+    text-align: center;
+    padding: var(--space-3xl);
+    color: var(--text-muted);
+    background: var(--bg-card);
+    border: 1px dashed var(--border-color);
+    border-radius: var(--radius-lg);
+    font-size: 0.95rem;
 }
 
 /* Footer */

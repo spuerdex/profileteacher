@@ -1,0 +1,193 @@
+/* ===== Profile Navigation Bar ===== */
+.nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: color-mix(in srgb, var(--bg-primary) 92%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.navInner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+    display: flex;
+    align-items: center;
+    height: 64px;
+    gap: var(--space-md);
+}
+
+/* Brand */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    text-decoration: none;
+    color: var(--text-primary) !important;
+    flex-shrink: 0;
+    margin-right: auto;
+}
+
+.brandAvatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--t-primary, var(--primary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-surface);
+    flex-shrink: 0;
+}
+
+.brandAvatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.brandAvatar span {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--t-primary, var(--primary));
+}
+
+.brandName {
+    font-size: 0.95rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+/* Desktop Links */
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.navLink {
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-secondary) !important;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.navLink:hover {
+    color: var(--text-primary) !important;
+    background: var(--bg-surface);
+}
+
+/* Active link — can be controlled via JS/data attributes later */
+.navLink[data-active="true"] {
+    color: var(--t-primary, var(--primary)) !important;
+    background: rgba(59, 130, 246, 0.1);
+}
+
+/* Mobile Toggle */
+.navToggleInput {
+    display: none;
+}
+
+.navToggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: var(--radius-sm);
+    transition: background var(--transition-fast);
+}
+
+.navToggle:hover {
+    background: var(--bg-surface);
+}
+
+.navToggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text-secondary);
+    border-radius: 2px;
+    transition: all var(--transition-fast);
+}
+
+/* Mobile Menu */
+.mobileMenu {
+    display: none;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: color-mix(in srgb, var(--bg-primary) 98%, transparent);
+    backdrop-filter: blur(16px);
+    padding: var(--space-lg);
+    flex-direction: column;
+    gap: var(--space-xs);
+    z-index: 99;
+    animation: slideDown 0.25s ease;
+}
+
+.mobileLink {
+    display: block;
+    padding: 14px var(--space-lg);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-secondary) !important;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.mobileLink:hover {
+    color: var(--text-primary) !important;
+    background: var(--bg-surface);
+}
+
+/* Responsive */
+@media (max-width: 880px) {
+    .navLinks {
+        display: none;
+    }
+
+    .navToggle {
+        display: flex;
+    }
+
+    .navToggleInput:checked~.mobileMenu {
+        display: flex;
+    }
+
+    .navToggleInput:checked~.navToggle span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .navToggleInput:checked~.navToggle span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .navToggleInput:checked~.navToggle span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
