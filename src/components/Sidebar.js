@@ -29,7 +29,7 @@ const adminMenuItems = [
     { path: '/dashboard/admin/settings', icon: '⚙️', labelKey: 'nav.systemSettings' },
 ];
 
-export default function Sidebar({ role }) {
+export default function Sidebar({ role, isOpen, onClose }) {
     const pathname = usePathname();
     const { data: session } = useSession();
     const { t, locale, setLocale } = useI18n();
@@ -44,50 +44,57 @@ export default function Sidebar({ role }) {
     };
 
     return (
-        <aside className={styles.sidebar}>
-            <div className={styles.logo}>
-                <span className={styles.logoIcon}>👨‍🏫</span>
-                <span className={styles.logoText}>
-                    {role === 'admin' ? 'Admin Panel' : 'Teacher Panel'}
-                </span>
-            </div>
+        <>
+            {/* Mobile Overlay */}
+            {isOpen && <div className={styles.overlay} onClick={onClose}></div>}
 
-            <nav className={styles.nav}>
-                <ul className={styles.menu}>
-                    {menuItems.map((item) => (
-                        <li key={item.path}>
-                            <Link
-                                href={item.path}
-                                className={`${styles.menuItem} ${isActive(item) ? styles.active : ''}`}
-                            >
-                                <span className={styles.menuIcon}>{item.icon}</span>
-                                <span className={styles.menuLabel}>{t(item.labelKey)}</span>
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            </nav>
-
-            <div className={styles.footer}>
-                <div className={styles.actions}>
-                    <LanguageToggle />
-                    <ThemeToggle />
+            <aside className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
+                <div className={styles.logo}>
+                    <span className={styles.logoIcon}>👨‍🏫</span>
+                    <span className={styles.logoText}>
+                        {role === 'admin' ? 'Admin Panel' : 'Teacher Panel'}
+                    </span>
+                    <button className={styles.closeBtn} onClick={onClose}>✕</button>
                 </div>
 
-                <div className={styles.user}>
-                    <div className={styles.userName}>
-                        {session?.user?.name || session?.user?.email}
+                <nav className={styles.nav}>
+                    <ul className={styles.menu}>
+                        {menuItems.map((item) => (
+                            <li key={item.path}>
+                                <Link
+                                    href={item.path}
+                                    className={`${styles.menuItem} ${isActive(item) ? styles.active : ''}`}
+                                    onClick={onClose}
+                                >
+                                    <span className={styles.menuIcon}>{item.icon}</span>
+                                    <span className={styles.menuLabel}>{t(item.labelKey)}</span>
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+
+                <div className={styles.footer}>
+                    <div className={styles.actions}>
+                        <LanguageToggle />
+                        <ThemeToggle />
                     </div>
-                    <div className={styles.userRole}>{role}</div>
-                </div>
 
-                <button
-                    onClick={() => signOut({ callbackUrl: '/login' })}
-                    className={styles.logoutBtn}
-                >
-                    🚪 {t('common.logout')}
-                </button>
-            </div>
-        </aside>
+                    <div className={styles.user}>
+                        <div className={styles.userName}>
+                            {session?.user?.name || session?.user?.email}
+                        </div>
+                        <div className={styles.userRole}>{role}</div>
+                    </div>
+
+                    <button
+                        onClick={() => signOut({ callbackUrl: '/login' })}
+                        className={styles.logoutBtn}
+                    >
+                        🚪 {t('common.logout')}
+                    </button>
+                </div>
+            </aside>
+        </>
     );
 }

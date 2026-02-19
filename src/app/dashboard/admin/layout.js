@@ -1,10 +1,30 @@
+'use client';
+
+import { useState } from 'react';
 import Sidebar from '@/components/Sidebar';
-import styles from './dashboard.module.css';
+import styles from '../teacher/dashboard.module.css';
 
 export default function AdminDashboardLayout({ children }) {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
     return (
         <div className={styles.dashboardLayout}>
-            <Sidebar role="admin" />
+            {/* Mobile Header */}
+            <header className={styles.mobileHeader}>
+                <button
+                    className={styles.menuBtn}
+                    onClick={() => setIsSidebarOpen(true)}
+                >
+                    ☰
+                </button>
+                <span className={styles.mobileTitle}>Admin Panel</span>
+            </header>
+
+            <Sidebar
+                role="admin"
+                isOpen={isSidebarOpen}
+                onClose={() => setIsSidebarOpen(false)}
+            />
             <div className={styles.mainWrapper}>
                 <main className={styles.mainContent}>
                     {children}
