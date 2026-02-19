@@ -11,7 +11,14 @@ export async function PUT(request, { params }) {
         const data = await request.json();
         const item = await prisma.publication.update({
             where: { id: parseInt(id) },
-            data: { titleTh: data.titleTh, titleEn: data.titleEn || null, journal: data.journal || null, year: data.year ? parseInt(data.year) : null, link: data.link || null },
+            data: {
+                titleTh: data.titleTh,
+                titleEn: data.titleEn || null,
+                journal: data.journal || null,
+                year: data.year ? parseInt(data.year) : null,
+                doi: data.doi || null,
+                link: data.link || null
+            },
         });
         return NextResponse.json(item);
     } catch { return NextResponse.json({ error: 'Failed' }, { status: 500 }); }

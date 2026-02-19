@@ -10,27 +10,51 @@ export default function TeacherPublicationsPage() {
     const { data: session } = useSession();
     const { t } = useI18n();
     const [items, setItems] = useState([]);
+    const [meta, setMeta] = useState({ total: 0, page: 1, limit: 10, totalPages: 1 });
+    const [page, setPage] = useState(1);
+    const [search, setSearch] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [showBibtexModal, setShowBibtexModal] = useState(false);
     const [editing, setEditing] = useState(null);
     const [toast, setToast] = useState(null);
-    const [formData, setFormData] = useState({ titleTh: '', titleEn: '', journal: '', year: '', link: '' });
+    const [formData, setFormData] = useState({ titleTh: '', titleEn: '', journal: '', year: '', doi: '', link: '' });
+    const LIMIT = 10;
 
     const fetchItems = useCallback(async () => {
         if (!session?.user?.teacherId) return;
-        try { const res = await fetch(`/api/publications?teacherId=${session.user.teacherId}`); setItems(await res.json()); } catch { } finally { setLoading(false); }
-    }, [session]);
+        setLoading(true);
+        try {
+            const res = await fetch(`/api/publications?teacherId=${session.user.teacherId}&page=${page}&limit=${LIMIT}&search=${searchTerm}`);
+            const result = await res.json();
+            setItems(result.data || []);
+            setMeta(result.meta || { total: 0, page: 1, limit: LIMIT, totalPages: 1 });
+        } catch { } finally { setLoading(false); }
+    }, [session, page, searchTerm]);
 
     useEffect(() => { fetchItems(); }, [fetchItems]);
 
     const showToast = (type, msg) => { setToast({ type, message: msg }); setTimeout(() => setToast(null), 3000); };
-    const resetForm = () => { setFormData({ titleTh: '', titleEn: '', journal: '', year: '', link: '' }); setEditing(null); };
+    const resetForm = () => { setFormData({ titleTh: '', titleEn: '', journal: '', year: '', doi: '', link: '' }); setEditing(null); };
     const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        setPage(1);
+        setSearchTerm(search);
+    };
 
     const handleOpenAdd = () => { resetForm(); setShowModal(true); };
     const handleOpenEdit = (item) => {
-        setFormData({ titleTh: item.titleTh || '', titleEn: item.titleEn || '', journal: item.journal || '', year: item.year || '', link: item.link || '' });
+        setFormData({
+            titleTh: item.titleTh || '',
+            titleEn: item.titleEn || '',
+            journal: item.journal || '',
+            year: item.year || '',
+            doi: item.doi || '',
+            link: item.link || ''
+        });
         setEditing(item); setShowModal(true);
     };
 
@@ -79,7 +103,17 @@ export default function TeacherPublicationsPage() {
                         <h1 className="page-title">📄 {t('publications.title')}</h1>
                         <p className="page-subtitle">{t('publications.subtitle')}</p>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-sm">
+                        <form onSubmit={handleSearch} className="flex gap-xs">
+                            <input
+                                type="text"
+                                className="form-input form-input-sm"
+                                placeholder={t('common.search')}
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                            <button type="submit" className="btn btn-secondary btn-sm">🔍</button>
+                        </form>
                         <button className="btn btn-secondary" onClick={() => setShowBibtexModal(true)}>📥 Import BibTeX</button>
                         <button className="btn btn-primary" onClick={handleOpenAdd}>➕ {t('publications.add')}</button>
                     </div>
@@ -100,6 +134,7 @@ export default function TeacherPublicationsPage() {
                         <div className={styles.itemMeta}>
                             {item.journal && <span className="badge">{item.journal}</span>}
                             {item.year && <span className="badge badge-primary">{item.year}</span>}
+                            {item.doi && <span className="badge badge-outline">DOI: {item.doi}</span>}
                         </div>
                         {item.link && <a href={item.link} target="_blank" rel="noopener noreferrer" className={styles.itemLink}>🔗 ลิงก์</a>}
                     </div>
@@ -115,6 +150,28 @@ export default function TeacherPublicationsPage() {
                     </div>
                 )}
             </div>
+
+            {meta.totalPages > 1 && (
+                <div className="flex items-center justify-center gap-4 mt-8 pb-8">
+                    <button
+                        className="btn btn-secondary btn-sm"
+                        onClick={() => setPage(p => Math.max(1, p - 1))}
+                        disabled={page === 1}
+                    >
+                        ← {t('common.back')}
+                    </button>
+                    <span className="text-sm">
+                        {t('common.page')} {meta.page} {t('common.of')} {meta.totalPages}
+                    </span>
+                    <button
+                        className="btn btn-secondary btn-sm"
+                        onClick={() => setPage(p => Math.min(meta.totalPages, p + 1))}
+                        disabled={page === meta.totalPages}
+                    >
+                        {t('common.next')} →
+                    </button>
+                </div>
+            )}
 
             {showModal && (
                 <div className="modal-overlay" onClick={() => setShowModal(false)}>
@@ -141,6 +198,10 @@ export default function TeacherPublicationsPage() {
                                     <label className="form-label">ปี</label>
                                     <input className="form-input" type="number" name="year" value={formData.year} onChange={handleChange} />
                                 </div>
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">DOI</label>
+                                <input className="form-input" name="doi" value={formData.doi} onChange={handleChange} placeholder="10.xxxx/..." />
                             </div>
                             <div className="form-group">
                                 <label className="form-label">🔗 ลิงก์</label>
