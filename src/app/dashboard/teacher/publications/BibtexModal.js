@@ -11,21 +11,28 @@ export default function BibtexModal({ isOpen, onClose, onImport }) {
 
     if (!isOpen) return null;
 
-    const parseBibtex = () => {
+    const parseBibtex = async () => {
         setError(null);
         setPreview([]);
+        setLoading(true);
 
         if (!bibtex.trim()) {
             setError('Please paste BibTeX code.');
+            setLoading(false);
             return;
         }
 
         try {
-            const citations = new Cite(bibtex);
+            // Use async parsing which is more robust
+            const citations = await Cite.async(bibtex).catch(err => {
+                throw new Error('This format is not supported or recognized. Please check your BibTeX code.');
+            });
+
             const data = citations.data;
 
             if (!data || data.length === 0) {
                 setError('No valid BibTeX entries found.');
+                setLoading(false);
                 return;
             }
 
@@ -41,8 +48,10 @@ export default function BibtexModal({ isOpen, onClose, onImport }) {
 
             setPreview(mappedData);
         } catch (err) {
-            console.error(err);
-            setError('Invalid BibTeX format. Please check your input.');
+            console.error('BibTeX Parse Error:', err);
+            setError(err.message || 'Invalid BibTeX format. Please check your input.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -88,14 +97,21 @@ export default function BibtexModal({ isOpen, onClose, onImport }) {
                                 <button
                                     onClick={onClose}
                                     className="btn btn-secondary"
+                                    disabled={loading}
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={parseBibtex}
                                     className="btn btn-primary"
+                                    disabled={loading}
                                 >
-                                    Preview
+                                    {loading ? (
+                                        <>
+                                            <span className="spinner spinner-white mr-2"></span>
+                                            Parsing...
+                                        </>
+                                    ) : 'Preview'}
                                 </button>
                             </div>
                         </div>
