@@ -23,6 +23,7 @@ export default function TeacherResearchPage() {
         year: '', type: '', link: '',
     });
 
+    const [showEnglish, setShowEnglish] = useState(false);
     const [search, setSearch] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
 
