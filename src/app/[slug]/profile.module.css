@@ -6,9 +6,14 @@
 /* Hero */
 .hero {
     position: relative;
-    padding: var(--space-3xl) var(--space-xl) var(--space-2xl);
-    text-align: center;
+    padding: var(--space-3xl) var(--space-xl) var(--space-xl);
+    text-align: left;
     overflow: hidden;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
 }
 
 .heroBg {
@@ -21,12 +26,15 @@
 .heroContent {
     position: relative;
     z-index: 1;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
 }
 
 .avatarWrapper {
     width: 130px;
     height: 130px;
-    margin: 0 auto var(--space-lg);
+    margin: 0 0 var(--space-md);
     border-radius: 50%;
     overflow: hidden;
     border: 4px solid var(--t-primary, var(--primary));
@@ -58,9 +66,10 @@
 }
 
 .name {
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 800;
-    margin-bottom: var(--space-xs);
+    margin-bottom: var(--space-2xs);
+    line-height: 1.2;
 }
 
 .nameEn {
