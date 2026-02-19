@@ -57,6 +57,9 @@
     },
     "research": {
         "title": "Research",
+        "subtitle": "Manage your research information",
+        "add": "Add Research",
+        "titleLabel": "Research Title",
         "researchTitle": "Research Title",
         "abstract": "Abstract",
         "year": "Year",
