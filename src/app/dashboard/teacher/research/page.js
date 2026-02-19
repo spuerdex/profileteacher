@@ -12,6 +12,17 @@ export default function TeacherResearchPage() {
     const [totalPages, setTotalPages] = useState(1);
     const LIMIT = 5;
 
+    // Restore missing states
+    const [items, setItems] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [showModal, setShowModal] = useState(false);
+    const [editing, setEditing] = useState(null);
+    const [toast, setToast] = useState(null);
+    const [formData, setFormData] = useState({
+        titleTh: '', titleEn: '', abstractTh: '', abstractEn: '',
+        year: '', type: '', link: '',
+    });
+
     const fetchItems = useCallback(async () => {
         if (!session?.user?.teacherId) return;
         setLoading(true);
