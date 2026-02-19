@@ -8,24 +8,20 @@ import styles from './crud.module.css';
 export default function TeacherResearchPage() {
     const { data: session } = useSession();
     const { t } = useI18n();
-    const [items, setItems] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [showModal, setShowModal] = useState(false);
-    const [editing, setEditing] = useState(null);
-    const [toast, setToast] = useState(null);
-    const [formData, setFormData] = useState({
-        titleTh: '', titleEn: '', abstractTh: '', abstractEn: '',
-        year: '', type: '', link: '',
-    });
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const LIMIT = 5;
 
     const fetchItems = useCallback(async () => {
         if (!session?.user?.teacherId) return;
+        setLoading(true);
         try {
-            const res = await fetch(`/api/research?teacherId=${session.user.teacherId}&limit=100`);
+            const res = await fetch(`/api/research?teacherId=${session.user.teacherId}&page=${page}&limit=${LIMIT}`);
             const data = await res.json();
             setItems(data.data || []);
+            setTotalPages(data.meta?.totalPages || 1);
         } catch { } finally { setLoading(false); }
-    }, [session]);
+    }, [session, page]);
 
     useEffect(() => { fetchItems(); }, [fetchItems]);
 
@@ -55,7 +51,7 @@ export default function TeacherResearchPage() {
 
     const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    if (loading) return <div className="loading-center"><div className="spinner spinner-lg"></div></div>;
+    if (loading && items.length === 0) return <div className="loading-center"><div className="spinner spinner-lg"></div></div>;
 
     return (
         <div>
@@ -117,6 +113,29 @@ export default function TeacherResearchPage() {
                     </tbody>
                 </table>
             </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+                <div className="flex justify-center mt-lg gap-sm">
+                    <button
+                        className="btn btn-secondary btn-sm"
+                        disabled={page === 1}
+                        onClick={() => setPage(p => Math.max(1, p - 1))}
+                    >
+                        ← ก่อนหน้า
+                    </button>
+                    <span className="flex items-center px-md text-sm text-secondary">
+                        หน้าที่ {page} จาก {totalPages}
+                    </span>
+                    <button
+                        className="btn btn-secondary btn-sm"
+                        disabled={page === totalPages}
+                        onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                    >
+                        ถัดไป →
+                    </button>
+                </div>
+            )}
 
             {showModal && (
                 <div className="modal-overlay" onClick={() => setShowModal(false)}>
