@@ -21,8 +21,9 @@ export default function TeacherResearchPage() {
     const fetchItems = useCallback(async () => {
         if (!session?.user?.teacherId) return;
         try {
-            const res = await fetch(`/api/research?teacherId=${session.user.teacherId}`);
-            setItems(await res.json());
+            const res = await fetch(`/api/research?teacherId=${session.user.teacherId}&limit=100`);
+            const data = await res.json();
+            setItems(data.data || []);
         } catch { } finally { setLoading(false); }
     }, [session]);
 
