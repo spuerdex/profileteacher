@@ -75,20 +75,46 @@ export default async function ProfileHomePage({ params }) {
 
             <div className={styles.content}>
                 {/* Bio */}
-                {/* Bio */}
-                <section className={styles.section}>
-                    <h2 className={styles.sectionTitle}>
-                        <span className={styles.sectionIcon}>👤</span> เกี่ยวกับ
-                    </h2>
-                    {teacher.bioTh ? (
-                        <>
-                            <p className={styles.bio}>{teacher.bioTh}</p>
-                            {teacher.bioEn && <p className={`${styles.bio} ${styles.bioEn}`}>{teacher.bioEn}</p>}
-                        </>
-                    ) : (
-                        <div className={styles.emptySection}>ไม่พบข้อมูลเกี่ยวกับอาจารย์</div>
-                    )}
-                </section>
+                {/* About & Education Split Row */}
+                <div className={styles.splitRow}>
+                    {/* Bio */}
+                    <section className={styles.section}>
+                        <h2 className={styles.sectionTitle}>
+                            <span className={styles.sectionIcon}>👤</span> เกี่ยวกับ
+                        </h2>
+                        {teacher.bioTh ? (
+                            <>
+                                <p className={styles.bio}>{teacher.bioTh}</p>
+                                {teacher.bioEn && <p className={`${styles.bio} ${styles.bioEn}`}>{teacher.bioEn}</p>}
+                            </>
+                        ) : (
+                            <div className={styles.emptySection}>ไม่พบข้อมูลเกี่ยวกับอาจารย์</div>
+                        )}
+                    </section>
+
+                    {/* Education */}
+                    <section className={styles.section}>
+                        <h2 className={styles.sectionTitle}>
+                            <span className={styles.sectionIcon}>🎓</span> การศึกษา
+                        </h2>
+                        {teacher.education.length > 0 ? (
+                            <div className={styles.timeline}>
+                                {teacher.education.map((edu) => (
+                                    <div key={edu.id} className={styles.timelineItem}>
+                                        <div className={styles.timelineDot}></div>
+                                        <div className={styles.timelineContent}>
+                                            <h4>{edu.degree} {edu.field ? `— ${edu.field}` : ''}</h4>
+                                            {edu.institution && <p>{edu.institution}</p>}
+                                            {edu.year && <span className={styles.year}>{edu.year}</span>}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className={styles.emptySection}>ไม่พบข้อมูลการศึกษา</div>
+                        )}
+                    </section>
+                </div>
 
                 {/* Articles */}
                 <section className={styles.section}>
@@ -128,30 +154,6 @@ export default async function ProfileHomePage({ params }) {
                         </div>
                     ) : (
                         <div className={styles.emptySection}>ไม่พบข้อมูลบทความ</div>
-                    )}
-                </section>
-
-                {/* Education */}
-                {/* Education */}
-                <section className={styles.section}>
-                    <h2 className={styles.sectionTitle}>
-                        <span className={styles.sectionIcon}>🎓</span> การศึกษา
-                    </h2>
-                    {teacher.education.length > 0 ? (
-                        <div className={styles.timeline}>
-                            {teacher.education.map((edu) => (
-                                <div key={edu.id} className={styles.timelineItem}>
-                                    <div className={styles.timelineDot}></div>
-                                    <div className={styles.timelineContent}>
-                                        <h4>{edu.degree} {edu.field ? `— ${edu.field}` : ''}</h4>
-                                        {edu.institution && <p>{edu.institution}</p>}
-                                        {edu.year && <span className={styles.year}>{edu.year}</span>}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className={styles.emptySection}>ไม่พบข้อมูลการศึกษา</div>
                     )}
                 </section>
 

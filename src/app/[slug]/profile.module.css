@@ -145,6 +145,18 @@
     white-space: nowrap;
 }
 
+.splitRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-2xl);
+    align-items: start;
+}
+
+.splitRow .section {
+    margin-bottom: 0;
+}
+
 .section {
     margin-bottom: var(--space-2xl);
 }
@@ -583,5 +595,10 @@
 
     .courseGrid {
         grid-template-columns: 1fr;
+    }
+
+    .splitRow {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
     }
 }
