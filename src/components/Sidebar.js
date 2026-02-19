@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 import { useI18n } from '@/lib/i18n';
 import ThemeToggle from '@/components/ThemeToggle';
+import LanguageToggle from '@/components/LanguageToggle';
 import styles from './Sidebar.module.css';
 
 const teacherMenuItems = [
@@ -68,21 +69,10 @@ export default function Sidebar({ role }) {
             </nav>
 
             <div className={styles.footer}>
-                <div className={styles.langSwitch}>
-                    <button
-                        className={`${styles.langBtn} ${locale === 'th' ? styles.langActive : ''}`}
-                        onClick={() => setLocale('th')}
-                    >
-                        TH
-                    </button>
-                    <button
-                        className={`${styles.langBtn} ${locale === 'en' ? styles.langActive : ''}`}
-                        onClick={() => setLocale('en')}
-                    >
-                        EN
-                    </button>
+                <div className={styles.actions}>
+                    <LanguageToggle />
+                    <ThemeToggle />
                 </div>
-                <ThemeToggle />
 
                 <div className={styles.user}>
                     <div className={styles.userName}>

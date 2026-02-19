@@ -82,31 +82,11 @@
     border-top: 1px solid var(--border-color);
 }
 
-.langSwitch {
+.actions {
     display: flex;
-    gap: 2px;
-    margin-bottom: var(--space-sm);
-    background: var(--bg-surface);
-    padding: 2px;
-    border-radius: var(--radius-sm);
-}
-
-.langBtn {
-    flex: 1;
-    padding: 3px 6px;
-    border: none;
-    background: transparent;
-    color: var(--text-muted);
-    font-size: 0.7rem;
-    font-weight: 600;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-}
-
-.langActive {
-    background: var(--primary);
-    color: white;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
 }
 
 .user {

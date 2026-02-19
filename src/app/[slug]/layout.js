@@ -2,6 +2,7 @@ import prisma from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import ThemeToggle from '@/components/ThemeToggle';
+import LanguageToggle from '@/components/LanguageToggle';
 import styles from './profile.module.css';
 import navStyles from './nav.module.css';
 
@@ -95,7 +96,10 @@ export default async function ProfileLayout({ children, params }) {
                             </Link>
                         ))}
                     </div>
-                    <ThemeToggle />
+                    <div className={navStyles.navActions}>
+                        <LanguageToggle />
+                        <ThemeToggle />
+                    </div>
                     <input type="checkbox" id="nav-toggle" className={navStyles.navToggleInput} />
                     <label htmlFor="nav-toggle" className={navStyles.navToggle}>
                         <span></span>

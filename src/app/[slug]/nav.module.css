@@ -70,6 +70,13 @@
     gap: 2px;
 }
 
+.navActions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-left: var(--space-sm);
+}
+
 .navLink {
     padding: 8px 14px;
     font-size: 0.82rem;
@@ -161,6 +168,17 @@
 
     .navToggle {
         display: flex;
+        order: 3;
+    }
+
+    .navActions {
+        margin-left: auto;
+        order: 2;
+    }
+
+    .brand {
+        margin-right: var(--space-sm);
+        order: 1;
     }
 
     .navToggleInput:checked~.mobileMenu {
