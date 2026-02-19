@@ -57,16 +57,18 @@ export default async function ProfileHomePage({ params }) {
                             </div>
                         )}
                     </div>
-                    <h1 className={styles.name}>
-                        {teacher.titleTh || ''} {teacher.firstNameTh} {teacher.lastNameTh}
-                    </h1>
-                    {(teacher.titleEn || teacher.firstNameEn) && (
-                        <p className={styles.nameEn}>
-                            {teacher.titleEn || ''} {teacher.firstNameEn || ''} {teacher.lastNameEn || ''}
-                        </p>
-                    )}
-                    {teacher.position && <p className={styles.position}>{teacher.position}</p>}
-                    {teacher.department && <p className={styles.department}>{teacher.department}</p>}
+                    <div className={styles.heroInfo}>
+                        <h1 className={styles.name}>
+                            {teacher.titleTh || ''} {teacher.firstNameTh} {teacher.lastNameTh}
+                        </h1>
+                        {(teacher.titleEn || teacher.firstNameEn) && (
+                            <p className={styles.nameEn}>
+                                {teacher.titleEn || ''} {teacher.firstNameEn || ''} {teacher.lastNameEn || ''}
+                            </p>
+                        )}
+                        {teacher.position && <p className={styles.position}>{teacher.position}</p>}
+                        {teacher.department && <p className={styles.department}>{teacher.department}</p>}
+                    </div>
                 </div>
             </header>
 
