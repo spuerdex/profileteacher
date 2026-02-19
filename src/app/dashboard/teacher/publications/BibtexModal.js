@@ -61,62 +61,71 @@ export default function BibtexModal({ isOpen, onClose, onImport }) {
     };
 
     return (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+        <div className="modal-overlay" onClick={onClose}>
+            <div className="modal max-w-2xl" onClick={(e) => e.stopPropagation()}>
                 {/* Header */}
-                <div className="p-4 border-b flex justify-between items-center">
-                    <h3 className="text-lg font-bold">Import from BibTeX</h3>
-                    <button onClick={onClose} className="text-gray-500 hover:text-gray-700">✕</button>
+                <div className="modal-header">
+                    <h3 className="modal-title">📥 Import from BibTeX</h3>
+                    <button onClick={onClose} className="modal-close">✕</button>
                 </div>
 
-                {/* content */}
-                <div className="p-4 overflow-y-auto flex-1">
+                {/* Content */}
+                <div className="py-4">
                     {!preview.length ? (
                         <div className="space-y-4">
-                            <p className="text-sm text-gray-600">
+                            <p className="form-label text-muted">
                                 Paste your BibTeX code below (from Google Scholar, ResearchGate, etc.)
                             </p>
                             <textarea
-                                className="w-full h-48 p-3 border rounded-lg font-mono text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                                className="form-textarea font-mono text-sm"
+                                style={{ minHeight: '200px' }}
                                 placeholder="@article{...}"
                                 value={bibtex}
                                 onChange={(e) => setBibtex(e.target.value)}
                             ></textarea>
-                            {error && <p className="text-red-500 text-sm">{error}</p>}
-                            <button
-                                onClick={parseBibtex}
-                                className="btn btn-primary w-full"
-                            >
-                                Preview
-                            </button>
+                            {error && <p className="text-error text-sm mt-2">❌ {error}</p>}
+                            <div className="modal-footer">
+                                <button
+                                    onClick={onClose}
+                                    className="btn btn-secondary"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={parseBibtex}
+                                    className="btn btn-primary"
+                                >
+                                    Preview
+                                </button>
+                            </div>
                         </div>
                     ) : (
                         <div className="space-y-4">
-                            <div className="flex justify-between items-center">
-                                <h4 className="font-bold text-green-600">{preview.length} Entries found</h4>
+                            <div className="flex justify-between items-center mb-md">
+                                <h4 className="font-bold text-primary">{preview.length} Entries found</h4>
                                 <button
                                     onClick={() => setPreview([])}
-                                    className="text-sm text-gray-500 hover:underline"
+                                    className="text-sm text-secondary hover:underline"
                                 >
-                                    Back to Edit
+                                    ← Back to Edit
                                 </button>
                             </div>
 
-                            <div className="space-y-2 max-h-60 overflow-y-auto border rounded p-2 bg-gray-50">
+                            <div className="space-y-2 max-h-60 overflow-y-auto border rounded-md p-md bg-secondary">
                                 {preview.map((item, idx) => (
-                                    <div key={idx} className="p-2 border-b last:border-0 text-sm">
-                                        <p className="font-bold truncate">{item.titleTh}</p>
-                                        <p className="text-gray-500">
+                                    <div key={idx} className="p-sm border-b border-light last:border-0 text-sm">
+                                        <p className="font-bold truncate text-primary">{item.titleTh}</p>
+                                        <p className="text-secondary">
                                             {item.journal} {item.year && `(${item.year})`}
                                         </p>
                                     </div>
                                 ))}
                             </div>
 
-                            <div className="flex gap-2 justify-end pt-2">
+                            <div className="modal-footer">
                                 <button
                                     onClick={onClose}
-                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                                    className="btn btn-secondary"
                                     disabled={loading}
                                 >
                                     Cancel
