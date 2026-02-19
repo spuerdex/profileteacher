@@ -70,7 +70,7 @@ export default function BibtexModal({ isOpen, onClose, onImport }) {
     };
 
     return (
-        <div className="modal-overlay" onClick={onClose}>
+        <div className="modal-overlay">
             <div className="modal max-w-2xl" onClick={(e) => e.stopPropagation()}>
                 {/* Header */}
                 <div className="modal-header">

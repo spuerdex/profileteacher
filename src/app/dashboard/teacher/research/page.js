@@ -169,7 +169,7 @@ export default function TeacherResearchPage() {
 
             {/* Pagination */}
             {totalPages > 1 && (
-                <div className="flex justify-center mt-lg gap-sm">
+                <div className="flex justify-center mt-lg gap-lg">
                     <button
                         className="btn btn-secondary btn-sm"
                         disabled={page === 1}
@@ -191,7 +191,7 @@ export default function TeacherResearchPage() {
             )}
 
             {showModal && (
-                <div className="modal-overlay" onClick={() => setShowModal(false)}>
+                <div className="modal-overlay">
                     <div className="modal" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
                             <h3 className="modal-title">{editing ? '✏️ แก้ไขงานวิจัย' : '➕ เพิ่มงานวิจัย'}</h3>
