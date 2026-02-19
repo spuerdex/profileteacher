@@ -22,19 +22,27 @@ export default function TeacherActivitiesPage() {
     });
 
     const [showEnglish, setShowEnglish] = useState(false);
+    const [search, setSearch] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
 
     const fetchItems = useCallback(async () => {
         if (!session?.user?.teacherId) return;
         setLoading(true);
         try {
-            const res = await fetch(`/api/activities?teacherId=${session.user.teacherId}&page=${page}&limit=${LIMIT}`);
+            const res = await fetch(`/api/activities?teacherId=${session.user.teacherId}&page=${page}&limit=${LIMIT}&search=${searchTerm}`);
             const data = await res.json();
             setItems(data.data || []);
             setTotalPages(data.meta?.totalPages || 1);
         } catch { } finally { setLoading(false); }
-    }, [session, page]);
+    }, [session, page, searchTerm]);
 
     useEffect(() => { fetchItems(); }, [fetchItems]);
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        setPage(1);
+        setSearchTerm(search);
+    };
 
     const showToast = (type, msg) => { setToast({ type, message: msg }); setTimeout(() => setToast(null), 3000); };
     const resetForm = () => { setFormData({ titleTh: '', titleEn: '', descriptionTh: '', descriptionEn: '', date: '', type: '' }); setEditing(null); };
@@ -86,7 +94,20 @@ export default function TeacherActivitiesPage() {
                         <h1 className="page-title">📋 {t('activities.title')}</h1>
                         <p className="page-subtitle">{t('activities.subtitle')}</p>
                     </div>
-                    <button className="btn btn-primary" onClick={handleOpenAdd}>➕ {t('activities.add')}</button>
+                    <div className="flex gap-sm">
+                        <form onSubmit={handleSearch} className="flex gap-sm">
+                            <input
+                                type="text"
+                                placeholder={t('common.search') + "..."}
+                                className="form-input"
+                                style={{ width: '200px' }}
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                            <button type="submit" className="btn btn-secondary">🔍</button>
+                        </form>
+                        <button className="btn btn-primary" onClick={handleOpenAdd}>➕ {t('activities.add')}</button>
+                    </div>
                 </div>
             </div>
 
