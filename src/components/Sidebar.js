@@ -18,7 +18,7 @@ const teacherMenuItems = [
     { path: '/dashboard/teacher/articles', icon: '📰', labelKey: 'nav.articles' },
     { path: '/dashboard/teacher/education', icon: '🎓', labelKey: 'nav.education' },
     { path: '/dashboard/teacher/files', icon: '📁', labelKey: 'nav.files' },
-    { path: '/dashboard/teacher/settings', icon: '🎨', labelKey: 'nav.settings' },
+    { path: '/dashboard/teacher/settings', icon: '⚙️', labelKey: 'nav.settings' },
 ];
 
 const adminMenuItems = [
