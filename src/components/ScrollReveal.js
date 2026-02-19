@@ -6,6 +6,7 @@ export default function ScrollReveal({ children, className = '', threshold = 0.1
     const ref = useRef(null);
 
     useEffect(() => {
+        const currentRef = ref.current;
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
@@ -15,17 +16,17 @@ export default function ScrollReveal({ children, className = '', threshold = 0.1
             },
             {
                 threshold: threshold,
-                rootMargin: '0px 0px -50px 0px' // Trigger slightly before element is fully in view
+                rootMargin: '0px 0px -50px 0px'
             }
         );
 
-        if (ref.current) {
-            observer.observe(ref.current);
+        if (currentRef) {
+            observer.observe(currentRef);
         }
 
         return () => {
-            if (ref.current) {
-                observer.unobserve(ref.current);
+            if (currentRef) {
+                observer.unobserve(currentRef);
             }
         };
     }, [threshold]);
@@ -34,8 +35,8 @@ export default function ScrollReveal({ children, className = '', threshold = 0.1
         <div
             ref={ref}
             className={`${className} transition-all duration-700 ease-out transform ${isVisible
-                    ? 'opacity-100 translate-y-0'
-                    : 'opacity-0 translate-y-8'
+                ? 'opacity-100 translate-y-0'
+                : 'opacity-0 translate-y-8'
                 }`}
             style={{ transitionDelay: `${delay}ms` }}
         >

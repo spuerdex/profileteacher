@@ -43,6 +43,13 @@ next-env.d.ts
 # user uploads
 /public/uploads
 
+# prisma seeds and logs
+prisma/seed*.js
+scripts/seed*.js
+/prisma/*.log
+/prisma/*.db-journal
+DEPLOYMENT_GUIDE.md
+
 # editor directories
 .vscode
 .idea
