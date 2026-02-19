@@ -120,35 +120,60 @@ export default function TeacherPublicationsPage() {
                 </div>
             </div>
 
-            <div className={styles.itemsList}>
-                {items.map((item) => (
-                    <div key={item.id} className={styles.itemCard}>
-                        <div className={styles.itemHeader}>
-                            <h3 className={styles.itemTitle}>{item.titleTh}</h3>
-                            <div className="flex gap-2">
-                                <button className="btn btn-ghost btn-sm" onClick={() => handleOpenEdit(item)}>✏️</button>
-                                <button className="btn btn-ghost btn-sm" onClick={() => handleDelete(item.id)}>🗑️</button>
-                            </div>
-                        </div>
-                        {item.titleEn && <p className={styles.itemSub}>{item.titleEn}</p>}
-                        <div className={styles.itemMeta}>
-                            {item.journal && <span className="badge">{item.journal}</span>}
-                            {item.year && <span className="badge badge-primary">{item.year}</span>}
-                            {item.doi && <span className="badge badge-outline">DOI: {item.doi}</span>}
-                        </div>
-                        {item.link && <a href={item.link} target="_blank" rel="noopener noreferrer" className={styles.itemLink}>🔗 ลิงก์</a>}
-                    </div>
-                ))}
-                {items.length === 0 && (
-                    <div className={styles.empty}>
-                        <p>📄</p>
-                        <p>ยังไม่มีผลงานตีพิมพ์</p>
-                        <div className="flex gap-2 justify-center mt-4">
-                            <button className="btn btn-secondary btn-sm" onClick={() => setShowBibtexModal(true)}>Import BibTeX</button>
-                            <button className="btn btn-primary btn-sm" onClick={handleOpenAdd}>เพิ่มผลงาน</button>
-                        </div>
-                    </div>
-                )}
+            <div className={styles.tableContainer}>
+                <table className={styles.table}>
+                    <thead>
+                        <tr>
+                            <th>{t('publications.pubTitle')}</th>
+                            <th>{t('publications.journal')} / {t('publications.year')}</th>
+                            <th>DOI</th>
+                            <th>{t('common.actions')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {items.length > 0 ? (
+                            items.map((item) => (
+                                <tr key={item.id}>
+                                    <td>
+                                        <div className="font-medium text-primary">{item.titleTh}</div>
+                                        {item.titleEn && <div className="text-sm text-muted">{item.titleEn}</div>}
+                                        {item.link && (
+                                            <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline mt-1 block">
+                                                🔗 {t('common.viewAll')}
+                                            </a>
+                                        )}
+                                    </td>
+                                    <td>
+                                        <div>{item.journal || '-'}</div>
+                                        {item.year && <div className="text-sm text-muted">{item.year}</div>}
+                                    </td>
+                                    <td>
+                                        {item.doi ? (
+                                            <span className="badge badge-sm badge-outline">{item.doi}</span>
+                                        ) : '-'}
+                                    </td>
+                                    <td>
+                                        <div className="flex gap-sm">
+                                            <button className="btn btn-ghost btn-sm" onClick={() => handleOpenEdit(item)}>✏️</button>
+                                            <button className="btn btn-ghost btn-sm text-error" onClick={() => handleDelete(item.id)}>🗑️</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="4" className={styles.empty}>
+                                    <p>📄</p>
+                                    <p>ยังไม่มีผลงานตีพิมพ์</p>
+                                    <div className="flex gap-2 justify-center mt-4">
+                                        <button className="btn btn-secondary btn-sm" onClick={() => setShowBibtexModal(true)}>Import BibTeX</button>
+                                        <button className="btn btn-primary btn-sm" onClick={handleOpenAdd}>เพิ่มผลงาน</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
             </div>
 
             {meta.totalPages > 1 && (
