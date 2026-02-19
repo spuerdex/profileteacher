@@ -78,6 +78,8 @@
     },
     "activities": {
         "title": "Activities",
+        "subtitle": "Manage your activity information",
+        "add": "Add Activity",
         "activityTitle": "Activity Title",
         "description": "Description",
         "date": "Date",

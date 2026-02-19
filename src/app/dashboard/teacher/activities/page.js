@@ -8,17 +8,31 @@ import styles from '../research/crud.module.css';
 export default function TeacherActivitiesPage() {
     const { data: session } = useSession();
     const { t } = useI18n();
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const LIMIT = 5;
+
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [editing, setEditing] = useState(null);
     const [toast, setToast] = useState(null);
-    const [formData, setFormData] = useState({ titleTh: '', titleEn: '', descriptionTh: '', descriptionEn: '', date: '', type: '' });
+    const [formData, setFormData] = useState({
+        titleTh: '', titleEn: '', descriptionTh: '', descriptionEn: '', date: '', type: ''
+    });
+
+    const [showEnglish, setShowEnglish] = useState(false);
 
     const fetchItems = useCallback(async () => {
         if (!session?.user?.teacherId) return;
-        try { const res = await fetch(`/api/activities?teacherId=${session.user.teacherId}`); setItems(await res.json()); } catch { } finally { setLoading(false); }
-    }, [session]);
+        setLoading(true);
+        try {
+            const res = await fetch(`/api/activities?teacherId=${session.user.teacherId}&page=${page}&limit=${LIMIT}`);
+            const data = await res.json();
+            setItems(data.data || []);
+            setTotalPages(data.meta?.totalPages || 1);
+        } catch { } finally { setLoading(false); }
+    }, [session, page]);
 
     useEffect(() => { fetchItems(); }, [fetchItems]);
 
@@ -26,13 +40,25 @@ export default function TeacherActivitiesPage() {
     const resetForm = () => { setFormData({ titleTh: '', titleEn: '', descriptionTh: '', descriptionEn: '', date: '', type: '' }); setEditing(null); };
     const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const handleOpenAdd = () => { resetForm(); setShowModal(true); };
+    const handleOpenAdd = () => {
+        resetForm();
+        setShowEnglish(false);
+        setShowModal(true);
+    };
+
     const handleOpenEdit = (item) => {
         setFormData({
-            titleTh: item.titleTh || '', titleEn: item.titleEn || '', descriptionTh: item.descriptionTh || '',
-            descriptionEn: item.descriptionEn || '', date: item.date ? item.date.split('T')[0] : '', type: item.type || '',
+            titleTh: item.titleTh || '', titleEn: item.titleEn || '',
+            descriptionTh: item.descriptionTh || '', descriptionEn: item.descriptionEn || '',
+            date: item.date ? item.date.split('T')[0] : '', type: item.type || '',
         });
-        setEditing(item); setShowModal(true);
+        setEditing(item);
+        if (item.titleEn || item.descriptionEn) {
+            setShowEnglish(true);
+        } else {
+            setShowEnglish(false);
+        }
+        setShowModal(true);
     };
 
     const handleSubmit = async (e) => {
@@ -50,7 +76,7 @@ export default function TeacherActivitiesPage() {
         try { const res = await fetch(`/api/activities/${id}`, { method: 'DELETE' }); if (res.ok) { showToast('success', 'ลบสำเร็จ!'); fetchItems(); } } catch { }
     };
 
-    if (loading) return <div className="loading-center"><div className="spinner spinner-lg"></div></div>;
+    if (loading && items.length === 0) return <div className="loading-center"><div className="spinner spinner-lg"></div></div>;
 
     return (
         <div>
@@ -64,26 +90,70 @@ export default function TeacherActivitiesPage() {
                 </div>
             </div>
 
-            <div className={styles.itemsList}>
-                {items.map((item) => (
-                    <div key={item.id} className={styles.itemCard}>
-                        <div className={styles.itemHeader}>
-                            <h3 className={styles.itemTitle}>{item.titleTh}</h3>
-                            <div className="flex gap-sm">
-                                <button className="btn btn-ghost btn-sm" onClick={() => handleOpenEdit(item)}>✏️</button>
-                                <button className="btn btn-ghost btn-sm" onClick={() => handleDelete(item.id)}>🗑️</button>
-                            </div>
-                        </div>
-                        {item.titleEn && <p className={styles.itemSub}>{item.titleEn}</p>}
-                        <div className={styles.itemMeta}>
-                            {item.date && <span className="badge badge-primary">{new Date(item.date).toLocaleDateString('th-TH')}</span>}
-                            {item.type && <span className="badge">{item.type}</span>}
-                        </div>
-                        {item.descriptionTh && <p className={styles.itemDesc}>{item.descriptionTh}</p>}
-                    </div>
-                ))}
-                {items.length === 0 && <div className={styles.empty}><p>📋</p><p>ยังไม่มีกิจกรรม</p><button className="btn btn-primary btn-sm" onClick={handleOpenAdd}>เพิ่มกิจกรรม</button></div>}
+            <div className={styles.tableContainer}>
+                <table className={styles.table}>
+                    <thead>
+                        <tr>
+                            <th>{t('activities.activityTitle')}</th>
+                            <th>{t('activities.date')}</th>
+                            <th>{t('common.status')}</th>
+                            <th>{t('common.actions')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {items.length > 0 ? (
+                            items.map((item) => (
+                                <tr key={item.id}>
+                                    <td>
+                                        <div className="font-medium">{item.titleTh}</div>
+                                        {item.titleEn && <div className="text-sm text-muted">{item.titleEn}</div>}
+                                    </td>
+                                    <td>{item.date ? new Date(item.date).toLocaleDateString('th-TH') : '-'}</td>
+                                    <td>
+                                        {item.type && <span className="badge badge-sm">{item.type}</span>}
+                                    </td>
+                                    <td>
+                                        <div className="flex gap-sm">
+                                            <button className="btn btn-ghost btn-sm" onClick={() => handleOpenEdit(item)}>✏️</button>
+                                            <button className="btn btn-ghost btn-sm text-error" onClick={() => handleDelete(item.id)}>🗑️</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="4" className="text-center py-xl text-muted">
+                                    <div className="mb-sm" style={{ fontSize: '2rem' }}>📋</div>
+                                    <p>{t('common.noData')}</p>
+                                    <button className="btn btn-primary btn-sm mt-md" onClick={handleOpenAdd}>{t('activities.add')}</button>
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
             </div>
+
+            {totalPages > 1 && (
+                <div className="flex justify-center mt-lg gap-sm">
+                    <button
+                        className="btn btn-secondary btn-sm"
+                        disabled={page === 1}
+                        onClick={() => setPage(p => Math.max(1, p - 1))}
+                    >
+                        ← {t('common.back')}
+                    </button>
+                    <span className="flex items-center px-md text-sm text-secondary">
+                        หน้าที่ {page} จาก {totalPages}
+                    </span>
+                    <button
+                        className="btn btn-secondary btn-sm"
+                        disabled={page === totalPages}
+                        onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                    >
+                        {t('common.next')} →
+                    </button>
+                </div>
+            )}
 
             {showModal && (
                 <div className="modal-overlay" onClick={() => setShowModal(false)}>
@@ -93,11 +163,40 @@ export default function TeacherActivitiesPage() {
                             <button className="modal-close" onClick={() => setShowModal(false)}>✕</button>
                         </div>
                         <form onSubmit={handleSubmit}>
-                            <div className="form-group"><label className="form-label">ชื่อกิจกรรม (TH) *</label><input className="form-input" name="titleTh" value={formData.titleTh} onChange={handleChange} required /></div>
-                            <div className="form-group"><label className="form-label">Activity Name (EN)</label><input className="form-input" name="titleEn" value={formData.titleEn} onChange={handleChange} /></div>
+                            <div className="form-group">
+                                <label className="form-label">{t('activities.activityTitle')} (TH) *</label>
+                                <input className="form-input" name="titleTh" value={formData.titleTh} onChange={handleChange} required />
+                            </div>
+
+                            <div className="form-group">
+                                <div className="flex items-center gap-sm mb-sm">
+                                    <input
+                                        type="checkbox"
+                                        id="showEnglish"
+                                        checked={showEnglish}
+                                        onChange={(e) => setShowEnglish(e.target.checked)}
+                                        style={{ width: 'auto', margin: 0 }}
+                                    />
+                                    <label htmlFor="showEnglish" style={{ cursor: 'pointer', userSelect: 'none' }}>
+                                        เพิ่มข้อมูลภาษาอังกฤษ (Add English Data)
+                                    </label>
+                                </div>
+                            </div>
+
+                            {showEnglish && (
+                                <div className="form-group fade-in">
+                                    <label className="form-label">{t('activities.activityTitle')} (EN)</label>
+                                    <input className="form-input" name="titleEn" value={formData.titleEn} onChange={handleChange} />
+                                </div>
+                            )}
+
                             <div className="grid grid-2">
-                                <div className="form-group"><label className="form-label">วันที่</label><input className="form-input" type="date" name="date" value={formData.date} onChange={handleChange} /></div>
-                                <div className="form-group"><label className="form-label">ประเภท</label>
+                                <div className="form-group">
+                                    <label className="form-label">{t('activities.date')}</label>
+                                    <input className="form-input" type="date" name="date" value={formData.date} onChange={handleChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label className="form-label">{t('common.status')}</label>
                                     <select className="form-input" name="type" value={formData.type} onChange={handleChange}>
                                         <option value="">เลือกประเภท</option>
                                         <option value="training">อบรม/สัมมนา</option>
@@ -108,8 +207,19 @@ export default function TeacherActivitiesPage() {
                                     </select>
                                 </div>
                             </div>
-                            <div className="form-group"><label className="form-label">รายละเอียด (TH)</label><textarea className="form-textarea" name="descriptionTh" value={formData.descriptionTh} onChange={handleChange} rows={3} /></div>
-                            <div className="form-group"><label className="form-label">Description (EN)</label><textarea className="form-textarea" name="descriptionEn" value={formData.descriptionEn} onChange={handleChange} rows={3} /></div>
+
+                            <div className="form-group">
+                                <label className="form-label">{t('activities.description')} (TH)</label>
+                                <textarea className="form-textarea" name="descriptionTh" value={formData.descriptionTh} onChange={handleChange} rows={3} />
+                            </div>
+
+                            {showEnglish && (
+                                <div className="form-group fade-in">
+                                    <label className="form-label">{t('activities.description')} (EN)</label>
+                                    <textarea className="form-textarea" name="descriptionEn" value={formData.descriptionEn} onChange={handleChange} rows={3} />
+                                </div>
+                            )}
+
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>{t('common.cancel')}</button>
                                 <button type="submit" className="btn btn-primary">{t('common.save')}</button>
