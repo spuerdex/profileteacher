@@ -48,7 +48,7 @@ export default function ResearchList({ initialResearch, teacherId, slug }) {
     return (
         <div>
             {/* Search Bar */}
-            <form onSubmit={handleSearch} className={styles.searchBar} style={{ marginBottom: '2rem' }}>
+            <form onSubmit={handleSearch} className={styles.searchBar} style={{ marginBottom: '2rem', display: 'flex', gap: '10px' }}>
                 <input
                     type="text"
                     placeholder="ค้นหางานวิจัย..."
@@ -56,7 +56,7 @@ export default function ResearchList({ initialResearch, teacherId, slug }) {
                     onChange={(e) => setSearch(e.target.value)}
                     className="form-control"
                     style={{
-                        width: '100%',
+                        flex: 1,
                         padding: '12px 16px',
                         borderRadius: '8px',
                         border: '1px solid var(--border-color)',
@@ -64,6 +64,21 @@ export default function ResearchList({ initialResearch, teacherId, slug }) {
                         fontSize: '1rem'
                     }}
                 />
+                <button
+                    type="submit"
+                    className={styles.downloadBtn}
+                    style={{
+                        padding: '12px 24px',
+                        fontSize: '1rem',
+                        border: 'none',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                    }}
+                >
+                    🔍 ค้นหา
+                </button>
             </form>
 
             <div className={styles.itemList}>
