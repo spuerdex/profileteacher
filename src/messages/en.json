@@ -91,6 +91,8 @@
     },
     "publications": {
         "title": "Publications",
+        "subtitle": "Manage your academic publications",
+        "add": "Add Publication",
         "pubTitle": "Publication Title",
         "journal": "Journal",
         "year": "Year",
@@ -100,6 +102,8 @@
     },
     "courses": {
         "title": "Courses",
+        "subtitle": "Manage your teaching courses",
+        "add": "Add Course",
         "courseCode": "Course Code",
         "courseName": "Course Name",
         "description": "Description",
