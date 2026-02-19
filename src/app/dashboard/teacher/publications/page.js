@@ -180,7 +180,7 @@ export default function TeacherPublicationsPage() {
             </div>
 
             {meta.totalPages > 1 && (
-                <div className="flex items-center justify-center gap-lg mt-8 pb-8">
+                <div className={styles.pagination}>
                     <button
                         className="btn btn-secondary btn-sm"
                         onClick={() => setPage(p => Math.max(1, p - 1))}

@@ -4,6 +4,7 @@
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
+    margin-bottom: var(--space-8);
 }
 
 .table {
@@ -44,4 +45,12 @@
 .empty p:first-child {
     font-size: 3rem;
     margin-bottom: var(--space-md);
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-lg);
+    margin-top: 1rem;
 }

@@ -169,7 +169,7 @@ export default function TeacherResearchPage() {
 
             {/* Pagination */}
             {totalPages > 1 && (
-                <div className="flex justify-center mt-lg gap-lg">
+                <div className={styles.pagination}>
                     <button
                         className="btn btn-secondary btn-sm"
                         disabled={page === 1}
