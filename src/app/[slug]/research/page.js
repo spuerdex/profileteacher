@@ -1,44 +1,35 @@
 import prisma from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import styles from '../profile.module.css';
+import ResearchList from './ResearchList';
 
 export default async function ResearchPage({ params }) {
     const { slug } = await params;
+
+    // Fetch teacher first
     const teacher = await prisma.teacher.findUnique({
         where: { slug },
-        include: { research: { orderBy: { year: 'desc' } } },
+        select: { id: true }
     });
+
     if (!teacher) notFound();
+
+    // Fetch initial research (page 1, limit 10)
+    const initialResearch = await prisma.research.findMany({
+        where: { teacherId: teacher.id },
+        orderBy: { year: 'desc' },
+        take: 10,
+    });
 
     return (
         <div className={styles.content}>
             <h1 className={styles.pageTitle}>🔬 งานวิจัย / Research</h1>
 
-            {teacher.research.length > 0 ? (
-                <div className={styles.itemList}>
-                    {teacher.research.map((item) => (
-                        <div key={item.id} className={styles.itemCard}>
-                            <h4>{item.titleTh}</h4>
-                            {item.titleEn && <p className={styles.itemSubtitle}>{item.titleEn}</p>}
-                            <div className={styles.itemMeta}>
-                                {item.year && <span className="badge badge-primary">{item.year}</span>}
-                                {item.type && <span className="badge">{item.type}</span>}
-                            </div>
-                            {item.abstractTh && <p className={styles.itemDesc}>{item.abstractTh}</p>}
-                            {item.abstractEn && <p className={`${styles.itemDesc} ${styles.bioEn}`}>{item.abstractEn}</p>}
-                            {item.link && (
-                                <a href={item.link} target="_blank" rel="noopener noreferrer" className={styles.itemLink}>
-                                    🔗 ดูเพิ่มเติม
-                                </a>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                <div className={styles.emptySection}>
-                    <p>ยังไม่มีข้อมูลงานวิจัย</p>
-                </div>
-            )}
+            <ResearchList
+                initialResearch={initialResearch}
+                teacherId={teacher.id}
+                slug={slug}
+            />
         </div>
     );
 }

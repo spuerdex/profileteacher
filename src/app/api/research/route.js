@@ -3,20 +3,57 @@ import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
-// GET /api/research?teacherId=X
+// GET /api/research?teacherId=X&page=1&limit=10&search=keyword
 export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const teacherId = searchParams.get('teacherId');
+    const page = parseInt(searchParams.get('page')) || 1;
+    const limit = parseInt(searchParams.get('limit')) || 10;
+    const search = searchParams.get('search') || '';
+
+    // Allow explicit skip, otherwise calculate from page
+    let skip = parseInt(searchParams.get('skip'));
+    if (isNaN(skip)) {
+        skip = (page - 1) * limit;
+    }
 
     try {
-        const where = teacherId ? { teacherId: parseInt(teacherId) } : {};
-        const research = await prisma.research.findMany({
-            where,
-            orderBy: { year: 'desc' },
+        const where = {};
+
+        if (teacherId) {
+            where.teacherId = parseInt(teacherId);
+        }
+
+        if (search) {
+            where.OR = [
+                { titleTh: { contains: search } },
+                { titleEn: { contains: search } },
+                { abstractTh: { contains: search } },
+                { abstractEn: { contains: search } },
+            ];
+        }
+
+        const [research, total] = await Promise.all([
+            prisma.research.findMany({
+                where,
+                orderBy: { year: 'desc' },
+                skip,
+                take: limit,
+            }),
+            prisma.research.count({ where }),
+        ]);
+
+        return NextResponse.json({
+            data: research,
+            meta: {
+                total,
+                page,
+                limit,
+                totalPages: Math.ceil(total / limit),
+            }
         });
-        return NextResponse.json(research);
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 });
+        return NextResponse.json({ error: 'Failed to fetch research' }, { status: 500 });
     }
 }
 
