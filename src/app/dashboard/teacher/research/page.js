@@ -96,23 +96,25 @@ export default function TeacherResearchPage() {
     return (
         <div>
             <div className="page-header">
-                <div>
-                    <h1 className="page-title">🔬 {t('research.title')}</h1>
-                    <p className="page-subtitle">{t('research.subtitle')}</p>
-                </div>
-                <div className="flex gap-sm">
-                    <form onSubmit={handleSearch} className="flex gap-sm">
-                        <input
-                            type="text"
-                            placeholder={t('common.search') + "..."}
-                            className="form-input"
-                            style={{ width: '200px' }}
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                        />
-                        <button type="submit" className="btn btn-secondary">🔍</button>
-                    </form>
-                    <button className="btn btn-primary" onClick={handleOpenAdd}>➕ {t('research.add')}</button>
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="page-title">🔬 {t('research.title')}</h1>
+                        <p className="page-subtitle">{t('research.subtitle')}</p>
+                    </div>
+                    <div className="flex gap-sm">
+                        <form onSubmit={handleSearch} className="flex gap-sm">
+                            <input
+                                type="text"
+                                placeholder={t('common.search') + "..."}
+                                className="form-input"
+                                style={{ width: '200px' }}
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                            <button type="submit" className="btn btn-secondary">🔍</button>
+                        </form>
+                        <button className="btn btn-primary" onClick={handleOpenAdd}>➕ {t('research.add')}</button>
+                    </div>
                 </div>
             </div>
 
