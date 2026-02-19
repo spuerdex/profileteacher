@@ -45,6 +45,7 @@ const navItems = [
     { key: 'courses', label: '📚 วิชาที่สอน', labelEn: 'Courses', href: '/courses' },
     { key: 'articles', label: '📰 บทความ', labelEn: 'Articles', href: '/articles' },
     { key: 'downloads', label: '📁 ดาวน์โหลด', labelEn: 'Downloads', href: '/downloads' },
+    { key: 'education', label: '🎓 การศึกษา', labelEn: 'Education', href: '/education' },
     { key: 'contact', label: '📞 ติดต่อ', labelEn: 'Contact', href: '/contact' },
 ];
 

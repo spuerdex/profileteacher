@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { useI18n } from '@/lib/i18n';
-import styles from '../research/crud.module.css'; // Reusing existing styles
+import timelineStyles from './EducationTimeline.module.css';
 
 export default function TeacherEducationPage() {
     const { data: session } = useSession();
@@ -77,43 +77,48 @@ export default function TeacherEducationPage() {
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="page-title">🎓 {t('education.title')}</h1>
-                        <p className="page-subtitle">จัดการข้อมูลประวัติการศึกษา</p>
+                        <p className="page-subtitle">{t('education.subtitle')}</p>
                     </div>
                     <button className="btn btn-primary" onClick={handleOpenAdd}>➕ {t('education.addNew')}</button>
                 </div>
             </div>
 
-            <div className={styles.itemsList}>
-                {items.map((item) => (
-                    <div key={item.id} className={styles.itemCard}>
-                        <div className={styles.itemHeader}>
-                            <h3 className={styles.itemTitle}>{item.degree}</h3>
-                            <div className="flex gap-sm">
-                                <button className="btn btn-ghost btn-sm" onClick={() => handleOpenEdit(item)}>✏️</button>
-                                <button className="btn btn-ghost btn-sm" onClick={() => handleDelete(item.id)}>🗑️</button>
+            <div className={timelineStyles.timelineContainer}>
+                <div className={timelineStyles.timeline}>
+                    {items.sort((a, b) => b.year - a.year).map((item) => (
+                        <div key={item.id} className={timelineStyles.timelineItem}>
+                            <div className={timelineStyles.timelineDot}></div>
+                            <div className={timelineStyles.timelineContent}>
+                                <div className={timelineStyles.timelineHeader}>
+                                    <h3 className={timelineStyles.timelineDegree}>{item.degree}</h3>
+                                    <div className={timelineStyles.timelineActions}>
+                                        <button className="btn btn-ghost btn-sm" onClick={() => handleOpenEdit(item)}>✏️</button>
+                                        <button className="btn btn-ghost btn-sm" onClick={() => handleDelete(item.id)}>🗑️</button>
+                                    </div>
+                                </div>
+                                {item.field && <p className={timelineStyles.timelineField}>{item.field}</p>}
+                                <div className={timelineStyles.timelineMeta}>
+                                    <span className={timelineStyles.timelineYear}>{item.year}</span>
+                                    {item.institution && <span className={timelineStyles.timelineInstitution}>{item.institution}</span>}
+                                </div>
                             </div>
                         </div>
-                        {item.field && <p className={styles.itemSub}>{item.field}</p>}
-                        <div className={styles.itemMeta}>
-                            <span className="badge badge-primary">{item.year}</span>
-                            {item.institution && <span className="badge">{item.institution}</span>}
+                    ))}
+                    {items.length === 0 && (
+                        <div className={timelineStyles.emptyTimeline}>
+                            <p>🎓</p>
+                            <p>{t('common.noData')}</p>
+                            <button className="btn btn-primary btn-sm" onClick={handleOpenAdd}>{t('education.addNew')}</button>
                         </div>
-                    </div>
-                ))}
-                {items.length === 0 && (
-                    <div className={styles.empty}>
-                        <p>🎓</p>
-                        <p>ยังไม่มีข้อมูลการศึกษา</p>
-                        <button className="btn btn-primary btn-sm" onClick={handleOpenAdd}>{t('education.addNew')}</button>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
 
             {showModal && (
                 <div className="modal-overlay" onClick={() => setShowModal(false)}>
                     <div className="modal" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3 className="modal-title">{editing ? '✏️ แก้ไขข้อมูล' : '➕ เพิ่มข้อมูล'}</h3>
+                            <h3 className="modal-title">{editing ? '✏️ ' + t('common.edit') : '➕ ' + t('education.addNew')}</h3>
                             <button className="modal-close" onClick={() => setShowModal(false)}>✕</button>
                         </div>
                         <form onSubmit={handleSubmit}>
