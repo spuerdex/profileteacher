@@ -120,16 +120,16 @@ export default function TeacherArticlesPage() {
     return (
         <div>
             <div className="page-header">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm-flex-row items-start sm-items-center justify-between gap-md">
                     <div>
                         <h1 className="page-title">📰 {t('articles.title')}</h1>
                         <p className="page-subtitle">{t('articles.subtitle')}</p>
                     </div>
-                    <button className="btn btn-primary" onClick={handleOpenAdd}>➕ {t('articles.addNew')}</button>
+                    <button className="btn btn-primary xs-w-full sm-w-auto" onClick={handleOpenAdd}>➕ {t('articles.addNew')}</button>
                 </div>
             </div>
 
-            <div className="card-content" style={{ overflowX: 'auto' }}>
+            <div className="table-responsive">
                 <table className="table" style={{ width: '100%', borderCollapse: 'collapse', minWidth: '800px' }}>
                     <thead>
                         <tr style={{ borderBottom: '1px solid var(--border-color)', textAlign: 'left' }}>

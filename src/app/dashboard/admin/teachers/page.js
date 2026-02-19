@@ -163,18 +163,18 @@ export default function AdminTeachersPage() {
     return (
         <div>
             <div className="page-header">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm-flex-row items-start sm-items-center justify-between gap-md">
                     <div>
                         <h1 className="page-title">{t('nav.teachers')}</h1>
                         <p className="page-subtitle">จัดการข้อมูลอาจารย์ทั้งหมดในระบบ</p>
                     </div>
-                    <button className="btn btn-primary" onClick={handleOpenAdd}>
+                    <button className="btn btn-primary xs-w-full sm-w-auto" onClick={handleOpenAdd}>
                         ➕ เพิ่มอาจารย์
                     </button>
                 </div>
             </div>
 
-            <div className="table-container">
+            <div className="table-responsive">
                 <table className="table">
                     <thead>
                         <tr>

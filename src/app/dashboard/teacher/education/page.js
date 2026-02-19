@@ -74,12 +74,12 @@ export default function TeacherEducationPage() {
     return (
         <div>
             <div className="page-header">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm-flex-row items-start sm-items-center justify-between gap-md">
                     <div>
                         <h1 className="page-title">🎓 {t('education.title')}</h1>
                         <p className="page-subtitle">{t('education.subtitle')}</p>
                     </div>
-                    <button className="btn btn-primary" onClick={handleOpenAdd}>➕ {t('education.addNew')}</button>
+                    <button className="btn btn-primary xs-w-full sm-w-auto" onClick={handleOpenAdd}>➕ {t('education.addNew')}</button>
                 </div>
             </div>
 

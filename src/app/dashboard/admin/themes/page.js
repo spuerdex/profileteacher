@@ -67,14 +67,16 @@ export default function AdminThemesPage() {
 
     return (
         <div>
-            <div className={styles.header}>
-                <div>
-                    <h1 className={styles.title}>🎨 จัดการธีม</h1>
-                    <p className={styles.subtitle}>จัดการชุดธีมสำหรับโปรไฟล์อาจารย์</p>
+            <div className="page-header">
+                <div className="flex flex-col sm-flex-row items-start sm-items-center justify-between gap-md">
+                    <div>
+                        <h1 className="page-title">🎨 จัดการธีม</h1>
+                        <p className="page-subtitle">จัดการชุดธีมสำหรับโปรไฟล์อาจารย์</p>
+                    </div>
+                    <button className="btn btn-primary xs-w-full sm-w-auto" onClick={() => { resetForm(); setShowForm(true); }}>
+                        ➕ เพิ่มธีมใหม่
+                    </button>
                 </div>
-                <button className={styles.addBtn} onClick={() => { resetForm(); setShowForm(true); }}>
-                    ➕ เพิ่มธีมใหม่
-                </button>
             </div>
 
             {showForm && (

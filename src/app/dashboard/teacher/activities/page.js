@@ -89,30 +89,30 @@ export default function TeacherActivitiesPage() {
     return (
         <div>
             <div className="page-header">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm-flex-row items-start sm-items-center justify-between gap-md">
                     <div>
                         <h1 className="page-title">📋 {t('activities.title')}</h1>
                         <p className="page-subtitle">{t('activities.subtitle')}</p>
                     </div>
-                    <div className="flex gap-sm">
-                        <form onSubmit={handleSearch} className="flex gap-sm">
+                    <div className="flex flex-col sm-flex-row gap-sm xs-w-full sm-w-auto">
+                        <form onSubmit={handleSearch} className="flex xs-gap-xs gap-sm xs-w-full sm-w-auto">
                             <input
                                 type="text"
                                 placeholder={t('common.search') + "..."}
                                 className="form-input"
-                                style={{ width: '200px' }}
+                                style={{ flex: 1, minWidth: '0' }}
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                             />
                             <button type="submit" className="btn btn-secondary">🔍</button>
                         </form>
-                        <button className="btn btn-primary" onClick={handleOpenAdd}>➕ {t('activities.add')}</button>
+                        <button className="btn btn-primary xs-w-full sm-w-auto" onClick={handleOpenAdd}>➕ {t('activities.add')}</button>
                     </div>
                 </div>
             </div>
 
-            <div className={styles.tableContainer}>
-                <table className={styles.table}>
+            <div className="table-responsive">
+                <table className="table">
                     <thead>
                         <tr>
                             <th>{t('activities.activityTitle')}</th>

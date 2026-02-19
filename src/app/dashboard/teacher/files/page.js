@@ -92,8 +92,14 @@ export default function TeacherFilesPage() {
 
     return (
         <div>
-            <h1 className={styles.title}>📁 จัดการไฟล์ดาวน์โหลด</h1>
-            <p className={styles.subtitle}>อัปโหลดไฟล์เอกสารเพื่อให้ผู้เข้าชมดาวน์โหลดได้</p>
+            <div className="page-header">
+                <div className="flex flex-col sm-flex-row items-start sm-items-center justify-between gap-md">
+                    <div>
+                        <h1 className="page-title">📁 จัดการไฟล์ดาวน์โหลด</h1>
+                        <p className="page-subtitle">อัปโหลดไฟล์เอกสารเพื่อให้ผู้เข้าชมดาวน์โหลดได้</p>
+                    </div>
+                </div>
+            </div>
 
             {/* Upload Section */}
             <div className={styles.uploadCard}>

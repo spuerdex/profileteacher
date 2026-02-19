@@ -34,10 +34,16 @@ export default function AdminLogsPage() {
 
     return (
         <div>
-            <h1 className={styles.title}>📊 Activity Logs</h1>
-            <p className={styles.subtitle}>ดูกิจกรรมล่าสุดของอาจารย์ในระบบ ({total} รายการ)</p>
+            <div className="page-header">
+                <div className="flex flex-col sm-flex-row items-start sm-items-center justify-between gap-md">
+                    <div>
+                        <h1 className="page-title">📊 Activity Logs</h1>
+                        <p className="page-subtitle">ดูกิจกรรมล่าสุดของอาจารย์ในระบบ ({total} รายการ)</p>
+                    </div>
+                </div>
+            </div>
 
-            <div className={styles.tableWrap}>
+            <div className="table-responsive">
                 <table className={styles.table}>
                     <thead>
                         <tr>

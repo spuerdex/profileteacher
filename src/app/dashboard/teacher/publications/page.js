@@ -98,30 +98,33 @@ export default function TeacherPublicationsPage() {
     return (
         <div>
             <div className="page-header">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm-flex-row items-start sm-items-center justify-between gap-md">
                     <div>
                         <h1 className="page-title">📄 {t('publications.title')}</h1>
                         <p className="page-subtitle">{t('publications.subtitle')}</p>
                     </div>
-                    <div className="flex gap-sm">
-                        <form onSubmit={handleSearch} className="flex gap-xs">
+                    <div className="flex flex-col sm-flex-row gap-sm xs-w-full sm-w-auto">
+                        <form onSubmit={handleSearch} className="flex xs-gap-xs gap-sm xs-w-full sm-w-auto">
                             <input
                                 type="text"
                                 className="form-input form-input-sm"
+                                style={{ flex: 1, minWidth: '0' }}
                                 placeholder={t('common.search')}
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                             />
                             <button type="submit" className="btn btn-secondary btn-sm">🔍</button>
                         </form>
-                        <button className="btn btn-secondary" onClick={() => setShowBibtexModal(true)}>📥 Import BibTeX</button>
-                        <button className="btn btn-primary" onClick={handleOpenAdd}>➕ {t('publications.add')}</button>
+                        <div className="flex gap-sm xs-w-full sm-w-auto">
+                            <button className="btn btn-secondary flex-1 sm-w-auto" onClick={() => setShowBibtexModal(true)}>📥 Import BibTeX</button>
+                            <button className="btn btn-primary flex-1 sm-w-auto" onClick={handleOpenAdd}>➕ {t('publications.add')}</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div className={styles.tableContainer}>
-                <table className={styles.table}>
+            <div className="table-responsive">
+                <table className="table">
                     <thead>
                         <tr>
                             <th>{t('publications.pubTitle')}</th>

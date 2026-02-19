@@ -66,14 +66,14 @@ export default function AdminDashboard() {
                     <div className="card-header">
                         <h3 className="card-title">จัดการด่วน</h3>
                     </div>
-                    <div className="flex gap-md" style={{ flexWrap: 'wrap' }}>
-                        <Link href="/dashboard/admin/teachers" className="btn btn-primary">
+                    <div className="flex flex-col sm-flex-row gap-md">
+                        <Link href="/dashboard/admin/teachers" className="btn btn-primary xs-w-full sm-w-auto">
                             👨‍🏫 {t('nav.teachers')}
                         </Link>
-                        <Link href="/dashboard/admin/themes" className="btn btn-secondary">
+                        <Link href="/dashboard/admin/themes" className="btn btn-secondary xs-w-full sm-w-auto">
                             🎨 {t('nav.themes')}
                         </Link>
-                        <Link href="/dashboard/admin/settings" className="btn btn-secondary">
+                        <Link href="/dashboard/admin/settings" className="btn btn-secondary xs-w-full sm-w-auto">
                             ⚙️ {t('nav.systemSettings')}
                         </Link>
                     </div>

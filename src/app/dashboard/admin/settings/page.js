@@ -69,8 +69,14 @@ export default function AdminSettingsPage() {
 
     return (
         <div>
-            <h1 className={styles.title}>⚙️ ตั้งค่าระบบ</h1>
-            <p className={styles.subtitle}>จัดการข้อมูลสถาบันและการตั้งค่าทั่วไป</p>
+            <div className="page-header">
+                <div className="flex flex-col sm-flex-row items-start sm-items-center justify-between gap-md">
+                    <div>
+                        <h1 className="page-title">⚙️ ตั้งค่าระบบ</h1>
+                        <p className="page-subtitle">จัดการข้อมูลสถาบันและการตั้งค่าทั่วไป</p>
+                    </div>
+                </div>
+            </div>
 
             <form onSubmit={handleSubmit} className={styles.form}>
                 <section className={styles.section}>

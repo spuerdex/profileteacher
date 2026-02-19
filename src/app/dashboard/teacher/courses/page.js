@@ -69,28 +69,28 @@ export default function TeacherCoursesPage() {
     return (
         <div>
             <div className="page-header">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm-flex-row items-start sm-items-center justify-between gap-md">
                     <div>
                         <h1 className="page-title">📚 {t('courses.title')}</h1>
                         <p className="page-subtitle">{t('courses.subtitle')}</p>
                     </div>
-                    <div className="flex items-center gap-sm">
-                        <form onSubmit={handleSearch} className="flex gap-2">
+                    <div className="flex flex-col sm-flex-row gap-sm xs-w-full sm-w-auto">
+                        <form onSubmit={handleSearch} className="flex xs-gap-xs gap-sm xs-w-full sm-w-auto">
                             <input
                                 className="form-input"
                                 placeholder="ค้นหารหัสวิชา, ชื่อวิชา..."
-                                style={{ width: '240px' }}
+                                style={{ flex: 1, minWidth: '0' }}
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                             />
                             <button type="submit" className="btn btn-secondary">🔍</button>
                         </form>
-                        <button className="btn btn-primary" onClick={handleOpenAdd}>➕ {t('courses.add')}</button>
+                        <button className="btn btn-primary xs-w-full sm-w-auto" onClick={handleOpenAdd}>➕ {t('courses.add')}</button>
                     </div>
                 </div>
             </div>
 
-            <div className={styles.tableContainer}>
+            <div className="table-responsive">
                 <table className={styles.table}>
                     <thead>
                         <tr>
@@ -135,60 +135,64 @@ export default function TeacherCoursesPage() {
                 </table>
             </div>
 
-            {meta.totalPages > 1 && (
-                <div className={styles.pagination}>
-                    <button
-                        className="btn btn-secondary btn-sm"
-                        disabled={page === 1}
-                        onClick={() => setPage(p => Math.max(1, p - 1))}
-                    >
-                        ← {t('common.back')}
-                    </button>
-                    <span className="flex items-center px-md text-sm text-secondary">
-                        {t('common.page')} {page} {t('common.of')} {meta.totalPages}
-                    </span>
-                    <button
-                        className="btn btn-secondary btn-sm"
-                        disabled={page === meta.totalPages}
-                        onClick={() => setPage(p => Math.min(meta.totalPages, p + 1))}
-                    >
-                        {t('common.next')} →
-                    </button>
-                </div>
-            )}
-
-            {showModal && (
-                <div className="modal-overlay">
-                    <div className="modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <h3 className="modal-title">{editing ? '✏️ แก้ไขรายวิชา' : '➕ เพิ่มรายวิชา'}</h3>
-                            <button className="modal-close" onClick={() => setShowModal(false)}>✕</button>
-                        </div>
-                        <form onSubmit={handleSubmit}>
-                            <div className="grid grid-2">
-                                <div className="form-group">
-                                    <label className="form-label">รหัสวิชา</label>
-                                    <input className="form-input" name="codeNumber" value={formData.codeNumber} onChange={handleChange} placeholder="CS101" />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label">ภาคเรียน</label>
-                                    <input className="form-input" name="semester" value={formData.semester} onChange={handleChange} placeholder="1/2568" />
-                                </div>
-                            </div>
-                            <div className="form-group"><label className="form-label">ชื่อวิชา (TH) *</label><input className="form-input" name="nameTh" value={formData.nameTh} onChange={handleChange} required /></div>
-                            <div className="form-group"><label className="form-label">Course Name (EN)</label><input className="form-input" name="nameEn" value={formData.nameEn} onChange={handleChange} /></div>
-                            <div className="form-group">
-                                <label className="form-label">คำอธิบายรายวิชา (TH)</label>
-                                <textarea className="form-textarea" name="descriptionTh" value={formData.descriptionTh} onChange={handleChange} rows={3}></textarea>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>{t('common.cancel')}</button>
-                                <button type="submit" className="btn btn-primary">{t('common.save')}</button>
-                            </div>
-                        </form>
+            {
+                meta.totalPages > 1 && (
+                    <div className={styles.pagination}>
+                        <button
+                            className="btn btn-secondary btn-sm"
+                            disabled={page === 1}
+                            onClick={() => setPage(p => Math.max(1, p - 1))}
+                        >
+                            ← {t('common.back')}
+                        </button>
+                        <span className="flex items-center px-md text-sm text-secondary">
+                            {t('common.page')} {page} {t('common.of')} {meta.totalPages}
+                        </span>
+                        <button
+                            className="btn btn-secondary btn-sm"
+                            disabled={page === meta.totalPages}
+                            onClick={() => setPage(p => Math.min(meta.totalPages, p + 1))}
+                        >
+                            {t('common.next')} →
+                        </button>
                     </div>
-                </div>
-            )}
+                )
+            }
+
+            {
+                showModal && (
+                    <div className="modal-overlay">
+                        <div className="modal" onClick={(e) => e.stopPropagation()}>
+                            <div className="modal-header">
+                                <h3 className="modal-title">{editing ? '✏️ แก้ไขรายวิชา' : '➕ เพิ่มรายวิชา'}</h3>
+                                <button className="modal-close" onClick={() => setShowModal(false)}>✕</button>
+                            </div>
+                            <form onSubmit={handleSubmit}>
+                                <div className="grid grid-2">
+                                    <div className="form-group">
+                                        <label className="form-label">รหัสวิชา</label>
+                                        <input className="form-input" name="codeNumber" value={formData.codeNumber} onChange={handleChange} placeholder="CS101" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">ภาคเรียน</label>
+                                        <input className="form-input" name="semester" value={formData.semester} onChange={handleChange} placeholder="1/2568" />
+                                    </div>
+                                </div>
+                                <div className="form-group"><label className="form-label">ชื่อวิชา (TH) *</label><input className="form-input" name="nameTh" value={formData.nameTh} onChange={handleChange} required /></div>
+                                <div className="form-group"><label className="form-label">Course Name (EN)</label><input className="form-input" name="nameEn" value={formData.nameEn} onChange={handleChange} /></div>
+                                <div className="form-group">
+                                    <label className="form-label">คำอธิบายรายวิชา (TH)</label>
+                                    <textarea className="form-textarea" name="descriptionTh" value={formData.descriptionTh} onChange={handleChange} rows={3}></textarea>
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>{t('common.cancel')}</button>
+                                    <button type="submit" className="btn btn-primary">{t('common.save')}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                )
+            }
             {toast && <div className={`toast toast-${toast.type}`}>{toast.type === 'success' ? '✅' : '❌'} {toast.message}</div>}
         </div>
     );
