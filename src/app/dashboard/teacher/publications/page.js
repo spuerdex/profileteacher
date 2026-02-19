@@ -127,6 +127,7 @@ export default function TeacherPublicationsPage() {
                             <th>{t('publications.pubTitle')}</th>
                             <th>{t('publications.journal')} / {t('publications.year')}</th>
                             <th>DOI</th>
+                            <th>{t('publications.link')}</th>
                             <th>{t('common.actions')}</th>
                         </tr>
                     </thead>
@@ -137,11 +138,6 @@ export default function TeacherPublicationsPage() {
                                     <td>
                                         <div className="font-medium text-primary">{item.titleTh}</div>
                                         {item.titleEn && <div className="text-sm text-muted">{item.titleEn}</div>}
-                                        {item.link && (
-                                            <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline mt-1 block">
-                                                🔗 {t('common.viewAll')}
-                                            </a>
-                                        )}
                                     </td>
                                     <td>
                                         <div>{item.journal || '-'}</div>
@@ -150,6 +146,13 @@ export default function TeacherPublicationsPage() {
                                     <td>
                                         {item.doi ? (
                                             <span className="badge badge-sm badge-outline">{item.doi}</span>
+                                        ) : '-'}
+                                    </td>
+                                    <td>
+                                        {item.link ? (
+                                            <a href={item.link} target="_blank" rel="noopener noreferrer" className="btn btn-ghost btn-sm text-primary">
+                                                🔗 {t('common.viewAll')}
+                                            </a>
                                         ) : '-'}
                                     </td>
                                     <td>
@@ -162,7 +165,7 @@ export default function TeacherPublicationsPage() {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="4" className={styles.empty}>
+                                <td colSpan="5" className={styles.empty}>
                                     <p>📄</p>
                                     <p>ยังไม่มีผลงานตีพิมพ์</p>
                                     <div className="flex gap-2 justify-center mt-4">
