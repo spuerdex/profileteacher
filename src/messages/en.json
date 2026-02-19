@@ -110,6 +110,17 @@
         "semester": "Semester",
         "addNew": "Add New Course"
     },
+    "articles": {
+        "title": "Articles",
+        "subtitle": "Write and manage your articles",
+        "add": "Add Article",
+        "postTitle": "Post Title",
+        "content": "Content",
+        "coverImage": "Cover Image",
+        "published": "Published",
+        "addNew": "Create New Article",
+        "readMore": "Read More"
+    },
     "theme": {
         "title": "Choose Theme Color",
         "subtitle": "Select a color theme for your profile page",

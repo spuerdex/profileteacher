@@ -123,7 +123,7 @@ export default function TeacherArticlesPage() {
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="page-title">📰 {t('articles.title')}</h1>
-                        <p className="page-subtitle">เขียนและจัดการบทความของคุณ</p>
+                        <p className="page-subtitle">{t('articles.subtitle')}</p>
                     </div>
                     <button className="btn btn-primary" onClick={handleOpenAdd}>➕ {t('articles.addNew')}</button>
                 </div>
