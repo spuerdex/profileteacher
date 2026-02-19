@@ -16,6 +16,7 @@ export default async function ProfileHomePage({ params }) {
             publications: { orderBy: { year: 'desc' }, take: 3 },
             courses: { take: 4 },
             education: { orderBy: { year: 'desc' } },
+            articles: { orderBy: { createdAt: 'desc' }, take: 4 },
         },
     });
 
@@ -74,22 +75,69 @@ export default async function ProfileHomePage({ params }) {
 
             <div className={styles.content}>
                 {/* Bio */}
-                {teacher.bioTh && (
-                    <section className={styles.section}>
+                {/* Bio */}
+                <section className={styles.section}>
+                    <h2 className={styles.sectionTitle}>
+                        <span className={styles.sectionIcon}>👤</span> เกี่ยวกับ
+                    </h2>
+                    {teacher.bioTh ? (
+                        <>
+                            <p className={styles.bio}>{teacher.bioTh}</p>
+                            {teacher.bioEn && <p className={`${styles.bio} ${styles.bioEn}`}>{teacher.bioEn}</p>}
+                        </>
+                    ) : (
+                        <div className={styles.emptySection}>ไม่พบข้อมูลเกี่ยวกับอาจารย์</div>
+                    )}
+                </section>
+
+                {/* Articles */}
+                <section className={styles.section}>
+                    <div className={styles.sectionHeader}>
                         <h2 className={styles.sectionTitle}>
-                            <span className={styles.sectionIcon}>👤</span> เกี่ยวกับ
+                            <span className={styles.sectionIcon}>📰</span> บทความ
                         </h2>
-                        <p className={styles.bio}>{teacher.bioTh}</p>
-                        {teacher.bioEn && <p className={`${styles.bio} ${styles.bioEn}`}>{teacher.bioEn}</p>}
-                    </section>
-                )}
+                        {teacher.articles.length > 0 && (
+                            <Link href={`/${slug}/articles`} className={styles.viewAll}>
+                                ดูทั้งหมด →
+                            </Link>
+                        )}
+                    </div>
+                    {teacher.articles.length > 0 ? (
+                        <div className={styles.courseGrid}>
+                            {teacher.articles.map((article) => (
+                                <Link href={`/${slug}/articles/${article.id}`} key={article.id} className={styles.articleCard}>
+                                    {article.coverImage && (
+                                        <div className={styles.articleImageWrapper}>
+                                            <Image
+                                                src={article.coverImage}
+                                                alt={article.title}
+                                                fill
+                                                className={styles.articleImage}
+                                                sizes="(max-width: 768px) 100vw, 300px"
+                                            />
+                                        </div>
+                                    )}
+                                    <div className={styles.articleContent}>
+                                        <h4>{article.title}</h4>
+                                        <span className={styles.articleDate}>
+                                            {new Date(article.createdAt).toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' })}
+                                        </span>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className={styles.emptySection}>ไม่พบข้อมูลบทความ</div>
+                    )}
+                </section>
 
                 {/* Education */}
-                {teacher.education.length > 0 && (
-                    <section className={styles.section}>
-                        <h2 className={styles.sectionTitle}>
-                            <span className={styles.sectionIcon}>🎓</span> การศึกษา
-                        </h2>
+                {/* Education */}
+                <section className={styles.section}>
+                    <h2 className={styles.sectionTitle}>
+                        <span className={styles.sectionIcon}>🎓</span> การศึกษา
+                    </h2>
+                    {teacher.education.length > 0 ? (
                         <div className={styles.timeline}>
                             {teacher.education.map((edu) => (
                                 <div key={edu.id} className={styles.timelineItem}>
@@ -102,20 +150,25 @@ export default async function ProfileHomePage({ params }) {
                                 </div>
                             ))}
                         </div>
-                    </section>
-                )}
+                    ) : (
+                        <div className={styles.emptySection}>ไม่พบข้อมูลการศึกษา</div>
+                    )}
+                </section>
 
                 {/* Research Preview */}
-                {teacher.research.length > 0 && (
-                    <section className={styles.section}>
-                        <div className={styles.sectionHeader}>
-                            <h2 className={styles.sectionTitle}>
-                                <span className={styles.sectionIcon}>🔬</span> งานวิจัย
-                            </h2>
+                {/* Research Preview */}
+                <section className={styles.section}>
+                    <div className={styles.sectionHeader}>
+                        <h2 className={styles.sectionTitle}>
+                            <span className={styles.sectionIcon}>🔬</span> งานวิจัย
+                        </h2>
+                        {teacher.research.length > 0 && (
                             <Link href={`/${slug}/research`} className={styles.viewAll}>
                                 ดูทั้งหมด →
                             </Link>
-                        </div>
+                        )}
+                    </div>
+                    {teacher.research.length > 0 ? (
                         <div className={styles.itemList}>
                             {teacher.research.map((item) => (
                                 <div key={item.id} className={styles.itemCard}>
@@ -128,20 +181,25 @@ export default async function ProfileHomePage({ params }) {
                                 </div>
                             ))}
                         </div>
-                    </section>
-                )}
+                    ) : (
+                        <div className={styles.emptySection}>ไม่พบข้อมูลงานวิจัย</div>
+                    )}
+                </section>
 
                 {/* Activities Preview */}
-                {teacher.activities.length > 0 && (
-                    <section className={styles.section}>
-                        <div className={styles.sectionHeader}>
-                            <h2 className={styles.sectionTitle}>
-                                <span className={styles.sectionIcon}>📋</span> กิจกรรม
-                            </h2>
+                {/* Activities Preview */}
+                <section className={styles.section}>
+                    <div className={styles.sectionHeader}>
+                        <h2 className={styles.sectionTitle}>
+                            <span className={styles.sectionIcon}>📋</span> กิจกรรม
+                        </h2>
+                        {teacher.activities.length > 0 && (
                             <Link href={`/${slug}/activities`} className={styles.viewAll}>
                                 ดูทั้งหมด →
                             </Link>
-                        </div>
+                        )}
+                    </div>
+                    {teacher.activities.length > 0 ? (
                         <div className={styles.itemList}>
                             {teacher.activities.map((item) => (
                                 <div key={item.id} className={styles.itemCard}>
@@ -154,20 +212,25 @@ export default async function ProfileHomePage({ params }) {
                                 </div>
                             ))}
                         </div>
-                    </section>
-                )}
+                    ) : (
+                        <div className={styles.emptySection}>ไม่พบข้อมูลกิจกรรม</div>
+                    )}
+                </section>
 
                 {/* Courses Preview */}
-                {teacher.courses.length > 0 && (
-                    <section className={styles.section}>
-                        <div className={styles.sectionHeader}>
-                            <h2 className={styles.sectionTitle}>
-                                <span className={styles.sectionIcon}>📚</span> วิชาที่สอน
-                            </h2>
+                {/* Courses Preview */}
+                <section className={styles.section}>
+                    <div className={styles.sectionHeader}>
+                        <h2 className={styles.sectionTitle}>
+                            <span className={styles.sectionIcon}>📚</span> วิชาที่สอน
+                        </h2>
+                        {teacher.courses.length > 0 && (
                             <Link href={`/${slug}/courses`} className={styles.viewAll}>
                                 ดูทั้งหมด →
                             </Link>
-                        </div>
+                        )}
+                    </div>
+                    {teacher.courses.length > 0 ? (
                         <div className={styles.courseGrid}>
                             {teacher.courses.map((course) => (
                                 <div key={course.id} className={styles.courseCard}>
@@ -177,20 +240,25 @@ export default async function ProfileHomePage({ params }) {
                                 </div>
                             ))}
                         </div>
-                    </section>
-                )}
+                    ) : (
+                        <div className={styles.emptySection}>ไม่พบข้อมูลรายวิชา</div>
+                    )}
+                </section>
 
                 {/* Publications Preview */}
-                {teacher.publications.length > 0 && (
-                    <section className={styles.section}>
-                        <div className={styles.sectionHeader}>
-                            <h2 className={styles.sectionTitle}>
-                                <span className={styles.sectionIcon}>📄</span> ผลงานตีพิมพ์
-                            </h2>
+                {/* Publications Preview */}
+                <section className={styles.section}>
+                    <div className={styles.sectionHeader}>
+                        <h2 className={styles.sectionTitle}>
+                            <span className={styles.sectionIcon}>📄</span> ผลงานตีพิมพ์
+                        </h2>
+                        {teacher.publications.length > 0 && (
                             <Link href={`/${slug}/publications`} className={styles.viewAll}>
                                 ดูทั้งหมด →
                             </Link>
-                        </div>
+                        )}
+                    </div>
+                    {teacher.publications.length > 0 ? (
                         <div className={styles.itemList}>
                             {teacher.publications.map((pub) => (
                                 <div key={pub.id} className={styles.itemCard}>
@@ -202,8 +270,10 @@ export default async function ProfileHomePage({ params }) {
                                 </div>
                             ))}
                         </div>
-                    </section>
-                )}
+                    ) : (
+                        <div className={styles.emptySection}>ไม่พบข้อมูลผลงานตีพิมพ์</div>
+                    )}
+                </section>
             </div>
         </>
     );
