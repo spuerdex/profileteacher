@@ -17,7 +17,9 @@
         "viewAll": "View All",
         "actions": "Actions",
         "status": "Status",
-        "language": "Language"
+        "language": "Language",
+        "page": "Page",
+        "of": "of"
     },
     "nav": {
         "dashboard": "Dashboard",

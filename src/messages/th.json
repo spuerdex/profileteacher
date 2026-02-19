@@ -17,7 +17,9 @@
         "viewAll": "ดูทั้งหมด",
         "actions": "จัดการ",
         "status": "สถานะ",
-        "language": "ภาษา"
+        "language": "ภาษา",
+        "page": "หน้า",
+        "of": "จาก"
     },
     "nav": {
         "dashboard": "แดชบอร์ด",
