@@ -110,6 +110,16 @@
         "semester": "Semester",
         "addNew": "Add New Course"
     },
+    "education": {
+        "title": "Education",
+        "subtitle": "Manage your education history",
+        "add": "Add Education",
+        "degree": "Degree",
+        "field": "Field of Study",
+        "institution": "Institution",
+        "year": "Year",
+        "addNew": "Add New Education"
+    },
     "articles": {
         "title": "Articles",
         "subtitle": "Write and manage your articles",
