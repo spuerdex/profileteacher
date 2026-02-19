@@ -11,7 +11,13 @@ export async function PUT(request, { params }) {
         const data = await request.json();
         const item = await prisma.course.update({
             where: { id: parseInt(id) },
-            data: { codeNumber: data.codeNumber || null, nameTh: data.nameTh, nameEn: data.nameEn || null, semester: data.semester || null },
+            data: {
+                codeNumber: data.codeNumber || null,
+                nameTh: data.nameTh,
+                nameEn: data.nameEn || null,
+                descriptionTh: data.descriptionTh || null,
+                semester: data.semester || null
+            },
         });
         return NextResponse.json(item);
     } catch { return NextResponse.json({ error: 'Failed' }, { status: 500 }); }
