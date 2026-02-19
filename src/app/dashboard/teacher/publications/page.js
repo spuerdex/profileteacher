@@ -2,9 +2,19 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic';
 import { useI18n } from '@/lib/i18n';
 import styles from '../research/crud.module.css';
-import BibtexModal from './BibtexModal';
+
+const BibtexModal = dynamic(() => import('./BibtexModal'), {
+    loading: () => <p>Loading...</p>,
+    ssr: false
+});
+
+const PublicationModal = dynamic(() => import('@/components/modals/PublicationModal'), {
+    loading: () => <p>Loading...</p>,
+    ssr: false
+});
 
 export default function TeacherPublicationsPage() {
     const { data: session } = useSession();
@@ -204,48 +214,14 @@ export default function TeacherPublicationsPage() {
                 </div>
             )}
 
-            {showModal && (
-                <div className="modal-overlay">
-                    <div className="modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <h3 className="modal-title">{editing ? '✏️ แก้ไขผลงาน' : '➕ เพิ่มผลงาน'}</h3>
-                            <button className="modal-close" onClick={() => setShowModal(false)}>✕</button>
-                        </div>
-                        <form onSubmit={handleSubmit}>
-                            <div className="form-group">
-                                <label className="form-label">ชื่อผลงาน (TH) *</label>
-                                <input className="form-input" name="titleTh" value={formData.titleTh} onChange={handleChange} required />
-                            </div>
-                            <div className="form-group">
-                                <label className="form-label">Title (EN)</label>
-                                <input className="form-input" name="titleEn" value={formData.titleEn} onChange={handleChange} />
-                            </div>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="form-group">
-                                    <label className="form-label">วารสาร/สิ่งพิมพ์</label>
-                                    <input className="form-input" name="journal" value={formData.journal} onChange={handleChange} />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label">ปี</label>
-                                    <input className="form-input" type="number" name="year" value={formData.year} onChange={handleChange} />
-                                </div>
-                            </div>
-                            <div className="form-group">
-                                <label className="form-label">DOI</label>
-                                <input className="form-input" name="doi" value={formData.doi} onChange={handleChange} placeholder="10.xxxx/..." />
-                            </div>
-                            <div className="form-group">
-                                <label className="form-label">🔗 ลิงก์</label>
-                                <input className="form-input" name="link" value={formData.link} onChange={handleChange} placeholder="https://..." />
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>{t('common.cancel')}</button>
-                                <button type="submit" className="btn btn-primary">{t('common.save')}</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+            <PublicationModal
+                showModal={showModal}
+                setShowModal={setShowModal}
+                editing={editing}
+                formData={formData}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+            />
 
             <BibtexModal
                 isOpen={showBibtexModal}

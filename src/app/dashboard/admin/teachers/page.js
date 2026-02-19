@@ -1,8 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic';
 import { useI18n } from '@/lib/i18n';
 import styles from './teachers.module.css';
+
+const TeacherManagementModal = dynamic(() => import('@/components/modals/TeacherManagementModal'), {
+    loading: () => <p>Loading...</p>,
+    ssr: false
+});
+
+const PasswordResetModal = dynamic(() => import('@/components/modals/PasswordResetModal'), {
+    loading: () => <p>Loading...</p>,
+    ssr: false
+});
 
 export default function AdminTeachersPage() {
     const { t } = useI18n();
@@ -265,122 +277,23 @@ export default function AdminTeachersPage() {
                 </table>
             </div>
 
-            {/* Add/Edit Modal */}
-            {showModal && (
-                <div className="modal-overlay" onClick={() => setShowModal(false)}>
-                    <div className="modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <h3 className="modal-title">
-                                {editingTeacher ? '✏️ แก้ไขอาจารย์' : '➕ เพิ่มอาจารย์ใหม่'}
-                            </h3>
-                            <button className="modal-close" onClick={() => setShowModal(false)}>
-                                ✕
-                            </button>
-                        </div>
+            <TeacherManagementModal
+                showModal={showModal}
+                setShowModal={setShowModal}
+                editingTeacher={editingTeacher}
+                formData={formData}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+            />
 
-                        <form onSubmit={handleSubmit}>
-                            <div className={styles.formGrid}>
-                                <div className="form-group">
-                                    <label className="form-label">คำนำหน้า (TH)</label>
-                                    <input className="form-input" name="titleTh" value={formData.titleTh} onChange={handleChange} placeholder="ผศ.ดร." />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label">คำนำหน้า (EN)</label>
-                                    <input className="form-input" name="titleEn" value={formData.titleEn} onChange={handleChange} placeholder="Asst. Prof. Dr." />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label">ชื่อ (TH) *</label>
-                                    <input className="form-input" name="firstNameTh" value={formData.firstNameTh} onChange={handleChange} required />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label">นามสกุล (TH) *</label>
-                                    <input className="form-input" name="lastNameTh" value={formData.lastNameTh} onChange={handleChange} required />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label">First Name (EN)</label>
-                                    <input className="form-input" name="firstNameEn" value={formData.firstNameEn} onChange={handleChange} />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label">Last Name (EN)</label>
-                                    <input className="form-input" name="lastNameEn" value={formData.lastNameEn} onChange={handleChange} />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label">ตำแหน่งวิชาการ</label>
-                                    <input className="form-input" name="position" value={formData.position} onChange={handleChange} />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label">สาขา/ภาควิชา</label>
-                                    <input className="form-input" name="department" value={formData.department} onChange={handleChange} />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label">อีเมล</label>
-                                    <input className="form-input" type="email" name="email" value={formData.email} onChange={handleChange} />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label">โทรศัพท์</label>
-                                    <input className="form-input" name="phone" value={formData.phone} onChange={handleChange} />
-                                </div>
-                                {!editingTeacher && (
-                                    <>
-                                        <div className="form-group">
-                                            <label className="form-label">ชื่อผู้ใช้ (Login) *</label>
-                                            <input className="form-input" name="username" value={formData.username} onChange={handleChange} placeholder="username" required />
-                                        </div>
-                                        <div className="form-group">
-                                            <label className="form-label">รหัสผ่าน *</label>
-                                            <input className="form-input" type="password" name="password" value={formData.password} onChange={handleChange} placeholder="••••••••" required />
-                                        </div>
-                                    </>
-                                )}
-                            </div>
-
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>
-                                    {t('common.cancel')}
-                                </button>
-                                <button type="submit" className="btn btn-primary">
-                                    {t('common.save')}
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
-
-            {/* Reset Password Modal */}
-            {showPasswordModal && (
-                <div className="modal-overlay" onClick={() => setShowPasswordModal(false)}>
-                    <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '400px' }}>
-                        <div className="modal-header">
-                            <h3 className="modal-title">🔑 รีเซ็ตรหัสผ่าน</h3>
-                            <button className="modal-close" onClick={() => setShowPasswordModal(false)}>✕</button>
-                        </div>
-                        <div style={{ padding: '0 24px 24px' }}>
-                            <p className="mb-md">
-                                กำลังเปลี่ยนรหัสผ่านสำหรับ: <strong>{resetPasswordTeacher?.firstNameTh} {resetPasswordTeacher?.lastNameTh}</strong>
-                            </p>
-                            <form onSubmit={handleResetPassword}>
-                                <div className="form-group">
-                                    <label className="form-label">รหัสผ่านใหม่ *</label>
-                                    <input
-                                        className="form-input"
-                                        type="password"
-                                        value={newPassword}
-                                        onChange={(e) => setNewPassword(e.target.value)}
-                                        placeholder="ตั้งรหัสผ่านใหม่"
-                                        required
-                                        minLength={4}
-                                    />
-                                </div>
-                                <div className="flex justify-end gap-sm mt-lg">
-                                    <button type="button" className="btn btn-secondary" onClick={() => setShowPasswordModal(false)}>ยกเลิก</button>
-                                    <button type="submit" className="btn btn-primary">บันทึก</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <PasswordResetModal
+                showPasswordModal={showPasswordModal}
+                setShowPasswordModal={setShowPasswordModal}
+                resetPasswordTeacher={resetPasswordTeacher}
+                newPassword={newPassword}
+                setNewPassword={setNewPassword}
+                handleResetPassword={handleResetPassword}
+            />
 
             {toast && (
                 <div className={`toast toast-${toast.type}`}>

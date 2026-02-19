@@ -2,8 +2,14 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic';
 import { useI18n } from '@/lib/i18n';
 import styles from '../research/crud.module.css';
+
+const CourseModal = dynamic(() => import('@/components/modals/CourseModal'), {
+    loading: () => <p>Loading...</p>,
+    ssr: false
+});
 
 export default function TeacherCoursesPage() {
     const { data: session } = useSession();
@@ -159,40 +165,14 @@ export default function TeacherCoursesPage() {
                 )
             }
 
-            {
-                showModal && (
-                    <div className="modal-overlay">
-                        <div className="modal" onClick={(e) => e.stopPropagation()}>
-                            <div className="modal-header">
-                                <h3 className="modal-title">{editing ? '✏️ แก้ไขรายวิชา' : '➕ เพิ่มรายวิชา'}</h3>
-                                <button className="modal-close" onClick={() => setShowModal(false)}>✕</button>
-                            </div>
-                            <form onSubmit={handleSubmit}>
-                                <div className="grid grid-2">
-                                    <div className="form-group">
-                                        <label className="form-label">รหัสวิชา</label>
-                                        <input className="form-input" name="codeNumber" value={formData.codeNumber} onChange={handleChange} placeholder="CS101" />
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="form-label">ภาคเรียน</label>
-                                        <input className="form-input" name="semester" value={formData.semester} onChange={handleChange} placeholder="1/2568" />
-                                    </div>
-                                </div>
-                                <div className="form-group"><label className="form-label">ชื่อวิชา (TH) *</label><input className="form-input" name="nameTh" value={formData.nameTh} onChange={handleChange} required /></div>
-                                <div className="form-group"><label className="form-label">Course Name (EN)</label><input className="form-input" name="nameEn" value={formData.nameEn} onChange={handleChange} /></div>
-                                <div className="form-group">
-                                    <label className="form-label">คำอธิบายรายวิชา (TH)</label>
-                                    <textarea className="form-textarea" name="descriptionTh" value={formData.descriptionTh} onChange={handleChange} rows={3}></textarea>
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>{t('common.cancel')}</button>
-                                    <button type="submit" className="btn btn-primary">{t('common.save')}</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                )
-            }
+            <CourseModal
+                showModal={showModal}
+                setShowModal={setShowModal}
+                editing={editing}
+                formData={formData}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+            />
             {toast && <div className={`toast toast-${toast.type}`}>{toast.type === 'success' ? '✅' : '❌'} {toast.message}</div>}
         </div>
     );

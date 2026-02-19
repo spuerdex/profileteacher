@@ -2,8 +2,14 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic';
 import { useI18n } from '@/lib/i18n';
 import styles from '../research/crud.module.css';
+
+const ActivityModal = dynamic(() => import('@/components/modals/ActivityModal'), {
+    loading: () => <p>Loading...</p>,
+    ssr: false
+});
 
 export default function TeacherActivitiesPage() {
     const { data: session } = useSession();
@@ -21,7 +27,6 @@ export default function TeacherActivitiesPage() {
         titleTh: '', titleEn: '', descriptionTh: '', descriptionEn: '', date: '', type: ''
     });
 
-    const [showEnglish, setShowEnglish] = useState(false);
     const [search, setSearch] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -176,79 +181,14 @@ export default function TeacherActivitiesPage() {
                 </div>
             )}
 
-            {showModal && (
-                <div className="modal-overlay">
-                    <div className="modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <h3 className="modal-title">{editing ? '✏️ แก้ไขกิจกรรม' : '➕ เพิ่มกิจกรรม'}</h3>
-                            <button className="modal-close" onClick={() => setShowModal(false)}>✕</button>
-                        </div>
-                        <form onSubmit={handleSubmit}>
-                            <div className="form-group">
-                                <label className="form-label">{t('activities.activityTitle')} (TH) *</label>
-                                <input className="form-input" name="titleTh" value={formData.titleTh} onChange={handleChange} required />
-                            </div>
-
-                            <div className="form-group">
-                                <div className="flex items-center gap-sm mb-sm">
-                                    <input
-                                        type="checkbox"
-                                        id="showEnglish"
-                                        checked={showEnglish}
-                                        onChange={(e) => setShowEnglish(e.target.checked)}
-                                        style={{ width: 'auto', margin: 0 }}
-                                    />
-                                    <label htmlFor="showEnglish" style={{ cursor: 'pointer', userSelect: 'none' }}>
-                                        เพิ่มข้อมูลภาษาอังกฤษ (Add English Data)
-                                    </label>
-                                </div>
-                            </div>
-
-                            {showEnglish && (
-                                <div className="form-group fade-in">
-                                    <label className="form-label">{t('activities.activityTitle')} (EN)</label>
-                                    <input className="form-input" name="titleEn" value={formData.titleEn} onChange={handleChange} />
-                                </div>
-                            )}
-
-                            <div className="grid grid-2">
-                                <div className="form-group">
-                                    <label className="form-label">{t('activities.date')}</label>
-                                    <input className="form-input" type="date" name="date" value={formData.date} onChange={handleChange} />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label">{t('common.status')}</label>
-                                    <select className="form-input" name="type" value={formData.type} onChange={handleChange}>
-                                        <option value="">เลือกประเภท</option>
-                                        <option value="training">อบรม/สัมมนา</option>
-                                        <option value="conference">ประชุมวิชาการ</option>
-                                        <option value="community">บริการวิชาการ</option>
-                                        <option value="committee">กรรมการ</option>
-                                        <option value="other">อื่นๆ</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div className="form-group">
-                                <label className="form-label">{t('activities.description')} (TH)</label>
-                                <textarea className="form-textarea" name="descriptionTh" value={formData.descriptionTh} onChange={handleChange} rows={3} />
-                            </div>
-
-                            {showEnglish && (
-                                <div className="form-group fade-in">
-                                    <label className="form-label">{t('activities.description')} (EN)</label>
-                                    <textarea className="form-textarea" name="descriptionEn" value={formData.descriptionEn} onChange={handleChange} rows={3} />
-                                </div>
-                            )}
-
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>{t('common.cancel')}</button>
-                                <button type="submit" className="btn btn-primary">{t('common.save')}</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+            <ActivityModal
+                showModal={showModal}
+                setShowModal={setShowModal}
+                editing={editing}
+                formData={formData}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+            />
             {toast && <div className={`toast toast-${toast.type}`}>{toast.type === 'success' ? '✅' : '❌'} {toast.message}</div>}
         </div>
     );
