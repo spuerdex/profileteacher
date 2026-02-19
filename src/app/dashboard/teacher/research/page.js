@@ -69,32 +69,53 @@ export default function TeacherResearchPage() {
                 </div>
             </div>
 
-            <div className={styles.itemsList}>
-                {items.map((item) => (
-                    <div key={item.id} className={styles.itemCard}>
-                        <div className={styles.itemHeader}>
-                            <h3 className={styles.itemTitle}>{item.titleTh}</h3>
-                            <div className="flex gap-sm">
-                                <button className="btn btn-ghost btn-sm" onClick={() => handleOpenEdit(item)}>✏️</button>
-                                <button className="btn btn-ghost btn-sm" onClick={() => handleDelete(item.id)}>🗑️</button>
-                            </div>
-                        </div>
-                        {item.titleEn && <p className={styles.itemSub}>{item.titleEn}</p>}
-                        <div className={styles.itemMeta}>
-                            {item.year && <span className="badge badge-primary">{item.year}</span>}
-                            {item.type && <span className="badge">{item.type}</span>}
-                        </div>
-                        {item.abstractTh && <p className={styles.itemDesc}>{item.abstractTh}</p>}
-                        {item.link && <a href={item.link} target="_blank" rel="noopener noreferrer" className={styles.itemLink}>🔗 ลิงก์</a>}
-                    </div>
-                ))}
-                {items.length === 0 && (
-                    <div className={styles.empty}>
-                        <p>🔬</p>
-                        <p>ยังไม่มีงานวิจัย</p>
-                        <button className="btn btn-primary btn-sm" onClick={handleOpenAdd}>เพิ่มงานวิจัย</button>
-                    </div>
-                )}
+            <div className={styles.tableContainer}>
+                <table className={styles.table}>
+                    <thead>
+                        <tr>
+                            <th>{t('research.titleLabel')}</th>
+                            <th>{t('research.year')}</th>
+                            <th>{t('research.type')}</th>
+                            <th>{t('common.actions')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {items.length > 0 ? (
+                            items.map((item) => (
+                                <tr key={item.id}>
+                                    <td>
+                                        <div className="font-medium">{item.titleTh}</div>
+                                        {item.titleEn && <div className="text-sm text-muted">{item.titleEn}</div>}
+                                    </td>
+                                    <td>{item.year || '-'}</td>
+                                    <td>
+                                        {item.type && (
+                                            <span className="badge badge-sm">
+                                                {item.type === 'journal' ? 'บทความวิจัย' :
+                                                    item.type === 'conference' ? 'บทความวิชาการ' :
+                                                        item.type === 'book' ? 'หนังสือ' : item.type}
+                                            </span>
+                                        )}
+                                    </td>
+                                    <td>
+                                        <div className="flex gap-sm">
+                                            <button className="btn btn-ghost btn-sm" onClick={() => handleOpenEdit(item)}>✏️</button>
+                                            <button className="btn btn-ghost btn-sm text-error" onClick={() => handleDelete(item.id)}>🗑️</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="4" className="text-center py-xl text-muted">
+                                    <div className="mb-sm" style={{ fontSize: '2rem' }}>🔬</div>
+                                    <p>ยังไม่มีงานวิจัย</p>
+                                    <button className="btn btn-primary btn-sm mt-md" onClick={handleOpenAdd}>เพิ่มงานวิจัย</button>
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
             </div>
 
             {showModal && (
