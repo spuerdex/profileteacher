@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useI18n } from '@/lib/i18n';
+import Link from 'next/link';
 import styles from './login.module.css';
 
 export default function LoginPage() {
@@ -52,60 +53,78 @@ export default function LoginPage() {
                 <div className={styles.bgGlow2}></div>
             </div>
 
-            <div className={styles.card}>
-                <div className={styles.header}>
-                    <div className={styles.logo}>👨‍🏫</div>
-                    <h1 className={styles.title}>{t('auth.loginTitle')}</h1>
-                    <p className={styles.subtitle}>{t('auth.loginSubtitle')}</p>
+            <div className={styles.cardWrapper}>
+                <div className={styles.card}>
+                    <div className={styles.header}>
+                        <div className={styles.logo}>👨‍🏫</div>
+                        <h1 className={styles.title}>{t('auth.loginTitle')}</h1>
+                        <p className={styles.subtitle}>{t('auth.loginSubtitle')}</p>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className={styles.form}>
+                        {error && (
+                            <div className={styles.error}>
+                                <span>⚠️</span> {error}
+                            </div>
+                        )}
+
+                        <div className="form-group">
+                            <label className="form-label">{t('auth.email')}</label>
+                            <input
+                                type="email"
+                                className="form-input"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="name@example.com"
+                                required
+                                autoFocus
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label">{t('auth.password')}</label>
+                            <input
+                                type="password"
+                                className="form-input"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="••••••••"
+                                required
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            className={`btn btn-primary btn-lg ${styles.loginBtn}`}
+                            disabled={loading}
+                        >
+                            {loading ? (
+                                <>
+                                    <span className="spinner"></span>
+                                    {t('common.loading')}
+                                </>
+                            ) : (
+                                t('auth.loginButton')
+                            )}
+                        </button>
+                    </form>
+
+                    {/* Staff Contact */}
+                    <div className={styles.contactSection}>
+                        <p className={styles.contactTitle}>📞 ติดต่อเจ้าหน้าที่</p>
+                        <div className={styles.contactInfo}>
+                            <p>🏢 สำนักงานคณะ เทคโนโลยีดิจิทัล</p>
+                            <p>👤 คุณชินรัตน์ คำบาสุข</p>
+                            <p>📧 chinnarat@crru.ac.th</p>
+                            <p>📱 053-776-000</p>
+                        </div>
+                    </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className={styles.form}>
-                    {error && (
-                        <div className={styles.error}>
-                            <span>⚠️</span> {error}
-                        </div>
-                    )}
-
-                    <div className="form-group">
-                        <label className="form-label">{t('auth.email')}</label>
-                        <input
-                            type="email"
-                            className="form-input"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="name@example.com"
-                            required
-                            autoFocus
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label className="form-label">{t('auth.password')}</label>
-                        <input
-                            type="password"
-                            className="form-input"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="••••••••"
-                            required
-                        />
-                    </div>
-
-                    <button
-                        type="submit"
-                        className={`btn btn-primary btn-lg ${styles.loginBtn}`}
-                        disabled={loading}
-                    >
-                        {loading ? (
-                            <>
-                                <span className="spinner"></span>
-                                {t('common.loading')}
-                            </>
-                        ) : (
-                            t('auth.loginButton')
-                        )}
-                    </button>
-                </form>
+                {/* Back to Home */}
+                <Link href="/" className={styles.backBtn}>
+                    ← กลับหน้าหลัก DiGi Teacher Hub
+                </Link>
             </div>
         </div>
     );

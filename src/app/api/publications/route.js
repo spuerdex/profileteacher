@@ -3,11 +3,12 @@ import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
+// GET /api/publications?teacherId=X
 export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const teacherId = searchParams.get('teacherId');
     const page = parseInt(searchParams.get('page')) || 1;
-    const limit = parseInt(searchParams.get('limit')) || 10;
+    const limit = parseInt(searchParams.get('limit')) || 5;
     const search = searchParams.get('search') || '';
     const skip = (page - 1) * limit;
 
@@ -39,19 +40,24 @@ export async function GET(request) {
     } catch { return NextResponse.json({ error: 'Failed' }, { status: 500 }); }
 }
 
+// POST /api/publications
 export async function POST(request) {
     try {
         const session = await getServerSession(authOptions);
         if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         const data = await request.json();
         const teacherId = session.user.role === 'teacher' ? session.user.teacherId : data.teacherId;
-        const pub = await prisma.publication.create({
+        const publication = await prisma.publication.create({
             data: {
-                teacherId, titleTh: data.titleTh, titleEn: data.titleEn || null,
-                journal: data.journal || null, year: data.year ? parseInt(data.year) : null,
-                doi: data.doi || null, link: data.link || null,
+                teacherId,
+                titleTh: data.titleTh,
+                titleEn: data.titleEn || null,
+                journal: data.journal || null,
+                year: data.year ? parseInt(data.year) : null,
+                doi: data.doi || null,
+                link: data.link || null,
             },
         });
-        return NextResponse.json(pub, { status: 201 });
+        return NextResponse.json(publication, { status: 201 });
     } catch { return NextResponse.json({ error: 'Failed' }, { status: 500 }); }
 }

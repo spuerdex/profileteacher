@@ -50,9 +50,13 @@ export async function POST(request) {
         const teacherId = session.user.role === 'teacher' ? session.user.teacherId : data.teacherId;
         const activity = await prisma.activity.create({
             data: {
-                teacherId, titleTh: data.titleTh, titleEn: data.titleEn || null,
-                descriptionTh: data.descriptionTh || null, descriptionEn: data.descriptionEn || null,
-                date: data.date ? new Date(data.date) : null, type: data.type || null,
+                teacherId,
+                titleTh: data.titleTh,
+                titleEn: data.titleEn || null,
+                descriptionTh: data.descriptionTh || null,
+                descriptionEn: data.descriptionEn || null,
+                date: data.date ? new Date(data.date) : null,
+                type: data.type || null,
             },
         });
         return NextResponse.json(activity, { status: 201 });

@@ -1,6 +1,8 @@
 .container {
     min-height: 100vh;
     background: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
 }
 
 /* Hero */
@@ -9,7 +11,7 @@
     padding: var(--space-3xl) var(--space-xl) var(--space-xl);
     text-align: left;
     overflow: hidden;
-    min-height: 400px;
+    min-height: auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -106,6 +108,8 @@
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 var(--space-xl) var(--space-3xl);
+    flex: 1;
+    width: 100%;
 }
 
 .content {
@@ -257,13 +261,6 @@
     font-weight: 500;
 }
 
-/* Item List */
-.itemList {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-}
-
 .itemCard {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -311,6 +308,12 @@
 }
 
 /* Article Grid */
+.articleGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--space-lg);
+}
+
 .articleCard {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -338,18 +341,23 @@
 }
 
 .articleImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
 .articleContent {
-    padding: var(--space-md);
+    padding: 12px;
     flex: 1;
     display: flex;
     flex-direction: column;
 }
 
 .articleCard h4 {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     margin-bottom: var(--space-xs);
     color: var(--text-primary);
@@ -358,12 +366,25 @@
     line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    line-height: 1.4;
 }
 
 .articleDate {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
     margin-top: auto;
+}
+
+.articleDesc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: var(--space-xs);
+    flex: 1;
 }
 
 /* Course Grid */
@@ -559,6 +580,65 @@
     flex-shrink: 0;
 }
 
+/* Search Bar */
+.searchBar {
+    display: flex;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+}
+
+.searchBar input {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color var(--transition-fast);
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.searchBar input:focus {
+    border-color: var(--t-primary, var(--primary));
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.searchBtn {
+    padding: 12px 24px;
+    background: var(--t-primary, var(--primary));
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    white-space: nowrap;
+}
+
+.searchBtn:hover {
+    filter: brightness(110%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.searchBtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Item List */
+.itemList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
 /* Empty Section */
 .emptySection {
     text-align: center;
@@ -570,6 +650,54 @@
     font-size: 0.95rem;
 }
 
+/* Activity Grid */
+.activityGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-lg);
+}
+
+.clickableCard {
+    cursor: pointer;
+    transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.clickableCard:hover {
+    transform: translateY(-4px);
+    border-color: var(--t-primary, var(--primary));
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal Content */
+.modalBody {
+    color: var(--text-primary);
+}
+
+.modalImageWrapper {
+    margin-bottom: var(--space-md);
+    overflow: hidden;
+    border-radius: var(--radius-md);
+}
+
+.modalActivityTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: var(--space-xs);
+    color: var(--t-primary, var(--primary));
+}
+
+.modalActivitySubtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+}
+
+.modalDescription {
+    margin-top: var(--space-md);
+    line-height: 1.7;
+    color: var(--text-secondary);
+}
+
 /* Footer */
 .footer {
     text-align: center;
@@ -577,20 +705,63 @@
     border-top: 1px solid var(--border-color);
     color: var(--text-muted);
     font-size: 0.85rem;
+    flex-shrink: 0;
+    margin-top: auto;
 }
 
 @media (max-width: 640px) {
-    .name {
-        font-size: 1.5rem;
+    .container {
+        padding-bottom: 80px;
+        /* Add space for mobile bottom nav if needed */
+    }
+
+    .hero {
+        padding: var(--space-3xl) var(--space-md) var(--space-lg);
+        min-height: auto;
+        text-align: center;
+        align-items: center;
+    }
+
+    .heroContent {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-md);
+        text-align: center;
     }
 
     .avatarWrapper {
-        width: 100px;
-        height: 100px;
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+        border-width: 3px;
+    }
+
+    .heroInfo {
+        align-items: center;
+        padding-bottom: 0;
+        width: 100%;
+    }
+
+    .name {
+        font-size: 1.75rem;
+        margin-bottom: var(--space-xs);
+    }
+
+    .nameEn {
+        font-size: 0.9rem;
+    }
+
+    .position,
+    .department {
+        font-size: 0.9rem;
     }
 
     .main {
         padding: 0 var(--space-md) var(--space-xl);
+    }
+
+    .sectionTitle {
+        font-size: 1.2rem;
     }
 
     .courseGrid {
@@ -599,6 +770,32 @@
 
     .splitRow {
         grid-template-columns: 1fr;
-        gap: var(--space-lg);
+        gap: var(--space-xl);
+    }
+
+    .timeline {
+        padding-left: var(--space-lg);
+    }
+
+    .timelineDot {
+        left: calc(-1 * var(--space-lg) + 4px);
+    }
+
+    .searchBar {
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+
+    .searchBtn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .articleGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .contactGrid {
+        grid-template-columns: 1fr;
     }
 }

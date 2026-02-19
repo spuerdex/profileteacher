@@ -32,13 +32,8 @@ export default async function PublicArticlesPage({ params }) {
     }));
 
     return (
-        <div className={styles.section} style={{ paddingTop: '48px' }}>
-            <div className={styles.sectionHeader}>
-                <h2 className={styles.sectionTitle}>
-                    <span className={styles.sectionIcon}>📰</span>
-                    บทความและข่าวสาร
-                </h2>
-            </div>
+        <div className={styles.content}>
+            <h1 className={styles.pageTitle}>📰 บทความและข่าวสาร / Articles</h1>
 
             <ArticleList
                 initialArticles={initialArticles}

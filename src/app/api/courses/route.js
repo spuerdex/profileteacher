@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
+// GET /api/courses?teacherId=X
 export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const teacherId = searchParams.get('teacherId');
@@ -39,6 +40,7 @@ export async function GET(request) {
     } catch { return NextResponse.json({ error: 'Failed' }, { status: 500 }); }
 }
 
+// POST /api/courses
 export async function POST(request) {
     try {
         const session = await getServerSession(authOptions);

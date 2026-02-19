@@ -2,6 +2,7 @@ import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import ScrollReveal from '@/components/ScrollReveal';
 import styles from './profile.module.css';
 
 export default async function ProfileHomePage({ params }) {
@@ -78,7 +79,7 @@ export default async function ProfileHomePage({ params }) {
                 {/* About & Education Split Row */}
                 <div className={styles.splitRow}>
                     {/* Bio */}
-                    <section className={styles.section}>
+                    <ScrollReveal className={styles.section}>
                         <h2 className={styles.sectionTitle}>
                             <span className={styles.sectionIcon}>👤</span> เกี่ยวกับ
                         </h2>
@@ -90,10 +91,10 @@ export default async function ProfileHomePage({ params }) {
                         ) : (
                             <div className={styles.emptySection}>ไม่พบข้อมูลเกี่ยวกับอาจารย์</div>
                         )}
-                    </section>
+                    </ScrollReveal>
 
                     {/* Education */}
-                    <section className={styles.section}>
+                    <ScrollReveal className={styles.section} delay={200}>
                         <h2 className={styles.sectionTitle}>
                             <span className={styles.sectionIcon}>🎓</span> การศึกษา
                         </h2>
@@ -113,11 +114,11 @@ export default async function ProfileHomePage({ params }) {
                         ) : (
                             <div className={styles.emptySection}>ไม่พบข้อมูลการศึกษา</div>
                         )}
-                    </section>
+                    </ScrollReveal>
                 </div>
 
                 {/* Articles */}
-                <section className={styles.section}>
+                <ScrollReveal className={styles.section}>
                     <div className={styles.sectionHeader}>
                         <h2 className={styles.sectionTitle}>
                             <span className={styles.sectionIcon}>📰</span> บทความ
@@ -155,11 +156,10 @@ export default async function ProfileHomePage({ params }) {
                     ) : (
                         <div className={styles.emptySection}>ไม่พบข้อมูลบทความ</div>
                     )}
-                </section>
+                </ScrollReveal>
 
                 {/* Research Preview */}
-                {/* Research Preview */}
-                <section className={styles.section}>
+                <ScrollReveal className={styles.section}>
                     <div className={styles.sectionHeader}>
                         <h2 className={styles.sectionTitle}>
                             <span className={styles.sectionIcon}>🔬</span> งานวิจัย
@@ -186,11 +186,10 @@ export default async function ProfileHomePage({ params }) {
                     ) : (
                         <div className={styles.emptySection}>ไม่พบข้อมูลงานวิจัย</div>
                     )}
-                </section>
+                </ScrollReveal>
 
                 {/* Activities Preview */}
-                {/* Activities Preview */}
-                <section className={styles.section}>
+                <ScrollReveal className={styles.section}>
                     <div className={styles.sectionHeader}>
                         <h2 className={styles.sectionTitle}>
                             <span className={styles.sectionIcon}>📋</span> กิจกรรม
@@ -217,11 +216,10 @@ export default async function ProfileHomePage({ params }) {
                     ) : (
                         <div className={styles.emptySection}>ไม่พบข้อมูลกิจกรรม</div>
                     )}
-                </section>
+                </ScrollReveal>
 
                 {/* Courses Preview */}
-                {/* Courses Preview */}
-                <section className={styles.section}>
+                <ScrollReveal className={styles.section}>
                     <div className={styles.sectionHeader}>
                         <h2 className={styles.sectionTitle}>
                             <span className={styles.sectionIcon}>📚</span> วิชาที่สอน
@@ -245,11 +243,10 @@ export default async function ProfileHomePage({ params }) {
                     ) : (
                         <div className={styles.emptySection}>ไม่พบข้อมูลรายวิชา</div>
                     )}
-                </section>
+                </ScrollReveal>
 
                 {/* Publications Preview */}
-                {/* Publications Preview */}
-                <section className={styles.section}>
+                <ScrollReveal className={styles.section}>
                     <div className={styles.sectionHeader}>
                         <h2 className={styles.sectionTitle}>
                             <span className={styles.sectionIcon}>📄</span> ผลงานตีพิมพ์
@@ -275,7 +272,7 @@ export default async function ProfileHomePage({ params }) {
                     ) : (
                         <div className={styles.emptySection}>ไม่พบข้อมูลผลงานตีพิมพ์</div>
                     )}
-                </section>
+                </ScrollReveal>
             </div>
         </>
     );

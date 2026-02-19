@@ -90,3 +90,62 @@
     width: 100%;
     margin-top: var(--space-sm);
 }
+
+/* Card Wrapper */
+.cardWrapper {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+    width: 100%;
+    max-width: 420px;
+}
+
+/* Contact Section */
+.contactSection {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.contactTitle {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+}
+
+.contactInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Back Button */
+.backBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 10px 20px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: var(--radius-full, 999px);
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+    transition: all var(--transition-fast);
+}
+
+.backBtn:hover {
+    color: var(--primary-light);
+    border-color: var(--primary);
+    background: rgba(59, 130, 246, 0.05);
+    transform: translateX(-4px);
+}

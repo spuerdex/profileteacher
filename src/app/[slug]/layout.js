@@ -4,6 +4,7 @@ import Link from 'next/link';
 import ThemeToggle from '@/components/ThemeToggle';
 import LanguageToggle from '@/components/LanguageToggle';
 import styles from './profile.module.css';
+import ProfileNav from './ProfileNav';
 import navStyles from './nav.module.css';
 
 export const dynamic = 'force-dynamic';
@@ -73,52 +74,7 @@ export default async function ProfileLayout({ children, params }) {
             }}
         >
             {/* Navigation Bar */}
-            <nav className={navStyles.nav}>
-                <div className={navStyles.navInner}>
-                    <Link href={`/${slug}`} className={navStyles.brand}>
-                        <div className={navStyles.brandAvatar}>
-                            {teacher.avatar ? (
-                                <img src={teacher.avatar} alt={fullNameTh} />
-                            ) : (
-                                <span>{teacher.firstNameTh[0]}</span>
-                            )}
-                        </div>
-                        <span className={navStyles.brandName}>{fullNameTh}</span>
-                    </Link>
-                    <div className={navStyles.navLinks}>
-                        {navItems.map((item) => (
-                            <Link
-                                key={item.key}
-                                href={`/${slug}${item.href}`}
-                                className={navStyles.navLink}
-                            >
-                                {item.label}
-                            </Link>
-                        ))}
-                    </div>
-                    <div className={navStyles.navActions}>
-                        <LanguageToggle />
-                        <ThemeToggle />
-                    </div>
-                    <input type="checkbox" id="nav-toggle" className={navStyles.navToggleInput} />
-                    <label htmlFor="nav-toggle" className={navStyles.navToggle}>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </label>
-                    <div className={navStyles.mobileMenu}>
-                        {navItems.map((item) => (
-                            <Link
-                                key={item.key}
-                                href={`/${slug}${item.href}`}
-                                className={navStyles.mobileLink}
-                            >
-                                {item.label}
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            </nav>
+            <ProfileNav teacher={teacher} navItems={navItems} slug={slug} />
 
             {/* Page Content — children receive teacher data via server component */}
             <main className={styles.main}>
@@ -126,8 +82,8 @@ export default async function ProfileLayout({ children, params }) {
             </main>
 
             <footer className={styles.footer}>
-                <p>© {new Date().getFullYear()} {fullNameTh} — Digital of Technology, Chiang Rai Rajabhat University</p>
-                <p>Powered by: Chinnarat K. | Computer Technical Officer</p>
+                <p>© {new Date().getFullYear()} {fullNameTh} — DiGi Teacher Hub</p>
+                <p>Powered by: Chinnarat K. | Digital of Technology, CRRU</p>
             </footer>
         </div>
     );

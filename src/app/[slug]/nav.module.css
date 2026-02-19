@@ -127,21 +127,9 @@
     transition: all var(--transition-fast);
 }
 
-/* Mobile Menu */
+/* Mobile Menu Base Styles */
 .mobileMenu {
     display: none;
-    position: fixed;
-    top: 64px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: color-mix(in srgb, var(--bg-primary) 98%, transparent);
-    backdrop-filter: blur(16px);
-    padding: var(--space-lg);
-    flex-direction: column;
-    gap: var(--space-xs);
-    z-index: 99;
-    animation: slideDown 0.25s ease;
 }
 
 .mobileLink {
@@ -162,6 +150,12 @@
 
 /* Responsive */
 @media (max-width: 880px) {
+    .nav {
+        background: var(--bg-primary);
+        border-bottom: 1px solid var(--border-color);
+        backdrop-filter: blur(12px);
+    }
+
     .navLinks {
         display: none;
     }
@@ -181,31 +175,67 @@
         order: 1;
     }
 
-    .navToggleInput:checked~.mobileMenu {
+    /* Mobile Menu Dropdown */
+    .mobileMenu {
+        display: none;
+        position: absolute;
+        top: 70px;
+        right: var(--space-md);
+        width: 250px;
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-xl);
+        padding: var(--space-sm);
+        flex-direction: column;
+        gap: 2px;
+        z-index: 99;
+        transform-origin: top right;
+    }
+
+    .mobileMenu.show {
         display: flex;
+        animation: scaleIn 0.2s ease forwards;
     }
 
-    .navToggleInput:checked~.navToggle span:nth-child(1) {
-        transform: rotate(45deg) translate(5px, 5px);
+    .mobileLink {
+        display: block;
+        padding: 10px 16px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        text-decoration: none;
+        border-radius: var(--radius-md);
+        transition: all var(--transition-fast);
     }
 
-    .navToggleInput:checked~.navToggle span:nth-child(2) {
-        opacity: 0;
-    }
-
-    .navToggleInput:checked~.navToggle span:nth-child(3) {
-        transform: rotate(-45deg) translate(5px, -5px);
+    .mobileLink:hover {
+        color: var(--text-primary);
+        background: var(--bg-surface);
     }
 }
 
-@keyframes slideDown {
+/* Active State for Toggle Button */
+.navToggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.navToggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.navToggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+@keyframes scaleIn {
     from {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: scale(0.95);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: scale(1);
     }
 }

@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import prisma from '@/lib/prisma';
 import styles from './home.module.css';
+import TeacherGrid from './TeacherGrid';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,14 +17,27 @@ export default async function HomePage() {
     // DB not ready yet
   }
 
+  // Count departments
+  const departments = new Set(teachers.map(t => t.department).filter(Boolean));
+
   return (
     <div className={styles.container}>
       <header className={styles.hero}>
         <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>ระบบโปรไฟล์อาจารย์</h1>
+          <h1 className={styles.heroTitle}>DiGiT Teacher Hub</h1>
           <p className={styles.heroSubtitle}>
-            Teacher Profile Management System
+            ระบบโปรไฟล์อาจารย์ | Digital Faculty Profile Platform
           </p>
+          <div className={styles.heroStats}>
+            <div className={styles.statItem}>
+              <span className={styles.statNumber}>{teachers.length}</span>
+              <span className={styles.statLabel}>อาจารย์</span>
+            </div>
+            <div className={styles.statItem}>
+              <span className={styles.statNumber}>{departments.size}</span>
+              <span className={styles.statLabel}>สาขาวิชา</span>
+            </div>
+          </div>
         </div>
         <div className={styles.heroBg}>
           <div className={styles.glow1}></div>
@@ -32,61 +46,11 @@ export default async function HomePage() {
       </header>
 
       <main className={styles.main}>
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>อาจารย์ทั้งหมด</h2>
-
-          {teachers.length === 0 ? (
-            <div className="empty-state">
-              <div className="empty-state-icon">👨‍🏫</div>
-              <p className="empty-state-text">ยังไม่มีข้อมูลอาจารย์ในระบบ</p>
-              <Link href="/login" className="btn btn-primary">
-                เข้าสู่ระบบเพื่อเพิ่มข้อมูล
-              </Link>
-            </div>
-          ) : (
-            <div className={styles.teacherGrid}>
-              {teachers.map((teacher) => (
-                <Link
-                  key={teacher.id}
-                  href={`/${teacher.slug}`}
-                  className={styles.teacherCard}
-                  style={{
-                    '--card-accent': teacher.themePreset?.primary || '#3b82f6',
-                  }}
-                >
-                  <div className={styles.teacherAvatar}>
-                    {teacher.avatar ? (
-                      <Image
-                        src={teacher.avatar}
-                        alt={teacher.firstNameTh}
-                        fill
-                        className={styles.avatarImage}
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                    ) : (
-                      <span className={styles.avatarPlaceholder}>
-                        {teacher.firstNameTh[0]}
-                      </span>
-                    )}
-                  </div>
-                  <h3 className={styles.teacherName}>
-                    {teacher.titleTh || ''} {teacher.firstNameTh} {teacher.lastNameTh}
-                  </h3>
-                  {teacher.position && (
-                    <p className={styles.teacherPosition}>{teacher.position}</p>
-                  )}
-                  {teacher.department && (
-                    <p className={styles.teacherDept}>{teacher.department}</p>
-                  )}
-                </Link>
-              ))}
-            </div>
-          )}
-        </section>
+        <TeacherGrid teachers={JSON.parse(JSON.stringify(teachers))} />
       </main>
 
       <footer className={styles.footer}>
-        <p>Teacher Profile System &copy; {new Date().getFullYear()}</p>
+        <p>DiGiT Teacher Hub &copy; {new Date().getFullYear()}</p>
         <Link href="/login" className={styles.footerLink}>
           เข้าสู่ระบบ
         </Link>

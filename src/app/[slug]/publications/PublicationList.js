@@ -1,40 +1,39 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import styles from '../profile.module.css';
 
-export default function ResearchList({ initialResearch, teacherId, slug }) {
-    const [research, setResearch] = useState(initialResearch);
+export default function PublicationList({ initialPublications, teacherId }) {
+    const [publications, setPublications] = useState(initialPublications || []);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(initialResearch.length >= 10);
+    const [hasMore, setHasMore] = useState((initialPublications?.length || 0) >= 5);
     const [search, setSearch] = useState('');
 
-    const fetchResearch = async (reset = false) => {
+    const fetchPublications = async (reset = false) => {
         setLoading(true);
         const nextPage = reset ? 1 : page + 1;
-        const currentSearch = search; // Capture current search term
+        const currentSearch = search;
 
         try {
             const res = await fetch(
-                `/api/research?teacherId=${teacherId}&page=${nextPage}&limit=10&search=${encodeURIComponent(currentSearch)}`
+                `/api/publications?teacherId=${teacherId}&page=${nextPage}&limit=5&search=${encodeURIComponent(currentSearch)}`
             );
             const data = await res.json();
 
             if (data.data) {
                 if (reset) {
-                    setResearch(data.data);
+                    setPublications(data.data);
                     setPage(1);
-                    setHasMore(data.data.length >= 10);
+                    setHasMore(data.data.length >= 5);
                 } else {
-                    setResearch((prev) => [...prev, ...data.data]);
+                    setPublications((prev) => [...prev, ...data.data]);
                     setPage(nextPage);
-                    setHasMore(data.data.length >= 10);
+                    setHasMore(data.data.length >= 5);
                 }
             }
         } catch (error) {
-            console.error('Error fetching research:', error);
+            console.error('Error fetching publications:', error);
         } finally {
             setLoading(false);
         }
@@ -42,7 +41,7 @@ export default function ResearchList({ initialResearch, teacherId, slug }) {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        fetchResearch(true);
+        fetchPublications(true);
     };
 
     return (
@@ -51,7 +50,7 @@ export default function ResearchList({ initialResearch, teacherId, slug }) {
             <form onSubmit={handleSearch} className={styles.searchBar}>
                 <input
                     type="text"
-                    placeholder="ค้นหางานวิจัย..."
+                    placeholder="ค้นหาผลงานตีพิมพ์..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
@@ -64,19 +63,18 @@ export default function ResearchList({ initialResearch, teacherId, slug }) {
             </form>
 
             <div className={styles.itemList}>
-                {research.length > 0 ? (
-                    research.map((item) => (
-                        <div key={item.id} className={styles.itemCard}>
-                            <h4>{item.titleTh}</h4>
-                            {item.titleEn && <p className={styles.itemSubtitle}>{item.titleEn}</p>}
+                {publications.length > 0 ? (
+                    publications.map((pub) => (
+                        <div key={pub.id} className={styles.itemCard}>
+                            <h4>{pub.titleTh}</h4>
+                            {pub.titleEn && <p className={styles.itemSubtitle}>{pub.titleEn}</p>}
                             <div className={styles.itemMeta}>
-                                {item.year && <span className="badge badge-primary">{item.year}</span>}
-                                {item.type && <span className="badge">{item.type}</span>}
+                                {pub.journal && <span className="badge">{pub.journal}</span>}
+                                {pub.year && <span className="badge badge-primary">{pub.year}</span>}
+                                {pub.doi && <span className="badge">DOI: {pub.doi}</span>}
                             </div>
-                            {item.abstractTh && <p className={styles.itemDesc}>{item.abstractTh}</p>}
-                            {item.abstractEn && <p className={`${styles.itemDesc} ${styles.bioEn}`}>{item.abstractEn}</p>}
-                            {item.link && (
-                                <a href={item.link} target="_blank" rel="noopener noreferrer" className={styles.itemLink}>
+                            {pub.link && (
+                                <a href={pub.link} target="_blank" rel="noopener noreferrer" className={styles.itemLink}>
                                     🔗 ดูเพิ่มเติม
                                 </a>
                             )}
@@ -84,7 +82,7 @@ export default function ResearchList({ initialResearch, teacherId, slug }) {
                     ))
                 ) : (
                     <div className={styles.emptySection}>
-                        <p>ไม่พบงานวิจัย</p>
+                        <p>ไม่พบข้อมูลผลงานตีพิมพ์</p>
                     </div>
                 )}
             </div>
@@ -93,7 +91,7 @@ export default function ResearchList({ initialResearch, teacherId, slug }) {
             {hasMore && (
                 <div style={{ textAlign: 'center', marginTop: '2rem' }}>
                     <button
-                        onClick={() => fetchResearch(false)}
+                        onClick={() => fetchPublications(false)}
                         disabled={loading}
                         className={styles.searchBtn}
                         style={{ margin: '0 auto', opacity: loading ? 0.7 : 1, width: 'auto' }}

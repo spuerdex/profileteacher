@@ -4,8 +4,8 @@ import { I18nProvider } from '@/lib/i18n';
 import { ThemeModeProvider } from '@/lib/themeMode';
 
 export const metadata = {
-  title: 'Teacher Profile System | ระบบโปรไฟล์อาจารย์',
-  description: 'ระบบจัดการโปรไฟล์อาจารย์ - Teacher Profile Management System',
+  title: 'DiGi Teacher Hub | ระบบโปรไฟล์อาจารย์',
+  description: 'DiGi Teacher Hub — Digital Faculty Profile Platform',
 };
 
 export default function RootLayout({ children }) {

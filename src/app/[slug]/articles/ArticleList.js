@@ -43,23 +43,25 @@ export default function ArticleList({ initialArticles, teacherId, slug }) {
 
     return (
         <>
-            <div className={styles.articleGrid} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '24px' }}>
+            <div className={styles.articleGrid}>
                 {articles.map((article) => (
-                    <Link href={`/${slug}/articles/${article.id}`} key={article.id} style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <div className={styles.itemCard} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                            {article.coverImage && (
-                                <div style={{ height: '200px', overflow: 'hidden', borderRadius: '8px 8px 0 0', margin: '-20px -20px 16px -20px' }}>
-                                    <img src={article.coverImage} alt={article.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                </div>
-                            )}
-                            <h3 style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '8px', lineHeight: '1.4' }}>{article.title}</h3>
-                            <div style={{ fontSize: '0.85rem', opacity: 0.7, marginBottom: '12px' }}>
+                    <Link href={`/${slug}/articles/${article.id}`} key={article.id} className={styles.articleCard}>
+                        {article.coverImage && (
+                            <div className={styles.articleImageWrapper}>
+                                <img src={article.coverImage} alt={article.title} className={styles.articleImage} />
+                            </div>
+                        )}
+                        <div className={styles.articleContent}>
+                            <h4>{article.title}</h4>
+                            <div className={styles.articleDate}>
                                 {new Date(article.createdAt).toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' })}
                             </div>
-                            <p style={{ fontSize: '0.95rem', opacity: 0.9, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden', flex: 1 }}>
+                            <p className={styles.articleDesc}>
                                 {article.content}
                             </p>
-                            <span style={{ marginTop: '16px', color: 'var(--t-primary)', fontWeight: '600', fontSize: '0.9rem' }}>อ่านเพิ่มเติม →</span>
+                            <span style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--t-primary, var(--primary))' }}>
+                                อ่านเพิ่มเติม →
+                            </span>
                         </div>
                     </Link>
                 ))}
