@@ -74,13 +74,19 @@ export default function TeacherCoursesPage() {
                         <h1 className="page-title">📚 {t('courses.title')}</h1>
                         <p className="page-subtitle">{t('courses.subtitle')}</p>
                     </div>
-                </div>
-                <div className="flex justify-between items-center mt-lg">
-                    <form onSubmit={handleSearch} className="flex gap-2 w-full max-w-lg">
-                        <input className="form-input" placeholder="ค้นหารหัสวิชา, ชื่อวิชา..." value={search} onChange={(e) => setSearch(e.target.value)} />
-                        <button type="submit" className="btn btn-secondary">🔍 ค้นหา</button>
-                    </form>
-                    <button className="btn btn-primary" onClick={handleOpenAdd}>➕ {t('courses.add')}</button>
+                    <div className="flex items-center gap-sm">
+                        <form onSubmit={handleSearch} className="flex gap-2">
+                            <input
+                                className="form-input"
+                                placeholder="ค้นหารหัสวิชา, ชื่อวิชา..."
+                                style={{ width: '240px' }}
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                            <button type="submit" className="btn btn-secondary">🔍</button>
+                        </form>
+                        <button className="btn btn-primary" onClick={handleOpenAdd}>➕ {t('courses.add')}</button>
+                    </div>
                 </div>
             </div>
 
