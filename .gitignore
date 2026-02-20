@@ -12,6 +12,7 @@
 
 # testing
 /coverage
+/testsprite_tests/
 
 # next.js
 /.next/
@@ -49,6 +50,10 @@ scripts/seed*.js
 /prisma/*.log
 /prisma/*.db-journal
 DEPLOYMENT_GUIDE.md
+user_manual.md
+product_specification.md
+TEST_CASES.md
+walkthrough.md
 
 # editor directories
 .vscode
