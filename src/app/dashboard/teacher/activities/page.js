@@ -27,6 +27,7 @@ export default function TeacherActivitiesPage() {
         titleTh: '', titleEn: '', descriptionTh: '', descriptionEn: '', date: '', type: ''
     });
 
+    const [showEnglish, setShowEnglish] = useState(false);
     const [search, setSearch] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -186,6 +187,8 @@ export default function TeacherActivitiesPage() {
                 setShowModal={setShowModal}
                 editing={editing}
                 formData={formData}
+                showEnglish={showEnglish}
+                setShowEnglish={setShowEnglish}
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
             />

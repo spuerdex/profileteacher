@@ -8,11 +8,12 @@ export default function ResearchModal({
     setShowModal,
     editing,
     formData,
+    showEnglish,
+    setShowEnglish,
     handleChange,
     handleSubmit
 }) {
     const { t } = useI18n();
-    const [showEnglish, setShowEnglish] = useState(false);
 
     if (!showModal) return null;
 
