@@ -114,8 +114,8 @@ export default function LoginPage() {
                         <p className={styles.contactTitle}>📞 ติดต่อเจ้าหน้าที่</p>
                         <div className={styles.contactInfo}>
                             <p>🏢 สำนักงานคณะ เทคโนโลยีดิจิทัล</p>
-                            <p>👤 คุณชินรัตน์ คำบาสุข</p>
-                            <p>📧 chinnarat@crru.ac.th</p>
+                            <p>👤 Chinnarat Khammasuk</p>
+                            <p>📧 chinnarat.kha@crru.ac.th</p>
                             <p>📱 053-776-000</p>
                         </div>
                     </div>
