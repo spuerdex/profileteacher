@@ -2,6 +2,7 @@ import './globals.css';
 import AuthProvider from '@/components/AuthProvider';
 import { I18nProvider } from '@/lib/i18n';
 import { ThemeModeProvider } from '@/lib/themeMode';
+import CookieConsent from '@/components/CookieConsent';
 
 export const metadata = {
   title: 'DiGi Teacher Hub | ระบบโปรไฟล์อาจารย์',
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
           <I18nProvider>
             <ThemeModeProvider>
               {children}
+              <CookieConsent />
             </ThemeModeProvider>
           </I18nProvider>
         </AuthProvider>

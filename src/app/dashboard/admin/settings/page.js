@@ -130,6 +130,23 @@ export default function AdminSettingsPage() {
                     </label>
                 </section>
 
+                <section className={styles.section}>
+                    <h2>🍪 จัดการ Cookie Policy</h2>
+                    <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '1rem' }}>
+                        แก้ไขเนื้อหาที่แสดงในหน้า /cookie-policy
+                    </p>
+                    <label className={styles.field}>
+                        <span>เนื้อหาภาษาไทย (รองรับ HTML เบื้องต้น)</span>
+                        <textarea
+                            value={settings.cookiePolicyContent || ''}
+                            onChange={(e) => update('cookiePolicyContent', e.target.value)}
+                            rows={15}
+                            placeholder="ใส่เนื้อหานโยบายที่นี่..."
+                            className={styles.textarea_large}
+                        />
+                    </label>
+                </section>
+
                 <div className={styles.formFooter}>
                     {msg && <span className={styles.msg}>{msg}</span>}
                     <button type="submit" className={styles.saveBtn} disabled={saving}>
