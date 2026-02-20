@@ -45,6 +45,14 @@ export async function POST(request) {
 
         await writeFile(filepath, buffer);
 
+        // บังคับสิทธิ์ไฟล์เป็น 644 เพื่อให้ Nginx/Web Server อ่านได้
+        try {
+            const { chmod } = require('fs/promises');
+            await chmod(filepath, 0o644);
+        } catch (chmodError) {
+            console.error('Failed to set permissions:', chmodError);
+        }
+
         const url = `/uploads/${type}/${filename}`;
 
         return NextResponse.json({ url, filename });
