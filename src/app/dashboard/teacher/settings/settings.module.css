@@ -94,15 +94,42 @@
 }
 
 .passwordForm {
-    max-width: 400px;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     gap: var(--space-md);
 }
 
+.profileForm {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    max-width: 800px;
+}
+
+.fullWidth {
+    grid-column: span 2;
+}
+
+.socialGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    max-width: 800px;
+}
+
+.saveSection {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--border-color);
+}
+
 @media (max-width: 640px) {
-    .imageGrid {
+    .imageGrid, .profileForm, .socialGrid {
         grid-template-columns: 1fr;
+    }
+    .fullWidth {
+        grid-column: span 1;
     }
 }
 
