@@ -8,7 +8,7 @@ import Link from 'next/link';
 import styles from './login.module.css';
 
 export default function LoginPage() {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -23,7 +23,7 @@ export default function LoginPage() {
         try {
             const result = await signIn('credentials', {
                 redirect: false,
-                email,
+                username,
                 password,
             });
 
@@ -69,13 +69,13 @@ export default function LoginPage() {
                         )}
 
                         <div className="form-group">
-                            <label className="form-label">{t('auth.email')}</label>
+                            <label className="form-label">{t('auth.username')}</label>
                             <input
-                                type="email"
+                                type="text"
                                 className="form-input"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="name@example.com"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                placeholder="Username"
                                 required
                                 autoFocus
                             />

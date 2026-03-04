@@ -39,11 +39,12 @@
     },
     "auth": {
         "email": "Email",
+        "username": "Username",
         "password": "Password",
         "loginTitle": "Sign In",
         "loginSubtitle": "Teacher Profile Management System",
         "loginButton": "Sign In",
-        "loginError": "Invalid email or password",
+        "loginError": "Invalid username or password",
         "welcomeBack": "Welcome back"
     },
     "profile": {

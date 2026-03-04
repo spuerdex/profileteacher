@@ -7,16 +7,16 @@ export const authOptions = {
         CredentialsProvider({
             name: 'Credentials',
             credentials: {
-                email: { label: 'Email', type: 'email' },
+                username: { label: 'Username', type: 'text' },
                 password: { label: 'Password', type: 'password' },
             },
             async authorize(credentials) {
-                if (!credentials?.email || !credentials?.password) {
-                    throw new Error('กรุณากรอก Email และ Password');
+                if (!credentials?.username || !credentials?.password) {
+                    throw new Error('กรุณากรอก Username และ Password');
                 }
 
                 const user = await prisma.user.findUnique({
-                    where: { email: credentials.email },
+                    where: { username: credentials.username },
                     include: { teacher: true },
                 });
 
@@ -32,6 +32,7 @@ export const authOptions = {
                 return {
                     id: user.id.toString(),
                     email: user.email,
+                    username: user.username,
                     role: user.role,
                     teacherId: user.teacherId,
                     name: user.teacher
@@ -46,6 +47,7 @@ export const authOptions = {
             if (user) {
                 token.role = user.role;
                 token.teacherId = user.teacherId;
+                token.username = user.username;
             }
             return token;
         },
@@ -53,6 +55,7 @@ export const authOptions = {
             session.user.id = token.sub;
             session.user.role = token.role;
             session.user.teacherId = token.teacherId;
+            session.user.username = token.username;
             return session;
         },
     },
