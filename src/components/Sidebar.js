@@ -88,7 +88,10 @@ export default function Sidebar({ role, isOpen, onClose }) {
                     </div>
 
                     <button
-                        onClick={() => signOut({ callbackUrl: '/login' })}
+                        onClick={async () => {
+                            await signOut({ redirect: false });
+                            window.location.href = '/login';
+                        }}
                         className={styles.logoutBtn}
                     >
                         🚪 {t('common.logout')}
