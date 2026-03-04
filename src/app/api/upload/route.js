@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
+import { writeFile, mkdir, chmod } from 'fs/promises';
 import path from 'path';
 import { existsSync } from 'fs';
 
@@ -32,10 +32,16 @@ export async function POST(request) {
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
-        // Create upload directory
+        // Create upload directory (relative to project root)
         const uploadDir = path.join(process.cwd(), 'public', 'uploads', type);
-        if (!existsSync(uploadDir)) {
-            await mkdir(uploadDir, { recursive: true });
+
+        try {
+            if (!existsSync(uploadDir)) {
+                await mkdir(uploadDir, { recursive: true });
+            }
+        } catch (mkdirError) {
+            console.error('Failed to create upload directory:', mkdirError);
+            return NextResponse.json({ error: 'Server could not create upload folder' }, { status: 500 });
         }
 
         // Generate unique filename
@@ -43,21 +49,20 @@ export async function POST(request) {
         const filename = `${Date.now()}-${Math.random().toString(36).substring(2, 8)}${ext}`;
         const filepath = path.join(uploadDir, filename);
 
-        await writeFile(filepath, buffer);
-
-        // บังคับสิทธิ์ไฟล์เป็น 644 เพื่อให้ Nginx/Web Server อ่านได้
         try {
-            const { chmod } = require('fs/promises');
+            await writeFile(filepath, buffer);
+            // Set permissions to 644 (readable by web server)
             await chmod(filepath, 0o644);
-        } catch (chmodError) {
-            console.error('Failed to set permissions:', chmodError);
+        } catch (writeError) {
+            console.error('Failed to write file or set permissions:', writeError);
+            return NextResponse.json({ error: 'Failed to save file to disk' }, { status: 500 });
         }
 
-        const url = `/uploads/${type}/${filename}`;
+        const url = `/api/uploads/${type}/${filename}`;
 
         return NextResponse.json({ url, filename });
     } catch (error) {
-        console.error('Upload error:', error);
-        return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
+        console.error('Unexpected upload error:', error);
+        return NextResponse.json({ error: 'Internal server error during upload' }, { status: 500 });
     }
 }
