@@ -8,11 +8,13 @@ import styles from './settings.module.css';
 export default function TeacherSettings() {
     const { data: session } = useSession();
     const { t } = useI18n();
+    const [socialLinks, setSocialLinks] = useState({ facebook: '', line: '', youtube: '' });
     const [themes, setThemes] = useState([]);
     const [currentThemeId, setCurrentThemeId] = useState(null);
     const [heroImage, setHeroImage] = useState(null);
     const [avatarImage, setAvatarImage] = useState(null);
     const [saving, setSaving] = useState(false);
+    const [savingLinks, setSavingLinks] = useState(false);
     const [uploading, setUploading] = useState(null); // 'hero' | 'avatar' | null
     const [toast, setToast] = useState(null);
     const heroRef = useRef(null);
@@ -29,6 +31,9 @@ export default function TeacherSettings() {
                     setCurrentThemeId(data.themePresetId);
                     setHeroImage(data.heroImage);
                     setAvatarImage(data.avatar);
+                    if (data.socialLinks) {
+                        setSocialLinks(data.socialLinks);
+                    }
                 })
                 .catch(() => { });
         }
@@ -93,6 +98,28 @@ export default function TeacherSettings() {
         } else showToast('error', 'ไม่สามารถลบได้');
     };
 
+    const handleSaveLinks = async (e) => {
+        e.preventDefault();
+        if (!session?.user?.teacherId) return;
+        setSavingLinks(true);
+        try {
+            const res = await fetch(`/api/teachers/${session.user.teacherId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ socialLinks }),
+            });
+            if (res.ok) {
+                showToast('success', 'บันทึกลิงก์ภายนอกสำเร็จ!');
+            } else {
+                showToast('error', 'บันทึกไม่สำเร็จ');
+            }
+        } catch {
+            showToast('error', 'เกิดข้อผิดพลาด');
+        } finally {
+            setSavingLinks(false);
+        }
+    };
+
     const handleChangePassword = async (e) => {
         e.preventDefault();
         if (passwordData.newPassword !== passwordData.confirmPassword) {
@@ -131,12 +158,12 @@ export default function TeacherSettings() {
         <div>
             <div className="page-header">
                 <h1 className="page-title">⚙️ ตั้งค่า</h1>
-                <p className="page-subtitle">จัดการธีมสีและรูปภาพโปรไฟล์</p>
+                <p className="page-subtitle">จัดการข้อมูลส่วนตัวและลิงก์ภายนอก</p>
             </div>
 
             {/* Image Upload Section */}
             <section className={styles.settingsSection}>
-                <h2 className={styles.sectionTitle}>🖼️ รูปภาพ</h2>
+                <h2 className={styles.sectionTitle}>🖼️ รูปภาพโปรไฟล์</h2>
                 <div className={styles.imageGrid}>
                     {/* Avatar Upload */}
                     <div className={styles.imageUpload}>
@@ -247,6 +274,32 @@ export default function TeacherSettings() {
                     <button type="submit" className="btn btn-primary" disabled={changingPassword}>
                         {changingPassword ? 'กำลังบันทึก...' : '🔐 เปลี่ยนรหัสผ่าน'}
                     </button>
+                </form>
+            </section>
+
+            <hr className="my-2xl" />
+
+            {/* External Links Section */}
+            <section className={styles.settingsSection}>
+                <h2 className={styles.sectionTitle}>🌐 ลิงก์ภายนอก</h2>
+                <form onSubmit={handleSaveLinks} className={styles.socialGrid}>
+                    <div className="form-group">
+                        <label className="form-label">Facebook (URL)</label>
+                        <input className="form-input" type="url" value={socialLinks.facebook || ''} onChange={(e) => setSocialLinks({ ...socialLinks, facebook: e.target.value })} placeholder="https://facebook.com/..." />
+                    </div>
+                    <div className="form-group">
+                        <label className="form-label">Line (ID หรือ URL)</label>
+                        <input className="form-input" type="text" value={socialLinks.line || ''} onChange={(e) => setSocialLinks({ ...socialLinks, line: e.target.value })} placeholder="Line ID หรือ https://line.me/..." />
+                    </div>
+                    <div className={`${styles.fullWidth} form-group`}>
+                        <label className="form-label">YouTube (URL)</label>
+                        <input className="form-input" type="url" value={socialLinks.youtube || ''} onChange={(e) => setSocialLinks({ ...socialLinks, youtube: e.target.value })} placeholder="https://youtube.com/..." />
+                    </div>
+                    <div className={styles.saveSection}>
+                        <button type="submit" className="btn btn-primary" disabled={savingLinks}>
+                            {savingLinks ? 'กำลังบันทึก...' : '💾 บันทึกลิงก์ภายนอก'}
+                        </button>
+                    </div>
                 </form>
             </section>
 

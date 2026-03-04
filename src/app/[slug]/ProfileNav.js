@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import ThemeToggle from '@/components/ThemeToggle';
-import LanguageToggle from '@/components/LanguageToggle';
 import styles from './nav.module.css';
 
 export default function ProfileNav({ teacher, navItems, slug }) {
@@ -42,7 +41,6 @@ export default function ProfileNav({ teacher, navItems, slug }) {
                 </div>
 
                 <div className={styles.navActions}>
-                    <LanguageToggle />
                     <ThemeToggle />
                 </div>
 

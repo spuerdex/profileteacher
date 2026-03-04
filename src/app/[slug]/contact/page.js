@@ -67,34 +67,26 @@ export default async function ContactPage({ params }) {
                 {Object.keys(socialLinks).length > 0 && (
                     <div className={styles.contactCard}>
                         <h3>🌐 ลิงก์ภายนอก</h3>
-                        {socialLinks.scholar && (
+                        {socialLinks.facebook && (
                             <div className={styles.contactRow}>
-                                <span className={styles.contactLabel}>📚 Google Scholar</span>
-                                <a href={socialLinks.scholar} target="_blank" rel="noopener noreferrer">เปิดลิงก์</a>
+                                <span className={styles.contactLabel}>👥 Facebook</span>
+                                <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer">เปิดลิงก์</a>
                             </div>
                         )}
-                        {socialLinks.orcid && (
+                        {socialLinks.line && (
                             <div className={styles.contactRow}>
-                                <span className={styles.contactLabel}>🆔 ORCID</span>
-                                <a href={socialLinks.orcid} target="_blank" rel="noopener noreferrer">{socialLinks.orcid}</a>
+                                <span className={styles.contactLabel}>💬 Line</span>
+                                {socialLinks.line.startsWith('http') ? (
+                                    <a href={socialLinks.line} target="_blank" rel="noopener noreferrer">เปิดลิงก์</a>
+                                ) : (
+                                    <span>{socialLinks.line}</span>
+                                )}
                             </div>
                         )}
-                        {socialLinks.website && (
+                        {socialLinks.youtube && (
                             <div className={styles.contactRow}>
-                                <span className={styles.contactLabel}>🔗 เว็บไซต์</span>
-                                <a href={socialLinks.website} target="_blank" rel="noopener noreferrer">เปิดลิงก์</a>
-                            </div>
-                        )}
-                        {socialLinks.linkedin && (
-                            <div className={styles.contactRow}>
-                                <span className={styles.contactLabel}>💼 LinkedIn</span>
-                                <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer">เปิดลิงก์</a>
-                            </div>
-                        )}
-                        {socialLinks.researchGate && (
-                            <div className={styles.contactRow}>
-                                <span className={styles.contactLabel}>🔬 ResearchGate</span>
-                                <a href={socialLinks.researchGate} target="_blank" rel="noopener noreferrer">เปิดลิงก์</a>
+                                <span className={styles.contactLabel}>📺 YouTube</span>
+                                <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer">เปิดลิงก์</a>
                             </div>
                         )}
                     </div>

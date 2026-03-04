@@ -2,7 +2,6 @@ import prisma from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import ThemeToggle from '@/components/ThemeToggle';
-import LanguageToggle from '@/components/LanguageToggle';
 import styles from './profile.module.css';
 import ProfileNav from './ProfileNav';
 import navStyles from './nav.module.css';
