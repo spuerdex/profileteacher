@@ -1,0 +1,26 @@
+.profileContainer {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.compactCard {
+    padding: var(--space-md) !important;
+    border-radius: var(--radius-md) !important;
+}
+
+.compactCardHeader {
+    margin-bottom: var(--space-md) !important;
+    padding-bottom: var(--space-sm) !important;
+}
+
+.compactFormGroup {
+    margin-bottom: var(--space-md) !important;
+}
+
+.compactGrid {
+    gap: var(--space-md) !important;
+}
+
+.compactPageHeader {
+    margin-bottom: var(--space-lg) !important;
+}

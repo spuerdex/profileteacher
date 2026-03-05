@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useI18n } from '@/lib/i18n';
+import styles from './profile.module.css';
 
 export default function TeacherProfilePage() {
     const { data: session } = useSession();
@@ -67,67 +68,67 @@ export default function TeacherProfilePage() {
     }
 
     return (
-        <div>
-            <div className="page-header">
+        <div className={styles.profileContainer}>
+            <div className={`${styles.compactPageHeader} page-header`}>
                 <h1 className="page-title">{t('profile.title')}</h1>
                 <p className="page-subtitle">{t('profile.personalInfo')}</p>
             </div>
 
             <form onSubmit={handleSubmit}>
-                <div className="card mb-lg">
-                    <div className="card-header">
+                <div className={`${styles.compactCard} card ${styles.compactFormGroup}`}>
+                    <div className={`${styles.compactCardHeader} card-header`}>
                         <h3 className="card-title">🇹🇭 ข้อมูลภาษาไทย</h3>
                     </div>
-                    <div className="grid grid-3">
-                        <div className="form-group">
+                    <div className={`${styles.compactGrid} grid grid-3`}>
+                        <div className={styles.compactFormGroup}>
                             <label className="form-label">{t('profile.titlePrefix')}</label>
                             <input className="form-input" name="titleTh" value={formData.titleTh} onChange={handleChange} placeholder="ผศ.ดร." />
                         </div>
-                        <div className="form-group">
+                        <div className={styles.compactFormGroup}>
                             <label className="form-label">{t('profile.firstName')} *</label>
                             <input className="form-input" name="firstNameTh" value={formData.firstNameTh} onChange={handleChange} required />
                         </div>
-                        <div className="form-group">
+                        <div className={styles.compactFormGroup}>
                             <label className="form-label">{t('profile.lastName')} *</label>
                             <input className="form-input" name="lastNameTh" value={formData.lastNameTh} onChange={handleChange} required />
                         </div>
                     </div>
-                    <div className="form-group">
+                    <div className={styles.compactFormGroup}>
                         <label className="form-label">{t('profile.bio')} (TH)</label>
-                        <textarea className="form-textarea" name="bioTh" value={formData.bioTh} onChange={handleChange} rows={4} />
+                        <textarea className="form-textarea" name="bioTh" value={formData.bioTh} onChange={handleChange} rows={3} />
                     </div>
                 </div>
 
 
-                <div className="card mb-lg">
-                    <div className="card-header">
+                <div className={`${styles.compactCard} card ${styles.compactFormGroup}`}>
+                    <div className={`${styles.compactCardHeader} card-header`}>
                         <h3 className="card-title">📋 {t('profile.position')} & {t('profile.department')}</h3>
                     </div>
-                    <div className="grid grid-2">
-                        <div className="form-group">
+                    <div className={`${styles.compactGrid} grid grid-2`}>
+                        <div className={styles.compactFormGroup}>
                             <label className="form-label">{t('profile.position')}</label>
                             <input className="form-input" name="position" value={formData.position} onChange={handleChange} />
                         </div>
-                        <div className="form-group">
+                        <div className={styles.compactFormGroup}>
                             <label className="form-label">{t('profile.department')}</label>
                             <input className="form-input" name="department" value={formData.department} onChange={handleChange} />
                         </div>
-                        <div className="form-group">
+                        <div className={styles.compactFormGroup}>
                             <label className="form-label">{t('profile.email')}</label>
                             <input className="form-input" type="email" name="email" value={formData.email} onChange={handleChange} />
                         </div>
-                        <div className="form-group">
+                        <div className={styles.compactFormGroup}>
                             <label className="form-label">{t('profile.phone')}</label>
                             <input className="form-input" name="phone" value={formData.phone} onChange={handleChange} />
                         </div>
                     </div>
                 </div>
 
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center mt-lg">
                     <a href={`/${session?.user?.teacherId ? '' : '#'}`} target="_blank" className="btn btn-secondary">
-                        👁️ ดูหน้าโปรไฟล์สาธารณะ
+                        👁️ ดูหน้าโปรไฟล์
                     </a>
-                    <button type="submit" className="btn btn-primary btn-lg" disabled={saving}>
+                    <button type="submit" className="btn btn-primary" disabled={saving}>
                         {saving ? <><span className="spinner"></span> {t('common.loading')}</> : `💾 ${t('common.save')}`}
                     </button>
                 </div>
