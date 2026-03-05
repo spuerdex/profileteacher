@@ -386,7 +386,7 @@ h4 {
 
 /* ===== Form Elements ===== */
 .form-group {
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-md);
 }
 
 .form-label {
@@ -666,10 +666,10 @@ h4 {
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
   width: 90%;
-  max-width: 560px;
+  max-width: 500px;
   max-height: 85vh;
   overflow-y: auto;
-  padding: var(--space-xl);
+  padding: var(--space-lg);
   animation: slideUp var(--transition-normal);
 }
 
@@ -677,7 +677,7 @@ h4 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-md);
 }
 
 .modal-title {
@@ -705,7 +705,7 @@ h4 {
   display: flex;
   justify-content: flex-end;
   gap: var(--space-sm);
-  margin-top: var(--space-xl);
+  margin-top: var(--space-lg);
   padding-top: var(--space-md);
   border-top: 1px solid var(--border-light);
 }
