@@ -31,10 +31,6 @@ export default function CourseModal({
                         <input className="form-input" name="nameTh" value={formData.nameTh} onChange={handleChange} required />
                     </div>
                     <div className="form-group">
-                        <label className="form-label">Course Name (EN)</label>
-                        <input className="form-input" name="nameEn" value={formData.nameEn} onChange={handleChange} />
-                    </div>
-                    <div className="form-group">
                         <label className="form-label">คำอธิบายรายวิชา (TH)</label>
                         <textarea className="form-textarea" name="descriptionTh" value={formData.descriptionTh} onChange={handleChange} rows={3}></textarea>
                     </div>

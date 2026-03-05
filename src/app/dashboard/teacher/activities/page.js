@@ -24,10 +24,9 @@ export default function TeacherActivitiesPage() {
     const [editing, setEditing] = useState(null);
     const [toast, setToast] = useState(null);
     const [formData, setFormData] = useState({
-        titleTh: '', titleEn: '', descriptionTh: '', descriptionEn: '', date: '', type: ''
+        titleTh: '', descriptionTh: '', date: '', type: ''
     });
 
-    const [showEnglish, setShowEnglish] = useState(false);
     const [search, setSearch] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -56,22 +55,16 @@ export default function TeacherActivitiesPage() {
 
     const handleOpenAdd = () => {
         resetForm();
-        setShowEnglish(false);
         setShowModal(true);
     };
 
     const handleOpenEdit = (item) => {
         setFormData({
-            titleTh: item.titleTh || '', titleEn: item.titleEn || '',
-            descriptionTh: item.descriptionTh || '', descriptionEn: item.descriptionEn || '',
+            titleTh: item.titleTh || '',
+            descriptionTh: item.descriptionTh || '',
             date: item.date ? item.date.split('T')[0] : '', type: item.type || '',
         });
         setEditing(item);
-        if (item.titleEn || item.descriptionEn) {
-            setShowEnglish(true);
-        } else {
-            setShowEnglish(false);
-        }
         setShowModal(true);
     };
 
@@ -133,7 +126,6 @@ export default function TeacherActivitiesPage() {
                                 <tr key={item.id}>
                                     <td>
                                         <div className="font-medium">{item.titleTh}</div>
-                                        {item.titleEn && <div className="text-sm text-muted">{item.titleEn}</div>}
                                     </td>
                                     <td>{item.date ? new Date(item.date).toLocaleDateString('th-TH') : '-'}</td>
                                     <td>
@@ -187,8 +179,6 @@ export default function TeacherActivitiesPage() {
                 setShowModal={setShowModal}
                 editing={editing}
                 formData={formData}
-                showEnglish={showEnglish}
-                setShowEnglish={setShowEnglish}
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
             />

@@ -2,7 +2,7 @@
 
 import { useI18n } from '@/lib/i18n';
 import styles from './modals.module.css';
-import { TITLES_TH, TITLES_EN, DEPARTMENTS } from '@/lib/constants';
+import { TITLES_TH, DEPARTMENTS } from '@/lib/constants';
 
 export default function TeacherManagementModal({
     showModal,
@@ -39,28 +39,8 @@ export default function TeacherManagementModal({
                             </select>
                         </div>
                         <div className="form-group">
-                            <label className="form-label">คำนำหน้า (EN)</label>
-                            <select className="form-input" name="titleEn" value={formData.titleEn} onChange={handleChange}>
-                                {TITLES_EN.map(title => (
-                                    <option key={title} value={title}>{title || 'Select Title'}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="form-group">
-                            <label className="form-label">ชื่อ (TH) *</label>
-                            <input className="form-input" name="firstNameTh" value={formData.firstNameTh} onChange={handleChange} required />
-                        </div>
-                        <div className="form-group">
                             <label className="form-label">นามสกุล (TH) *</label>
                             <input className="form-input" name="lastNameTh" value={formData.lastNameTh} onChange={handleChange} required />
-                        </div>
-                        <div className="form-group">
-                            <label className="form-label">First Name (EN)</label>
-                            <input className="form-input" name="firstNameEn" value={formData.firstNameEn} onChange={handleChange} />
-                        </div>
-                        <div className="form-group">
-                            <label className="form-label">Last Name (EN)</label>
-                            <input className="form-input" name="lastNameEn" value={formData.lastNameEn} onChange={handleChange} />
                         </div>
                         <div className="form-group">
                             <label className="form-label">ตำแหน่งวิชาการ</label>

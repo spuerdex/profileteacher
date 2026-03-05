@@ -26,10 +26,6 @@ export default function PublicationModal({
                         <label className="form-label">ชื่อผลงาน (TH) *</label>
                         <input className="form-input" name="titleTh" value={formData.titleTh} onChange={handleChange} required />
                     </div>
-                    <div className="form-group">
-                        <label className="form-label">Title (EN)</label>
-                        <input className="form-input" name="titleEn" value={formData.titleEn} onChange={handleChange} />
-                    </div>
                     <div className="grid grid-2">
                         <div className="form-group">
                             <label className="form-label">วารสาร/สิ่งพิมพ์</label>

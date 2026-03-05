@@ -12,9 +12,8 @@ export default function TeacherProfilePage() {
     const [toast, setToast] = useState(null);
     const [formData, setFormData] = useState({
         titleTh: '', firstNameTh: '', lastNameTh: '',
-        titleEn: '', firstNameEn: '', lastNameEn: '',
         position: '', department: '', email: '', phone: '',
-        bioTh: '', bioEn: '',
+        bioTh: '',
     });
 
     useEffect(() => {
@@ -24,9 +23,8 @@ export default function TeacherProfilePage() {
                 .then(data => {
                     setFormData({
                         titleTh: data.titleTh || '', firstNameTh: data.firstNameTh || '', lastNameTh: data.lastNameTh || '',
-                        titleEn: data.titleEn || '', firstNameEn: data.firstNameEn || '', lastNameEn: data.lastNameEn || '',
                         position: data.position || '', department: data.department || '', email: data.email || '', phone: data.phone || '',
-                        bioTh: data.bioTh || '', bioEn: data.bioEn || '',
+                        bioTh: data.bioTh || '',
                     });
                 })
                 .catch(() => { })
@@ -100,29 +98,6 @@ export default function TeacherProfilePage() {
                     </div>
                 </div>
 
-                <div className="card mb-lg">
-                    <div className="card-header">
-                        <h3 className="card-title">🌐 English Information</h3>
-                    </div>
-                    <div className="grid grid-3">
-                        <div className="form-group">
-                            <label className="form-label">Title</label>
-                            <input className="form-input" name="titleEn" value={formData.titleEn} onChange={handleChange} placeholder="Asst. Prof. Dr." />
-                        </div>
-                        <div className="form-group">
-                            <label className="form-label">First Name</label>
-                            <input className="form-input" name="firstNameEn" value={formData.firstNameEn} onChange={handleChange} />
-                        </div>
-                        <div className="form-group">
-                            <label className="form-label">Last Name</label>
-                            <input className="form-input" name="lastNameEn" value={formData.lastNameEn} onChange={handleChange} />
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label className="form-label">Biography (EN)</label>
-                        <textarea className="form-textarea" name="bioEn" value={formData.bioEn} onChange={handleChange} rows={4} />
-                    </div>
-                </div>
 
                 <div className="card mb-lg">
                     <div className="card-header">

@@ -8,8 +8,6 @@ export default function ActivityModal({
     setShowModal,
     editing,
     formData,
-    showEnglish,
-    setShowEnglish,
     handleChange,
     handleSubmit
 }) {
@@ -30,27 +28,6 @@ export default function ActivityModal({
                         <input className="form-input" name="titleTh" value={formData.titleTh} onChange={handleChange} required />
                     </div>
 
-                    <div className="form-group">
-                        <div className="flex items-center gap-sm mb-sm">
-                            <input
-                                type="checkbox"
-                                id="showEnglish"
-                                checked={showEnglish}
-                                onChange={(e) => setShowEnglish(e.target.checked)}
-                                style={{ width: 'auto', margin: 0 }}
-                            />
-                            <label htmlFor="showEnglish" style={{ cursor: 'pointer', userSelect: 'none' }}>
-                                เพิ่มข้อมูลภาษาอังกฤษ (Add English Data)
-                            </label>
-                        </div>
-                    </div>
-
-                    {showEnglish && (
-                        <div className="form-group fade-in">
-                            <label className="form-label">{t('activities.activityTitle')} (EN)</label>
-                            <input className="form-input" name="titleEn" value={formData.titleEn} onChange={handleChange} />
-                        </div>
-                    )}
 
                     <div className="grid grid-2">
                         <div className="form-group">
@@ -75,12 +52,6 @@ export default function ActivityModal({
                         <textarea className="form-textarea" name="descriptionTh" value={formData.descriptionTh} onChange={handleChange} rows={3} />
                     </div>
 
-                    {showEnglish && (
-                        <div className="form-group fade-in">
-                            <label className="form-label">{t('activities.description')} (EN)</label>
-                            <textarea className="form-textarea" name="descriptionEn" value={formData.descriptionEn} onChange={handleChange} rows={3} />
-                        </div>
-                    )}
 
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>{t('common.cancel')}</button>

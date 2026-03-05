@@ -76,7 +76,7 @@ export default function Sidebar({ role, isOpen, onClose }) {
 
                 <div className={styles.footer}>
                     <div className={styles.actions}>
-                        <LanguageToggle />
+                        {/* <LanguageToggle /> */}
                         <ThemeToggle />
                     </div>
 

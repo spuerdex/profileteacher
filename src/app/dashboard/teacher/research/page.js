@@ -25,11 +25,10 @@ export default function TeacherResearchPage() {
     const [editing, setEditing] = useState(null);
     const [toast, setToast] = useState(null);
     const [formData, setFormData] = useState({
-        titleTh: '', titleEn: '', abstractTh: '', abstractEn: '',
+        titleTh: '', abstractTh: '',
         year: '', type: '', link: '',
     });
 
-    const [showEnglish, setShowEnglish] = useState(false);
     const [search, setSearch] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -57,26 +56,18 @@ export default function TeacherResearchPage() {
 
     const handleOpenAdd = () => {
         resetForm();
-        setShowEnglish(false);
         setShowModal(true);
     };
 
     const handleOpenEdit = (item) => {
         setFormData({
             titleTh: item.titleTh || '',
-            titleEn: item.titleEn || '',
             abstractTh: item.abstractTh || '',
-            abstractEn: item.abstractEn || '',
             year: item.year || '',
             type: item.type || '',
             link: item.link || ''
         });
         setEditing(item);
-        if (item.titleEn || item.abstractEn) {
-            setShowEnglish(true);
-        } else {
-            setShowEnglish(false);
-        }
         setShowModal(true);
     };
 
@@ -140,7 +131,6 @@ export default function TeacherResearchPage() {
                                 <tr key={item.id}>
                                     <td>
                                         <div className="font-medium">{item.titleTh}</div>
-                                        {item.titleEn && <div className="text-sm text-muted">{item.titleEn}</div>}
                                     </td>
                                     <td>{item.year || '-'}</td>
                                     <td>
@@ -201,8 +191,6 @@ export default function TeacherResearchPage() {
                 setShowModal={setShowModal}
                 editing={editing}
                 formData={formData}
-                showEnglish={showEnglish}
-                setShowEnglish={setShowEnglish}
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
             />

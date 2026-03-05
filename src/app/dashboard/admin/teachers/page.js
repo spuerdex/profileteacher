@@ -30,9 +30,6 @@ export default function AdminTeachersPage() {
         titleTh: '',
         firstNameTh: '',
         lastNameTh: '',
-        titleEn: '',
-        firstNameEn: '',
-        lastNameEn: '',
         position: '',
         department: '',
         email: '',
@@ -65,7 +62,6 @@ export default function AdminTeachersPage() {
     const resetForm = () => {
         setFormData({
             titleTh: '', firstNameTh: '', lastNameTh: '',
-            titleEn: '', firstNameEn: '', lastNameEn: '',
             position: '', department: '', email: '', phone: '',
             username: '', password: '',
         });
@@ -82,9 +78,6 @@ export default function AdminTeachersPage() {
             titleTh: teacher.titleTh || '',
             firstNameTh: teacher.firstNameTh || '',
             lastNameTh: teacher.lastNameTh || '',
-            titleEn: teacher.titleEn || '',
-            firstNameEn: teacher.firstNameEn || '',
-            lastNameEn: teacher.lastNameEn || '',
             position: teacher.position || '',
             department: teacher.department || '',
             email: teacher.email || '',
@@ -192,7 +185,6 @@ export default function AdminTeachersPage() {
                         <tr>
                             <th>#</th>
                             <th>ชื่อ-สกุล (ไทย)</th>
-                            <th>ชื่อ-สกุล (EN)</th>
                             <th>ตำแหน่ง</th>
                             <th>สาขา</th>
                             <th>ธีม</th>
@@ -215,9 +207,6 @@ export default function AdminTeachersPage() {
                                             <div className="text-xs text-muted">{teacher.email}</div>
                                         </div>
                                     </div>
-                                </td>
-                                <td className="text-secondary">
-                                    {teacher.firstNameEn ? `${teacher.titleEn || ''} ${teacher.firstNameEn} ${teacher.lastNameEn || ''}` : '-'}
                                 </td>
                                 <td>{teacher.position || '-'}</td>
                                 <td>{teacher.department || '-'}</td>
