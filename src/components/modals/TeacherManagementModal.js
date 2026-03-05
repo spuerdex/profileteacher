@@ -39,6 +39,10 @@ export default function TeacherManagementModal({
                             </select>
                         </div>
                         <div className="form-group">
+                            <label className="form-label">ชื่อ (TH) *</label>
+                            <input className="form-input" name="firstNameTh" value={formData.firstNameTh} onChange={handleChange} required />
+                        </div>
+                        <div className="form-group">
                             <label className="form-label">นามสกุล (TH) *</label>
                             <input className="form-input" name="lastNameTh" value={formData.lastNameTh} onChange={handleChange} required />
                         </div>
