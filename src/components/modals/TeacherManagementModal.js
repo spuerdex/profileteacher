@@ -2,6 +2,7 @@
 
 import { useI18n } from '@/lib/i18n';
 import styles from './modals.module.css';
+import { TITLES_TH, TITLES_EN, DEPARTMENTS } from '@/lib/constants';
 
 export default function TeacherManagementModal({
     showModal,
@@ -17,7 +18,7 @@ export default function TeacherManagementModal({
 
     return (
         <div className="modal-overlay">
-            <div className="modal">
+            <div className={`modal ${styles.modalWide}`}>
                 <div className="modal-header">
                     <h3 className="modal-title">
                         {editingTeacher ? '✏️ แก้ไขอาจารย์' : '➕ เพิ่มอาจารย์ใหม่'}
@@ -31,11 +32,19 @@ export default function TeacherManagementModal({
                     <div className={styles.formGrid}>
                         <div className="form-group">
                             <label className="form-label">คำนำหน้า (TH)</label>
-                            <input className="form-input" name="titleTh" value={formData.titleTh} onChange={handleChange} placeholder="ผศ.ดร." />
+                            <select className="form-input" name="titleTh" value={formData.titleTh} onChange={handleChange}>
+                                {TITLES_TH.map(title => (
+                                    <option key={title} value={title}>{title || 'เลือกคำนำหน้า'}</option>
+                                ))}
+                            </select>
                         </div>
                         <div className="form-group">
                             <label className="form-label">คำนำหน้า (EN)</label>
-                            <input className="form-input" name="titleEn" value={formData.titleEn} onChange={handleChange} placeholder="Asst. Prof. Dr." />
+                            <select className="form-input" name="titleEn" value={formData.titleEn} onChange={handleChange}>
+                                {TITLES_EN.map(title => (
+                                    <option key={title} value={title}>{title || 'Select Title'}</option>
+                                ))}
+                            </select>
                         </div>
                         <div className="form-group">
                             <label className="form-label">ชื่อ (TH) *</label>
@@ -55,11 +64,15 @@ export default function TeacherManagementModal({
                         </div>
                         <div className="form-group">
                             <label className="form-label">ตำแหน่งวิชาการ</label>
-                            <input className="form-input" name="position" value={formData.position} onChange={handleChange} />
+                            <input className="form-input" name="position" value={formData.position} onChange={handleChange} placeholder="เช่น อาจารย์, ผู้ช่วยศาสตราจารย์" />
                         </div>
                         <div className="form-group">
                             <label className="form-label">สาขา/ภาควิชา</label>
-                            <input className="form-input" name="department" value={formData.department} onChange={handleChange} />
+                            <select className="form-input" name="department" value={formData.department} onChange={handleChange}>
+                                {DEPARTMENTS.map(dept => (
+                                    <option key={dept} value={dept}>{dept || 'เลือกสาขาวิชา'}</option>
+                                ))}
+                            </select>
                         </div>
                         <div className="form-group">
                             <label className="form-label">อีเมล</label>
