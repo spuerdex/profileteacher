@@ -32,12 +32,18 @@ export async function POST(request) {
             .replace(/\s+/g, '-')
             .replace(/[^a-z0-9-]/g, '');
 
-        // Check if username (email for login) already exists
+        // Check if username or email already exists
         if (data.username) {
-            const existingUser = await prisma.user.findUnique({ where: { email: data.username } });
-            if (existingUser) {
+            const existingUserByUsername = await prisma.user.findUnique({ where: { username: data.username } });
+            if (existingUserByUsername) {
                 return NextResponse.json({ error: 'ชื่อผู้ใช้นี้มีอยู่แล้ว' }, { status: 400 });
             }
+        }
+
+        const userEmail = data.email || `${data.username}@example.com`;
+        const existingUserByEmail = await prisma.user.findUnique({ where: { email: userEmail } });
+        if (existingUserByEmail) {
+            return NextResponse.json({ error: 'อีเมลนี้มีผู้ใช้งานแล้ว' }, { status: 400 });
         }
 
         const teacher = await prisma.teacher.create({
@@ -65,7 +71,8 @@ export async function POST(request) {
             const hashedPassword = await bcrypt.hash(data.password, 10);
             await prisma.user.create({
                 data: {
-                    email: data.username,
+                    username: data.username,
+                    email: userEmail,
                     password: hashedPassword,
                     role: 'teacher',
                     teacherId: teacher.id,
