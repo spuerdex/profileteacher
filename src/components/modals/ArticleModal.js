@@ -17,8 +17,8 @@ export default function ArticleModal({
     if (!showModal) return null;
 
     return (
-        <div className="modal-overlay" onClick={() => setShowModal(false)}>
-            <div className="modal modal-lg" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-overlay">
+            <div className="modal modal-lg">
                 <div className="modal-header">
                     <h3 className="modal-title">{editing ? '✏️ แก้ไขบทความ' : '➕ เขียนบทความใหม่'}</h3>
                     <button className="modal-close" onClick={() => setShowModal(false)}>✕</button>

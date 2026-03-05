@@ -15,8 +15,8 @@ export default function EducationModal({
     if (!showModal) return null;
 
     return (
-        <div className="modal-overlay" onClick={() => setShowModal(false)}>
-            <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-overlay">
+            <div className="modal">
                 <div className="modal-header">
                     <h3 className="modal-title">{editing ? '✏️ ' + t('common.edit') : '➕ ' + t('education.addNew')}</h3>
                     <button className="modal-close" onClick={() => setShowModal(false)}>✕</button>

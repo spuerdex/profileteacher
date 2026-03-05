@@ -18,8 +18,8 @@ export default function ResearchModal({
     if (!showModal) return null;
 
     return (
-        <div className="modal-overlay" onClick={() => setShowModal(false)}>
-            <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-overlay">
+            <div className="modal">
                 <div className="modal-header">
                     <h3 className="modal-title">{editing ? '✏️ แก้ไขงานวิจัย' : '➕ เพิ่มงานวิจัย'}</h3>
                     <button className="modal-close" onClick={() => setShowModal(false)}>✕</button>

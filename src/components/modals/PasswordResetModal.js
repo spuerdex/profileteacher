@@ -11,8 +11,8 @@ export default function PasswordResetModal({
     if (!showPasswordModal) return null;
 
     return (
-        <div className="modal-overlay" onClick={() => setShowPasswordModal(false)}>
-            <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '400px' }}>
+        <div className="modal-overlay">
+            <div className="modal" style={{ maxWidth: '400px' }}>
                 <div className="modal-header">
                     <h3 className="modal-title">🔑 รีเซ็ตรหัสผ่าน</h3>
                     <button className="modal-close" onClick={() => setShowPasswordModal(false)}>✕</button>
